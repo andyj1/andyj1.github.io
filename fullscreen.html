@@ -1,0 +1,29 @@
+<html>
+<script language="JavaScript">
+function openFullWindow(Option) { 
+ var screenSizeWidth,screenSizeHeight;
+ if (self.screen) { 
+ screenSizeWidth = screen.width ; 
+ screenSizeHeight = screen.height;
+ } 
+ documentURL = "http://andyj1.github.io";
+ windowname = "Website";
+ intWidth = screenSizeWidth;
+ intHeight = screenSizeHeight;
+ intXOffset = 0 ;
+ intYOffset = 0 ;
+ if(Option){
+ obwindow = window.open(documentURL,windowname, "fullscreen=yes, toolbar=no, location=no, directories=no, status=no, menubar=no,scrollbars=yes,resizable=yes") ;
+ } else {
+ obwindow = window.open(documentURL,windowname, " toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes,resizable=yes") ;
+ obwindow.resizeTo(intWidth, intHeight) ;
+ obwindow.moveTo(intXOffset, intYOffset);
+ }
+}
+</script>
+<body>
+<input type=button value="FULL" onclick="return openFullWindow(false);">
+<p>
+<input type=button value="FULL FULL AUTO" onclick="return openFullWindow(true);">
+</body>
+</html>
