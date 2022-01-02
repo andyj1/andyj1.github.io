@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#EF51B5">
+    <meta name="author" content="Jongoh Jeong">
+    <meta name="description" content="Personal Github Site">
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Jongoh Jeong | Home</title>
+
+    <script src="https://www.google.com/jsapi" type="text/javascript"></script>
+    <script language="Javascript" type="text/javascript">
+        //<!
+        google.load('search', '1');
+
+        function OnLoad() {
+            // Create a search control
+            var searchControl = new google.search.SearchControl();
+
+            // Add in a full set of searchers
+            var localSearch = new google.search.LocalSearch();
+            searchControl.addSearcher(localSearch);
+
+            localSearch.setCenterPoint("New York, NY");
+
+            // tell the searcher to draw itself and tell it where to attach
+            searchControl.draw(document.getElementById("searchcontrol"));
+
+            // execute an inital search
+            searchControl.execute("VW GTI");
+        }
+        google.setOnLoadCallback(OnLoad);
+    </script>
+
+    <head profile="http://andyj1.github.io">
+        <link rel="icon" type="img/grabbing.png" href="img/grabbing.png">
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    </head>
+    <header>
+        <!-- class= "navbar-fixed-top" fixes on top -->
+        <nav class="navbar navbar-default " style="background-color:white">
+            <div class="container-fluid">
+
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a href="index.html">
+                        <!-- <img alt="Brand" src="img/hp.jpg"> -->
+                    </a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+                    <a class="navbar-brand" href="index.html">
+                        <b>Jongoh Jeong</b></a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav" id="myNav">
+                        <li class="active"><a href="http://localhost/web/index.html">Home</a></li>
+                <li ><a href="about.html">About</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                        <li class="dropdown pull-right">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><img src="img/navi.png" alt="navigationIcon"> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="school.html">School</a></li>
+                                <li class="divider"></li>
+                                <li><a href="travel.html">Travel</a></li>
+                                <li class="divider"></li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <form action="http://google.com/search" target="_blank" method="get" class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input id="searchcontrol" type="text" class="form-control" placeholder="Google Search" name="q">
+                            <input type="hidden" name="name=" sitesearch="" value="UTF-8" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Search</button>
+                    </form>
+
+                </div>
+                -->
+
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+
+    <body>
+
+
+
+        <div class="container">
+            <header class="container-fluid text-center"></header>
+        </div>
+        <!-- <div class="alert alert-success" role="alert"></div> -->
+        <ul class="nav nav-tabs" role="tablist" id="myTab">
+            <li role="presentation" class="active"><a href="#about" aria-controls="home" role="tab" data-toggle="tab">About</a></li>
+            <li role="presentation"><a href="#publications" aria-controls="profile" role="tab" data-toggle="tab">Publications</a></li>
+            <li role="presentation"><a href="#research" aria-controls="profile" role="tab" data-toggle="tab">Research</a></li>
+            <li role="presentation"><a href="#projects" aria-controls="profile" role="tab" data-toggle="tab">Projects</a></li>
+            <li role="presentation"><a href="#activities" aria-controls="messages" role="tab" data-toggle="tab">Activities</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <br />
+            <!-- tab panel 1 starts -->
+            <div role="tabpanel" class="tab-pane active" id="about">
+                <div class="container">
+                    <div class="row">
+                        <!-- tabpanel1 - content 1 -->
+                        <nav class="col-md-4">
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <h3>About Me</h3>
+                                </li>
+                            </ol>
+
+                            <article style="margin-left: 10px">
+                                <dt><h4>Education</h4></dt>
+                                <dd style="padding-left: 20px">
+                                    <p><strong>High School: </strong> <a href="https://www.tenaflyschools.org/Domain/8">Tenafly High School</a> (Tenafly, NJ)</p>
+                                    <ul>
+                                        <li>Highest Honors</li>
+                                        <li>AP Scholar with Distinction</li>
+                                        <li>Lemelson-MIT InvenTeam Grant</li>
+                                    </ul>
+                                    <p><strong>Undergraduate: </strong> <a href="http://cooper.edu">The Cooper Union </a> (New York, NY)</p>
+                                        <ul>
+                                            <li>B.E. in Electrical Engineering</li>
+                                            <li>Half-tuition scholarship</li>
+                                            <li>Innovator Merit scholarship</li>
+                                        </ul>
+                                    <p><strong>Graduate:</strong> 
+                                        <a href="https://www.kaist.ac.kr"> KAIST</a> (Daejeon, Korea)</p>
+                                        <ul>
+                                            <li>Pursuing M.S. in EE at <a href="http://rit.kaist.ac.kr">RITL</a></li>
+                                            <li>Korea government-funded scholarship</li>
+                                        </ul>
+                                </dd>
+                                <dt><h4>Interests</h4></dt>
+                                <dd style="padding-left: 20px">
+                                    Computer Vision, Continual Learning, <br />Domain generalization, Meta-learning
+                                </dd>
+                            </article>
+                        </nav>
+
+                        <!-- tabpanel1 - content 2 -->
+                        <nav class="col-md-4">
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <h2>&nbsp;</h2>
+                                </li>
+                            </ol>
+<!-- 
+                            <article style="margin-left: 20px">
+                                <dt><h4>Course Highlights</h4></dt>
+                                <dd style="padding-left: 1px">
+                                    <ul>
+                                        <li>Digital Signal Processing</li>
+                                        <li>Electronics I, II</li>
+                                        <li>Probability Models & Stochastic Processes</li>
+                                        <li>Communication Networks</li>
+                                        <li>Software Engg & Large System Design</li>
+                                        <li>Computer Graphics</li>
+                                        <li>Bayesian Machine Learning</li>
+                                        <li>Artificial Intelligence</li>
+                                        <li>Databases</li>
+                                        <li>Natural Language Processing</li>
+                                        <li>Data Science for Social Good</li>
+                                    </ul>
+                                </dd>
+                            </article>
+ -->
+                        </nav>
+                        <!-- tabpanel1 - content 3 -->
+                        <nav class="col-md-3">
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <h2>&nbsp;</h2>
+                                </li>
+                            </ol>
+
+                            <article style="margin-left: 20px">
+                                <ol class="nav nav-pills nav-stacked">
+                                    <li>
+                                        <h4>Jongoh Jeong ("Andy")</h4>
+                                    </li>
+                                </ol>
+                                <img src="img/myphoto.jpg" alt="my_photo" height="120px" width="150px" />
+                                <br /><br />
+                                <!-- <a href="res/Jongoh_Jeong_resume.pdf"><button type="button" class="btn btn-default"
+                          style="color:blue">CV</button></a> -->
+
+                                <a href="mailto:jeong2@kaist.ac.kr"><button type="button" class="btn btn-info">
+                            Email</button></a>
+                                <!-- Contextual button for informational alert messages -->
+                                <a href="https://github.com/andyj1"><button type="button" class="btn btn-success">Github</button></a>
+                            </article>
+                        </nav>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+
+            </div>
+
+            <!-- tab panel 1.5 starts -->
+            <div role="tabpanel" class="tab-pane" id="publications">
+                <div class="container">
+                    <div class="row">
+                        <!-- tabpanel1 - content 1 -->
+                        <nav class="col-md-15">
+                            <!-- Wokshop -->
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <h3>Workshop</h3>
+                                </li>
+                            </ol>
+                            <article style="margin-left: 10px">
+                                <dt><h4>[2019]</h4>
+                                    <dd> 
+                                        <ol>
+                                            <text style="font-style:italic">[1] <b>Using Privileged Information to Improve Prediction in Health Data: A Case Study.</b> 
+                                            <br />
+                                            </text><b>Jongoh Jeong</b>, Do Hyung Kwon, Min Joon So, Anita Raja, Shivani Ghatge, Nicolae Lari and Ansaf Salleb Aouissi.  
+                                            <br />
+                                            NeurIPS 2019 Workshop on Information Theory and Machine Learning (<a href="https://sites.google.com/view/itml19/home" target="_blank">ITML 2019</a>)
+                                            <br />
+                                            <a href="https://drive.google.com/file/d/1v3ziUM9XFsIRbOix5WaZJvszPdIc0Cgw/view?usp=sharing" target="_blank" class="btn btn-default">PDF</a>
+                                            <a href="https://www.researchgate.net/publication/354657341_Using_Privileged_Information_to_Improve_Prediction_in_Health_Data_A_Case_Study" target="_blank" class="btn btn-default">About</a>                                          
+                                        </ol>
+                                    
+                                    </dd>
+                                </dt>
+                            </article>
+                            <!-- Journal -->
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <h3>Journal</h3>
+                                </li>
+                            </ol>
+                            <article style="margin-left: 10px">
+                                <dt><h4>[2021]</h4>
+                                    <dd> 
+                                        <ol>
+                                            <text style="font-style:italic">[1] <b>End-to-end Real-time Obstacle Detection Network for Safe Self-driving via Multi-task Learning</b>
+                                            <br />
+                                            Taek-jin Song*, </text><b>Jongoh Jeong</b>* and Jong-Hwan Kim.<em> Under review at IEEE Transactions on Intelligent Transportation Systems (ITS).</em>
+                                            <br />
+                                            <em>*Equal contribution.</em>
+                                            <br />
+                                            <a href="https://www.dropbox.com/s/xg25s8htxkbph7g/WritingSample_JongohJeong.pdf?dl=0" target="_blank" class="btn btn-default">Pre-Print</a> 
+                                            <!-- disabled -->
+                                        </ol>
+                                    
+                                    </dd>
+                                    <dd> 
+                                        <ol>
+                                            <text style="font-style:italic">[2] <b>Adaptive Bayesian Optimization for Fast Exploration under Safety Constraints</b>
+                                            <br />
+                                            Guk Han, </text><b>Jongoh Jeong</b>, Gyeong-Min Lee and Jong-Hwan Kim.<em> In preparation.</em>
+                                            <br />
+                                            <a href="" target="_blank" class="btn btn-default disabled">Pre-Print</a>
+                                        </ol>
+                                    
+                                    </dd>
+                                </dt>
+                            </article>
+                        </nav>
+
+                        <!-- tabpanel1 - content 2 -->
+                        <nav class="col-md-4">
+                            <!-- Journals -->
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <!-- <h3>Journal</h3> -->
+                                </li>
+                            </ol>
+                            <article style="margin-left: 10px">
+                                <!-- fill here -->
+                                <!-- <dt><h4>[2019]</h4>
+                                    <dd> 
+                                        <ol>
+                                            <text style="font-style:italic">Title
+                                                <br /></text><b>Jongoh Jeong, et al</b>
+                                            <a href="#" target="_blank" class="btn btn-default">PDF</a>
+                                        </ol>    
+                                    </dd>
+                                </dt> -->
+                            </article>
+                        </nav>
+
+                        <!-- tabpanel1 - content 3 -->
+                        <nav class="col-md-3">
+                            <!-- Conferences -->
+                            <ol class="nav nav-pills nav-stacked">
+                                <li>
+                                    <!-- <h3>Conference</h3> -->
+                                </li>
+                            </ol>
+                            <article style="margin-left: 10px">
+                                <!-- fill here -->
+                                <!-- <dt><h4>[2019]</h4>
+                                    <dd> 
+                                        <ol>
+                                            <text style="font-style:italic">Title
+                                                <br /></text><b>Jongoh Jeong, et al</b>
+                                            <a href="#" target="_blank" class="btn btn-default">PDF</a>
+                                        </ol>    
+                                    </dd>
+                                </dt> -->
+                            </article>
+                        </nav>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+
+            </div>
+
+            <!-- tab panel 2 starts -->
+            <div role="tabpanel" class="tab-pane" id="research">
+                <div>
+                    <h3 style="padding-left:10px">Research</h3>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <br />
+                        <!-- first box -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/kaistlogo.jpeg" alt="research" height="180px">
+                                <img src="img/ritlogo.png" alt="research" height="180px">
+                                <div class="caption">
+                                    <h4><a href="https://rit.kaist.ac.kr/">Robot Intelligence Technology Lab.</a></h4>
+                                    <div align="right">Daejeon, South Korea</div>
+                                    <div align="right">Sep 2020 - Present</div>
+                                    <h5 style="font-style:italic">M.S. Candidate</h5>
+                                    <p>- Industrial applications: optimizing SMT fabrication process with deep learning models via Bayesian Optimization framework</p>
+                                    <p>- Visual learning: few-shot class incremental learning methods</p>
+                                    <h5 style="font-style:italic;font-weight:bold">Journal Publication</h5>
+                                    <p>Taek-jin Song*, <text style="text-decoration: underline">Jongoh Jeong*</text> and Jong-Hwan Kim. <text style="font-style:italic">End-to-end Real-time Obstacle Detection Network via Simulataneous semantic segmentation and disparity estimation. Under review.</text>
+                                    <br />
+                                    <!-- <a href="https://sites.google.com/view/itml19"  target="_blank" class="btn btn-default">ITML 2019</a>  -->
+                                    <!-- <a href="https://drive.google.com/file/d/1v3ziUM9XFsIRbOix5WaZJvszPdIc0Cgw/view?usp=sharing" target="_blank" class="btn btn-primary"> PDF</a> -->
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 2 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/nist_lab.JPG" alt="research" height="200px">
+                                <div class="caption">
+                                    <h4><a href="https://www.nist.gov/el/intelligent-systems-division-73500#:~:text=The%20Intelligent%20Systems%20Division%20develops,to%20advance%20U.S.%20manufacturing%20performance.">Intelligent Systems Division</a></h4>
+                                    <div align="right">New York, NY</div>
+                                    <div align="right">May 2019 - Aug 2020</div>
+                                    <h5 style="font-style:italic">Undergraduate Research Assistant, 
+                                        <br /> 
+                                        Cooper Union & National Institute of Standards and Technology (NIST)
+                                    </h5>
+                                    <p>- Developed a system to extracte digit texts using OCR and detect target motions using structural similarity metric from task-specific videos in order to analyze and compare the performance of exoskeletons and exosuits to that of bare body joints in Python (OpenCV) and MATLAB</p>
+                                    <p>- Project with Azure Kinect&trade;: Development of a low-cost motion capture system, and synchronizing and controlling/tracking drones by human pose</p>
+                                    <p><a href="https://github.com/andyj1/motion_detection" class="btn btn-primary" role="button">Code</a>
+                                    <a href="https://andyj1.github.io/kinect" class="btn btn-default" role="button">Project Page</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/mfmu.jpg" alt="research" height="180px">
+                                <div class="caption">
+                                    <h4>Distributed Intelligent Agents Lab</h4>
+                                    <div align="right">New York, NY</div>
+                                    <div align="right">May 2019 - Aug 2019</div>
+                                    <h5 style="font-style:italic">Undergraduate Research Assistant</h5>
+                                    <p>- Investigated a novel approach to a SVM classifier with temporally expanding privileged information (LUPI) from the electronic health records ("MFMU", pre-term birth clinical dataset from NICHD) </p>
+                                    <p>- Explored necessary conditions for performance improvements of time-sequenced SVM classifier with LUPI in algorithmic and data pre-processing techniques for data imputation and imbalances</p>
+                                    <h5 style="font-style:italic;font-weight:bold">Workshop Publication</h5>
+                                    <p> <text style="text-decoration: underline">Jongoh Jeong</text>, Do Hyung Kwon, Min Joon So, Anita Raja, Shivani Ghatge, Nicolae Lari, Ansaf Salleb-Aouissi. <text style="font-style:italic">Using Privileged Information to Improve Prediction in Health Data: A Case Study.</text> NeurIPS 2019 Workshop on Information Theory and Machine Learning. 
+                                    <br />
+                                    <a href="https://sites.google.com/view/itml19"  target="_blank" class="btn btn-default">ITML 2019</a> 
+                                    <a href="https://drive.google.com/file/d/1v3ziUM9XFsIRbOix5WaZJvszPdIc0Cgw/view?usp=sharing" target="_blank" class="btn btn-primary"> PDF</a>
+                                    <a href="https://www.researchgate.net/publication/354657341_Using_Privileged_Information_to_Improve_Prediction_in_Health_Data_A_Case_Study" target="_blank" class="btn btn-default">About</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- new row -->
+                    <div class="row">
+                        <br />
+                        <!-- tabpanel2 - content 2 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/lmit_tenafly.jpg" alt="LMIT" height="200px">
+                                <div class="caption">
+                                    <h4><a href="https://lemelson.mit.edu/teams/inventeam/172">Lemelson-MIT InvenTeam</a></h4>
+                                    <div align="right">Tenafly, NJ</div>
+                                    <div align="right">Apr 2013 - Jun 2014</div>
+                                    <h5 style="font-style:italic">Administrative Lead, Researcher</h5>
+                                    <p>- Built alpha prototype of Interactive Smartwatch and Docking System, showcased at EurekaFest 2019 (MIT)
+                                    <p>- Extensive research on presently available technologies, UI/UX designs based on direct surveys by current patients, and mechanisms to detect wandering and anomalous behavior of Alzheimer's patients</p>
+                                    <p>- Utilized GPS/GPRS over GSM network through web app, Arduino sensors for locating patients and warning caretakers, and developed professional writing as Admin Lead </p>
+                                    <p>- <a href="https://www.youtube.com/watch?v=NwHx9h2GKn8&ab_channel=LemelsonMIT">Presentation</a>
+                                    <p>- <a href="https://www.businesswire.com/news/home/20131016005335/en/High-School-Teams-Receive-Lemelson-MIT-InvenTeam%E2%84%A2-Grant>News</a>
+                                    <p>- <a href="http://librarymedia.net/board-of-education-october-21-2014">BOE Presentation by remaining students</a>
+                                    <p>
+                                        <a href="res/LMIT_MGTR_0224_2014.pdf" class="btn btn-primary" role="button">Slides</a>
+                                        <a href="res/Tenafly_MonthlyReports.pdf" class="btn btn-default" role="button">Documents</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            
+            <!-- tab panel 2 starts -->
+            <div role="tabpanel" class="tab-pane" id="projects"> 
+                <h3 style="padding-left:10px">Projects</h3>
+                <div class="container">
+                 <!-- new row -->
+                    <div class="row">
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="res/ber.png" alt="BER Curve" height="200px">
+                                <div class="caption">
+                                    <h4>IEEE 802.11b Wireless Local Area Network Simulations</h4>
+                                    <h5 style="font-style:italic">Wireless Communications</h5>
+                                    <p>- PHY layer implementation of WLAN 802.11b Standards ("WiFi-1") in MATLAB</p>
+                                    <p>- WiFi 1 uses DSSS (Barker) and CCK modulation schemes at 4 different data rate transmissions</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/wlan802.11b/doc/wlan802.11b_report.pdf" class="btn btn-primary" role="button">Report</a>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/wlan802.11b/doc/wlan80211b_packetframe.pdf" class="btn btn-default" role="button">Code</a>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/wlan802.11b" class="btn btn-default" role="button">GitHub</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <!-- <br/><br/><br/> -->
+                                <img src="res/ber_alamouti.png" alt="TBD" height="200px">
+                                <div class="caption">
+                                    <h4>Transmit and Receive Diversity Schemes Simulations</h4>
+                                    <h5 style="font-style:italic">Wireless Communications</h5>
+                                    <p>- Maximal-Ratio Receiver Combining (MRRC) and Alamouti Space-Time Block Coding implementation in MATLAB</p>
+                                    <p>- Evaluatoin of BER performances, investigation of pros/cons and applications in MIMO (GSM, CDMA, WiFi)</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/tx_rx_diversity_schemes/doc/mrrc_alamouti_report.pdf" class="btn btn-primary" role="button">Report</a>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/tx_rx_diversity_schemes/doc/mrrc_alamouti_sim_code.pdf" class="btn btn-default" role="button">Code</a>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/tx_rx_diversity_schemes" class="btn btn-default" role="button">GitHub</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="res/cdma_01.png" alt="TBD" height="200px">
+                                <div class="caption">
+                                    <h4>Simple CDMA Decoder</h4>
+                                    <h5 style="font-style:italic">Wireless Communications</h5>
+                                    <p>- A CDMA message decoder for a string (ASCII) message</p>
+                                    <p>- Walsh code (Hadmard transform) for orthogonal channels, BPSK modulation for encoding and PN-sequence for scrambling </p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/cdma_decode/doc/simple_cdma_report.pdf" class="btn btn-primary" role="button">Report</a>
+                                        <a href="https://github.com/andyj1/wireless_comms/blob/master/cdma_decode/doc/simple_cdma_code.pdf" class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+                           
+                <!-- new row -->
+                    <div class="row">
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/pca_plot.png" alt="imbalance plot" height="200px">
+                                <div class="caption">
+                                    <h4>Combating Class Imbalance in a Clinical Dataset</h4>
+                                    <h5 style="font-style:italic">Bayesian Machine Learning</h5>
+                                    <p>- Explored methods to combat class imbalance, a commonly encoutered problem in practical medical datasets</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/combat_class_imbalance/blob/master/ECE414_CombatingClassImbalance_report.pdf" class="btn btn-primary" role="button">Report</a>
+                                        <a href="https://github.com/andyj1/combat_class_imbalance/blob/master/ECE414_CombatingClassImbalance_code.pdf" class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                    <h5 style="font-style:italic">ML    Class Projects</h5>
+                                    <p>- Conjugate Priors &nbsp; <a href="https://github.com/andyj1/ece-projects/blob/master/bayesian-ml/ece414_project1_Kim_Jeong.pdf"  role="button">Report</a> </p>
+                                    <p>- Linear Regression &nbsp; <a href="https://github.com/andyj1/ece-projects/blob/master/bayesian-ml/ece414_project2_Kim_Jeong.pdf" role="button">Report</a> </p>
+                                    <p>- Generative Model, IRLS algorithm &nbsp; <a href="https://github.com/andyj1/ece-projects/blob/master/bayesian-ml/ece414_project3_Kim_Jeong.pdf"  role="button">Report</a> </p>
+                                    <p>- Gaussian Process Regression &nbsp; <a href="https://github.com/andyj1/ece-projects/blob/master/bayesian-ml/ece414_project4_Kim_Jeong.pdf"  role="button">Report</a> </p> 
+                                    <p>- Expectation-Maximization &nbsp; <a href="https://github.com/andyj1/ece-projects/blob/master/bayesian-ml/ece414_project5_Kim_Jeong.pdf"  role="button">Report</a> </p>
+                                    <p>- Markov chain Monte Carlo Sampling &nbsp; <a href="https://github.com/andyj1/ece-projects/blob/master/bayesian-ml/ece414_project6_Kim_Jeong.pdf" role="button">Report</a> </p> 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <br/><br/><br/>
+                                <img src="img/checkers2.png" alt="checkers board" height="200px" width="200px">
+                                <br/><br/><br/>
+                                <div class="caption">
+                                    <h4>Checkers A.I. & Neural Network</h4>
+                                    <h5 style="font-style:italic">Artificial Intelligence</h5>
+                                    <p>- Implemented Checkers game with artificial intelligence using iterative deepening and alpha-beta search algorithm (minimax search with alpha-beta pruning) , along with a heuristic function (Project 1)</p>
+                                    <p>- Implemented a single hidden-layer neural network with backpropagation from scratch (Project 2)</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/artificial-intelligence/tree/master/checkers_ai"  class="btn btn-primary" role="button">Project 1</a>        
+                                        <a href="https://github.com/andyj1/artificial-intelligence/tree/master/neural_network"  class="btn btn-default" role="button">Project 2</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/db_aka.png" alt="MovieReservations_AKA" height="200px" width="200px">
+                                <div class="caption">
+                                    <h4>Movie & Food Reservation System </h4>
+                                    <h5 style="font-style:italic">Databases</h5>
+                                    <p>- Developed a database system that allows users to reserve seats as well as food menu for a movie at a specific theater. This web application demonstrates database management system for a movie theater</p>
+                                        <a href="https://github.com/andyj1/MovieReservations_AKA" class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+
+                    <!-- new row -->
+                    <div class="row">
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <br/><br/><br/><br/>
+                                <img src="img/homography.png" alt="homography_estimation" height="200px">
+                                <br/><br/><br/><br/>
+                                <div class="caption">
+                                    <h4>Homography Estimation</h4>
+                                    <!-- <h5 style="font-style:italic">Course</h5> -->
+                                    <p>- Image stitching from two planarly translated images using RANSAC in geometric transformation estimation</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/homography_estimation" class="btn btn-default" role="button">Code</a>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/cony_login.png" alt="cony-login" height="200px">
+                                <div class="caption">
+                                    <h4>User Interactive Login Form</h4>
+                                    <!-- <h5 style="font-style:italic">Artificial Intelligence</h5> -->
+                                    <p>- Implemented a responsive login form with moving character gestures, using SVG drawing (Scalable Vector Graphics); character: 'Cony' from NAVER Lines, Corp.</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/cony-login"  class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="https://github.com/andyj1/ssim_index/raw/master/results/ex1.png" alt="SSIM" height="200px">
+                                <img src="https://github.com/andyj1/ssim_index/raw/master/results/ex2.png" alt="SSIM" height="200px">
+                                <div class="caption">
+                                    <h4>Structural Similarity Index on Pytorch</h4>
+                                    <!-- <h5 style="font-style:italic">Databases</h5> -->
+                                    <p>- Structural similarity index (SSIM) is an index developed to measure the degree of similarity between two images.</p>
+                                    <p>- Implemented SSIM on Pytorch based on paper (<a href="https://www.cns.nyu.edu/pub/eero/wang03-reprint.pdf">"Image quality assessment: From error visibility to structural similarity."</a> Z. Wang, A. C. Bovik, H. R. Sheikh and E. P. Simoncelli. IEEE Transactions on Image Processing, vol. 13, no. 4, pp. 600-612, Apr. 2004. </a>)</p>
+                                        <a href="https://github.com/andyj1/ssim_index" class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+
+                    <!-- new row -->
+                    <div class="row">
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/disc.png" alt="comms" height="200px" width="200px" width="200px">
+                                <div class="caption">
+                                    <h4>Symmetric Social Network Service Platform, DISC</h4>
+                                    <h5 style="font-style:italic">SW Engg and Large System Design</h5>
+                                    <p>- Led a team of 4 in designing a web-oriented platform where users share songs to public and private feeds, and connect symmetrically through request/accept
+                                    <p>- Coordinated front/backend integration and database management as scrum master </p>
+                                    <p>- Tech stack: MongoDB, ReactJS, Apollo Spotify, Nginx [site: http://disc.cool:8000]</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/Symmetric-Social-Network-ECE366" class="btn btn-default" role="button">Code</a>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/rubikscube.svg" alt="processor" height="200px" width="200px">
+                                <div class="caption">
+                                    <h4>Interactive Graphical Visualizations</h4>
+                                    <h5 style="font-style:italic">Computer Graphics</h5>
+                                    <p>- Implemented an interactive Rubik's cube graphic where users can scramble, load, save the state, and view the sides at various angles. Focus: view transformations, textures</p>
+                                    <p>- Built an educational visual for environment mapping on a skybox with adjustable parameters of the object. Focus: Phong reflection and shading models, view/ light reflection, object rendering</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/WebGL_Graphics"  class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/chaos.png" alt="hanoi" height="200px">
+                                <div class="caption">
+                                    <br/>
+                                    <h4>Visualization of Chaotic Duffing Oscillator</h4>
+                                    <h5 style="font-style:italic">Physics Simulations</h5>
+                                    <p>- Visualized and determined the parameters of 2D chaotic model of a nonlinear dynamical Dung system using 4th order Runge-Kutta numerical approx. with VPython</p>
+                                    <p>- Investigated Lyapunov Exponent, a metric used to quantify outbreak of chaotic behavior in dynamical systems </p>
+                                    <p>- Showcased at 2019 End-of-Year-Show at Cooper Union</p>
+                                        <a href="https://github.com/andyj1/chaotic-duffing-oscillator/blob/master/doc/Jeong_Ph235_FinalProject.pdf" class="btn btn-primary" role="button">Report</a>
+                                        <a href="https://github.com/andyj1/chaotic-duffing-oscillator" class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end row -->
+
+                    <!-- new row -->
+                    <div class="row">
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/comms.jpg" alt="comms" height="200px">
+                                <div class="caption">
+                                    <h4>Communication Link Design and Stochastic Modeling</h4>
+                                    <h5 style="font-style:italic">Communication Theory, Stochatic Processes</h5>
+                                    <p>- Improved bit-error rate in symbol transmissions through noisy channel with inter-symbol interference using equalizers, maximum-likelihood sequence estimator. Improvement with error correction codes using block (linear, Hamming, Cyclic), bit-level (BCH), symbol-level (Reed-Solomon, Convolutional, Viterbi) codes. </p>
+                                    <p>
+                                        <a href="res/ECE300 Project_Part_I.pdf" class="btn btn-default" role="button">Part I (Modulation)</a>
+                                        <a href="res/ECE300_Project_Part_II.pdf" class="btn btn-primary" role="button">Part II (ECC)</a>
+                                    </p>
+                                    <p>- Implemented stochastic estimation with MMSE and ML Estimator, Detection theory using MAP and MPE, Pattern recognition with stochastic prediction</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/ece-projects/tree/master/stochastics" class="btn btn-default", role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/processor.jpg" alt="processor" height="200px">
+                                <div class="caption">
+                                    <h4>2- & 8-bit Processor</h4>
+                                    <h5 style="font-style:italic">Computer Architecture</h5>
+                                    <p>Paper Processor (2-bit) / 8-bit </p>
+                                    <p>
+                                        <a href="res/2-bit.pdf" class="btn btn-default" role="button">2-bit</a>
+                                        <a href="res/8-bit.pdf" class="btn btn-primary" role="button">8-bit</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/hanoi.jpg" alt="hanoi" height="200px">
+                                <div class="caption">
+                                    <h4>Tower of Hanoi</h4>
+                                    <h5 style="font-style:italic">Computer Architecture</h5>
+                                    <p>Implementation of 3-ring, 3-disk Tower of Hanoi in Assembly Language</p>
+                                    <p>
+                                        <a href="https://github.com/andyj1/towers_of_hanoi" class="btn btn-default" role="button">Code</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="row">   
+                        <!-- tabpanel2 - content 1 -->
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/dld.jpg" alt="dld" height="200px">
+                                <div class="caption">
+                                    <h4>Flappy Bird</h4>
+                                    <h5 style="font-style:italic">Digital Logic Design</h5>
+                                    <!-- <p>...</p> -->
+                                    <p><a href="res/dld.pdf" class="btn btn-primary" role="button">Details</a></p>
+                                </div>
+                            </div>
+                        </div>               
+                        <div class="col-sm-3 col-md-4">
+                            <div class="thumbnail">
+                                <img src="img/rasp-pi.png" alt="microcontroller" height="300px" width="300px">
+                                <div class="caption">
+                                    <h4>Microcontroller Club</h4>
+                                    <h5 style="font-style:italic">Secretary, Website Management</h5>
+                                    <p> (Website not available on school server anymore)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- tab panel 2 starts -->
+            <div role="tabpanel" class="tab-pane" id="activities">
+                <h3 style="padding-left:10px">Activities</h3>
+                    <!-- new row -->
+                    <div class="container">
+                        <div class="row">                                     
+                                <!-- tabpanel3 - content 2 -->
+                                <div class="col-sm-3 col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="img/closeout-rev.png" alt="cfrp" height="200px">
+                                        <div class="caption">
+                                            <h4>Cooper FSAE Motorsports</h4>
+                                            <div align="right">Sep 2014 - May 2016</div>
+                                            <h5 style="font-style: italic">Carbon Fiber Bodywork Team</h5>
+                                            <p>Bodywork (2014-2015) - Carbon Fiber Reinforced Polymer Layup Process on sidepods and nosecone</p>
+                                            <a href="img/closeout2.jpg" class="btn btn-default" role="button">Photo1</a>
+                                            <!-- <a href="res/2014-15_tank_final.pdf" class="btn btn-default" role="button">Design</a> -->
+                                            <!-- <a href="#" class="btn btn-primary" role="button">8-bit</a> -->
+                                            
+                                            <h5 style="font-style: italic">Fueling Team, Vice Lead</h5>
+                                            <p>Fueling (2015 - 2016) - Fuel tank design</p>
+                                            <a href="img/machining.jpg" class="btn btn-default" role="button">Photo2</a>
+                                            <a href="res/2014-15_tank_final.pdf" class="btn btn-default" role="button">Design</a>
+                                            <!-- <a href="#" class="btn btn-primary" role="button">8-bit</a> -->
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="img/pioneer.png" alt="machining" height="200px">
+                                        <div class="caption">
+                                            <h4>Cooper Pioneer Newspaper</h4>
+                                            <div align="right">Sep 2014 - May 2016</div>
+                                            <h5 style="font-style: italic">Staff Writer</h5>
+                                            <p>Actively reflected upon campus-wide talks with interests of community members</p>
+                                            <p>Introduced the idea of columns for 1-to-1 student and professor interviews for closer social familiarity</p>
+                                            <p>
+                                                <a href="http://pioneer.cooper.edu/2015/10/12/knovel-academic-challenge/" class="btn btn-default" role="button">Article1</a>
+                                                <a href="http://pioneer.cooper.edu/2015/09/28/summer-experiences-ryan-smith-che-17/" class="btn btn-default" role="button">Article2</a>
+                                                <a href="http://pioneer.cooper.edu/2015/03/08/supportcooperedu/" class="btn btn-default" role="button">Article3</a>
+                                                <a href="http://pioneer.cooper.edu/2015/02/21/cryptovirology/" class="btn btn-default" role="button">Article4</a>
+                                                <a href="http://pioneer.cooper.edu/2014/12/03/fall-blood-drive/" class="btn btn-default" role="button">Article5</a>
+                                                <a href="http://pioneer.cooper.edu/2014/12/03/lecture-long-emergency/" class="btn btn-default" role="button">Article6</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="img/cooper300x300.jpg" alt="machining" height="200px" width="200px">
+                                        <div class="caption">
+                                            <h4>Office of Student Affairs</h4>
+                                            <div align="right">Sep 2014 - May 2016</div>
+                                            <h5 style="font-style: italic">Student Assistant</h5>
+                                            <p>Assisted the Director of Student Affairs with hosting various in-school and external
+                                                    events, such as reaching out to organizers, scheduling and advertising to target students</p>
+                                            <p>Helped preparation for graduation ceremony from planning to ushering stages</p>
+                                            <!-- <a href="res/2014-15_tank_final.pdf" class="btn btn-default" role="button">Details</a> -->
+                                            <!-- <a href="#" class="btn btn-primary" role="button">8-bit</a> -->
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                </div>         
+                <div>
+                    <h3 style="padding-left:10px">Work & Teaching</h3>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <br />
+                            <!-- tabpanel 5 - content 1 -->
+                            <div class="col-sm-3 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="img/kaistlogo.jpeg" alt="roka" height="200px" width="200px">
+                                    <div class="caption">    
+                                        <h4>Teaching Assistant</h4>
+                                        <div align="right">Daejeon, South Korea</div>
+                                        <div align="right">Sep 2020 - August 2022</div>
+                                        <h5 style="font-style:italic">EE305: Introduction to Electronics Design Lab. EE202: Signals and Systems</h5> 
+                                        <p>- Oversaw and managed the class load (130 students for EE302 and 62 students for EE202)</p>
+                                        <p>- Administered assignments and managed office hours (3 hrs/wk)</p>
+                                        <!-- <p>
+                                            <a href="javascript:void(0)" class="btn btn-primary" role="button">Image</a>
+                                        </p> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tabpanel 5 - content 2 -->
+                            <div class="col-sm-3 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="img/roka.jpg" alt="roka" height="200px" width="200px">
+                                    <div class="caption">    
+                                        <h4>Republic of Korea Army</h4>
+                                        <div align="right">Busan, South Korea</div>
+                                        <div align="right">Jun 2016 - Mar 2018</div>
+                                        <h5 style="font-style:italic">OPS & INTEL Staff, Interpreter, Squad Leader</h5> 
+                                        <p>- Responsible for preparation of classified operations drills and occassional interpretation duty in meetings with US Port Battalion</p>
+                                        <p>- Managed 8-pax squad for 13 months (exceptional case)</p>
+                                        <p>
+                                            <a href="img/IMG_5297.JPG" class="btn btn-primary" role="button">'17 UFG Exercise</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- tabpanel 5 - content 3 -->
+                            <div class="col-sm-3 col-md-4">
+                                <div class="thumbnail">
+                                    <img src="img/edonation.png" alt="edonation" height="200px" width="200px">
+                                    <div class="caption">
+                                        <h4><a href="https://www.edonation.info/">Edonation Project (NGO)</a></h4>
+                                        <div align="right">Columbia University</div>
+                                        <div align="right">Sep 2014 - May 2016</div>
+                                        <h5 style="font-style:italic">Project Director, Instructor</h5>
+                                        <p>- Organized Programs: SAT II Subject & AP Courses (9 total classes) held at Columbia U. and Cooper Union</p>
+                                        <p>- Instructed Subjects: AP Chemistry (9 students), Math IIC (11 students)</p>    
+                                        <p>
+                                            <a href="res/2015 Spring SAT2_AP Project.jpg" class="btn btn-primary" role="button">SATII,AP Poster</a>
+                                            <a href="res/2015_edonation.pdf" class="btn btn-default" role="button">Info Session</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                    
+                <div class="alert alert-success" role="alert"></div>
+                <div class="alert alert-info" role="alert"></div>
+                
+                <div id="footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="pull-right">
+                                        <!-- target="_blank" -->
+                                    <a class="sns" href="index.html"><span><img id="image" src="img/hp.jpg"  style="width:50px;height:50px"/></span></a>
+                                    <a class="sns" href="https://www.facebook.com/jongoh.j" target="_blank"><span><img id="image" src="img/fb.jpg"  style="width:50px;height:50px"/></span></a>
+                                    <a class="sns" href="https://www.github.com/andyj1" target="_blank"><span><img id="image" src="img/github.png"  style="width:50px;height:50px"/></span></a>
+                                    <a class="sns" href="https://www.linkedin.com/in/jongohj/" target="_blank"><span><img id="image" src="img/linkedin.jpg"  style="width:50px;height:50px"/></span></a>
+                                <!--
+                                    |
+                          <a class="sns"href="https://www.youtube.com/channel/UCRCQ0VEUCWfN0NFoR24pOUg" target="_blank"><span ><img id="image" src="img/yt.jpg" style="width:50px;height:50px"/> Youtube</span></a> -->
+                                    <!-- |
+                          <a href= "mailto:jeong2cu@gmail.com" rel="author" target="_blank"><span><img id="image" src="img/email.png" style="width:50px;height:50px" >Email</img></a>  -->
+    
+                                    <h6 class="lastupdate">Last updated: December 27, 2021 &copy; Jongoh Jeong </h6>
+                                </div>
+                                <!--      <a href="changelog.html">changelog</a> /
+                      <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EFSGXZS7V2U9N">donate</a>
+                    -->
+                                <!-- <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://owlgraphic.com/owlcarousel/" data-text="Awesome jQuery Owl Carousel Responsive Plugin" data-via="OwlFonk" data-count="none" data-hashtags="owlcarousel"></a>
+                    <script>
+                    var owldomain = window.location.hostname.indexOf("owlgraphic");
+                    if(owldomain !== -1){
+                      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                    }
+                    </script> -->
+                            </div>
+                        </div>
+                    </div>
+            </body>
+
+            <div id="fb-root"></div>
+            <script>
+                (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+            </script>
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            <script src="js/bootstrap.min.js"></script>
+
+</html>
