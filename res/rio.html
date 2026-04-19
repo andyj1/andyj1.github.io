@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rio 출장 마스터 타임라인 (4/21~4/27)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --br-green: #009c3b; --br-yellow: #ffdf00; --br-blue: #002776;
+    --bg-light: #f4f7f6; --text-main: #2c3e50; --text-muted: #666;
+  }
+  body { font-family: 'Noto Sans KR', sans-serif; background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; padding: 20px; margin: 0; }
+  .header { text-align: center; padding: 40px 0; background: linear-gradient(135deg, var(--br-blue), var(--br-green)); color: white; border-radius: 15px; margin-bottom: 40px; }
+  .header h1 { margin: 0; font-weight: 900; letter-spacing: 1px; }
+  .header p { color: var(--br-yellow); font-weight: 700; margin-top: 10px; }
+  .timeline { max-width: 800px; margin: 0 auto; padding: 0 10px; border-left: 4px solid var(--br-yellow); }
+  .day-card { background: white; border-radius: 12px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; margin-left: 20px; }
+  .day-card::before { content: ''; position: absolute; left: -30px; top: 25px; width: 16px; height: 16px; border-radius: 50%; background: var(--br-green); border: 3px solid white; box-shadow: 0 0 0 2px var(--br-yellow); }
+  .date-title { font-size: 1.4em; font-weight: 900; color: var(--br-blue); margin-top: 0; border-bottom: 2px dashed #eee; padding-bottom: 10px; margin-bottom: 15px; }
+  .summary-text { font-weight: 700; font-size: 1.1em; cursor: pointer; color: var(--text-main); display: block; padding: 5px 0; }
+  .summary-text:hover { color: var(--br-green); }
+  details { margin-bottom: 15px; background: #fafafa; border-radius: 8px; padding: 10px; border-left: 4px solid var(--br-green); }
+  details[open] summary { border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 10px; }
+  ul { margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 0.95em; }
+  li { margin-bottom: 8px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin-right: 5px; }
+  .badge.academic { background: #e3f2fd; color: #1565c0; }
+  .badge.tour { background: #e8f5e9; color: #2e7d32; }
+  .badge.person { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+  .link { color: var(--br-blue); font-weight: bold; text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>🇧🇷 Rio de Janeiro</h1>
+    <p>ICLR 2026 & Tour Master Schedule</p>
+  </div>
+  
+  <div class="timeline">
+    <div class="day-card">
+      <h2 class="date-title">4/21 (일) : 도착 및 적응</h2>
+      <details>
+        <summary class="summary-text">🛬 오전: 숙소 도착 / 오후: 바하 다 치주카 탐방</summary>
+        <ul>
+          <li><span class="badge tour">이동</span>오전 (~10:15): 숙소 도착 (숙소에서 차로 11분 거리)</li>
+          <li><span class="badge tour">장소</span>오후: Praia da Barra da Tijuca 해변</li>
+          <li><span class="badge tour">식사</span>오후: Érico Veríssimo Street에서 점심 식사</li>
+          <li><span class="badge tour">장소</span>오후: Barra Shopping center (리우에서 가장 큰 쇼핑몰)</li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="day-card" style="--br-green: var(--br-blue);">
+      <h2 class="date-title">4/22 (월) : 풀데이 랜드마크 투어</h2>
+      <details>
+        <summary class="summary-text">🚌 06:45 픽업 ~ 리우 핵심 명소 당일 투어</summary>
+        <ul>
+          <li><span class="badge tour">픽업</span>06:45 호텔 픽업 시작</li>
+          <li><span class="badge tour">코스</span>Christ the Redeemer (그리스도상) ➔ Macarana Stadium ➔ Sambódromo ➔ Metropolitan Cathedral ➔ Selaron Steps</li>
+          <li><span class="badge tour">식사</span>Executive Lunch (투어 중)</li>
+          <li><span class="badge tour">코스</span>Sugarloaf (슈가로프 산) 일정 마무리</li>
+          <li><span class="badge person">메모</span>팁 10% 정도 준비 ($135) ; 50 BRL</li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="day-card">
+      <h2 class="date-title">4/23 (화) : 학회 1일차</h2>
+      <details open>
+        <summary class="summary-text">🎓 오후 4:15 핵심 세션 참석</summary>
+        <ul>
+          <li><span class="badge academic">세션</span>16:15 [장소: 202A/B]</li>
+          <li><strong>Multimodal Aligned Semantic Knowledge for Unpaired Image-text Matching</strong> (Oral)</li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="day-card">
+      <h2 class="date-title">4/24 (수) : 학회 2일차 (종오 세션)</h2>
+      <details>
+        <summary class="summary-text">🎓 09:00 Percy Liang 세션 / 15:15 종오 오후 세션</summary>
+        <ul>
+          <li><span class="badge academic">세션</span>09:00 ~ 10:00: Percy Liang</li>
+          <li><span class="badge person">종오</span>15:15 ~ 17:45: 종오 오후 세션 참석</li>
+          <li><span class="badge academic">세션</span>16:03 [장소: Amphitheater]</li>
+          <li><strong>Mamba-3: Improved Sequence Modeling using State Space Principles</strong> (Oral)</li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="day-card">
+      <h2 class="date-title">4/25 (목) : 학회 3일차 & 호시냐 투어</h2>
+      <details>
+        <summary class="summary-text">🎓 10:30 영호 세션 / 🚩 14:00 빈민촌 투어 (동선 주의!)</summary>
+        <ul>
+          <li><span class="badge person">영호</span><strong>10:30 ~ 13:00: 영호 오전 세션</strong>
+            <ul>
+              <li>10:54 [203A/B] <em>InfoNCE Induces Gaussian Distribution</em> (Oral)</li>
+              <li>11:18 [204A/B] <em>AnyUp: Universal Feature Upsampling</em> (Oral)</li>
+            </ul>
+          </li>
+          <li><span class="badge tour">투어</span><strong>14:00 ~ 16:00: Rocinha (호시냐) 파벨라 투어</strong>
+            <ul>
+              <li>투어 픽업 장소 이동 ➔ 전망대, 로컬 빈민촌 탐방 (<a href="https://experiences.myrealtrip.com/products/5905914" class="link" target="_blank">예약 링크</a>)</li>
+            </ul>
+          </li>
+          <li><span class="badge tour">이동</span><strong>16:00 ~ : 해변 도보 개별 이동</strong>
+            <ul>
+              <li>Ipanema Beach ➔ Confeitaria Colombo (Café do Forte) ➔ Copacabana Beach</li>
+            </ul>
+          </li>
+          <li><span class="badge academic">참고</span><strong>※ 오후 동시간대 학회 관심 세션 (참석 여부 결정 필요)</strong>
+            <ul>
+              <li>15:15 [Amphitheater] <em>TD-JEPA: Latent-predictive Representations...</em></li>
+              <li>16:15 [201A/B] <em>Latent Fourier Transform</em></li>
+            </ul>
+          </li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="day-card">
+      <h2 class="date-title">4/26 (금) : 워크샵 & 센트로 투어</h2>
+      <details>
+        <summary class="summary-text">🎓 오전: 워크샵 3건 / 🏛️ 오후: 센트로 남하 동선</summary>
+        <ul>
+          <li><span class="badge academic">오전</span><strong>학회 워크샵 참석</strong>
+            <ul>
+              <li><em>Unifying Concept Representation Learning</em> (209)</li>
+              <li><em>Geometry-grounded Representation Learning and Generative Modeling</em> (101A)</li>
+              <li><em>Multimodal Intelligence: Next Token Prediction and Beyond</em> (204C)</li>
+            </ul>
+          </li>
+          <li><span class="badge tour">오후</span><strong>최적의 센트로 동선 (남쪽으로 이동)</strong>
+            <ul>
+              <li>Museum of Tomorrow (미래주의 박물관, 프라사 마우아 부두) 시작</li>
+              <li>➔ City Center (Centro) 중심으로 이동</li>
+              <li>➔ Confeitaria Colombo (1894년 앤틱 카페에서 휴식)</li>
+              <li>➔ Catedral Metropolitana (대성당 스테인드글라스)</li>
+              <li>➔ Arcos da Lapa (라파 수도교)</li>
+              <li>➔ Escadaria Selarón (셀라론 계단 포토존)</li>
+              <li>➔ Rio Scenarium (저녁 식사 및 삼바 음악 마무리)</li>
+            </ul>
+          </li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="day-card" style="--br-green: var(--br-yellow);">
+      <h2 class="date-title">4/27 (토) : 마지막 워크샵 & 귀국</h2>
+      <details>
+        <summary class="summary-text">🎓 오전: 워크샵 1건 / 🌿 오후: 자연 투어 후 출국</summary>
+        <ul>
+          <li><span class="badge academic">오전</span><strong>학회 워크샵 참석</strong>
+            <ul>
+              <li><em>Representational Alignment</em> (207)</li>
+            </ul>
+          </li>
+          <li><span class="badge tour">오후</span><strong>자연 및 보헤미안 상행 동선 (공항 방향)</strong>
+            <ul>
+              <li>Botanical Garden & Parque Lage (인접한 식물원과 저택 묶어서 방문)</li>
+              <li>➔ Tijuca National Park (전망대 숲/바다 전경)</li>
+              <li>➔ Santa Teresa (언덕 위 보헤미안 골목 및 이른 저녁)</li>
+              <li>➔ Municipal Theater (공항 가는 길, 센트로 시립 극장 외관 감상)</li>
+            </ul>
+          </li>
+          <li><span class="badge tour">비행</span><strong>21:00 비행 출발</strong> (※ 트래픽 고려하여 18:00 경 센트로에서 GIG 공항으로 출발 요망)</li>
+        </ul>
+      </details>
+    </div>
+
+  </div>
+</body>
+</html>
