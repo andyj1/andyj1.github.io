@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denver Travel Itinerary - CVPR 2026</title>
+    <style>
+        /* Denver-inspired Color Palette */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2b2d42;
+            background-color: #f8f9fa;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #1D3557 0%, #457B9D 100%);
+            color: #F1FAEE;
+            padding: 40px 20px;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid #F4A261;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #F1FAEE;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+        }
+
+        .info-box,
+        .hotel-box {
+            background-color: #e8f4f8;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box {
+            border-left: 5px solid #2980b9;
+        }
+
+        .hotel-box {
+            background-color: #fdfbf7;
+            border-left: 5px solid #F4A261;
+        }
+
+        .info-box h3,
+        .hotel-box h3 {
+            margin-top: 0;
+            color: #1D3557;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 10px;
+        }
+
+        .day-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+            border-left: 6px solid #457B9D;
+        }
+
+        .day-header {
+            background-color: #f1f5f8;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .day-header h2 {
+            margin: 0;
+            color: #1D3557;
+            font-size: 1.5em;
+        }
+
+        .time-block {
+            padding: 20px;
+        }
+
+        .time-block:not(:last-child) {
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .time-label {
+            font-weight: 700;
+            color: #E63946;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        ul.todo-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        ul.todo-list>li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            color: #334155;
+        }
+
+        ul.todo-list>li::before {
+            content: "📍";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.1em;
+        }
+
+        ul.todo-list ul {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+
+        ul.todo-list ul li {
+            padding-left: 0;
+            margin-bottom: 4px;
+            font-size: 0.95em;
+            color: #475569;
+        }
+
+        ul.todo-list ul li::before {
+            content: none;
+        }
+
+        .conference-item::before {
+            content: "🎙️" !important;
+        }
+
+        .flight-item::before {
+            content: "✈️" !important;
+        }
+
+        .transit-item::before {
+            content: "🚆" !important;
+        }
+
+        .coffee-item::before {
+            content: "☕" !important;
+        }
+
+        .walk-item::before {
+            content: "🚶" !important;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            color: #856404;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+
+        .food-section {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
+            border-top: 6px solid #E63946;
+            padding: 30px;
+        }
+
+        .food-section h2 {
+            margin-top: 0;
+            color: #1D3557;
+            border-bottom: 2px solid #f1f5f8;
+            padding-bottom: 10px;
+        }
+
+        .food-item {
+            margin-bottom: 20px;
+        }
+
+        .food-item h3 {
+            color: #E63946;
+            margin: 0 0 5px 0;
+            font-size: 1.2em;
+        }
+
+        .food-where {
+            font-style: italic;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>CVPR 2026 Itinerary</h1>
+        <div class="subtitle">The Mile High City • Denver, Colorado</div>
+    </header>
+
+    <img src="https://andyj1.github.io/res/denver_map.png" alt="CVPR 2026 Route Map" class="hero-image">
+
+    <div class="hotel-box">
+        <h3>🏨 Basecamp: Staybridge Suites Denver Downtown</h3>
+        <p><strong>Address:</strong> 333 W Colfax Ave. <em>(Just blocks from the Convention Center!)</em></p>
+        <strong>Right Outside Your Door:</strong>
+        <ul>
+            <li><strong>Civic Center Park:</strong> A massive green space connecting the downtown area to the Capitol.
+                Great for a morning stretch.</li>
+            <li><strong>Denver Mint:</strong> Literally around the corner. (Requires advanced online booking for free
+                tours).</li>
+            <li><strong>Denver Art Museum:</strong> Only a 10-minute walk south.</li>
+            <li><strong>Coffee:</strong> <em>Vibe Coffee and Wine</em> is highly walkable for a quick morning brew or
+                evening wind-down.</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3>🚆 Transit Guide for First-Timers</h3>
+        <strong>A-Line (Airport to Union Station):</strong>
+        <ul>
+            <li>Buy a ticket at the vending machines before boarding ($10.50 Airport Day Pass). Valid for unlimited
+                rides that day.</li>
+            <li>Trains run every 15 minutes during the day. The ride to downtown takes 37 minutes.</li>
+        </ul>
+        <strong>Free 16th Street MallRide:</strong>
+        <ul>
+            <li>Hop-on, hop-off free shuttle that runs the length of 16th Street. No ticket required.</li>
+            <li>Stops at every block. Great for getting from Union Station toward the State Capitol.</li>
+        </ul>
+        <strong>RTD Light Rail (General):</strong>
+        <ul>
+            <li>Buy a ticket at a TVM on the platform. Credit cards accepted.</li>
+            <li><strong>Important:</strong> If you use a physical ticket, you MUST validate it at the red ticket
+                validator machine on the platform <em>before</em> boarding. Valid for 3 hours.</li>
+        </ul>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <h2>June 2 (Arrival Day)</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Morning/Afternoon</div>
+            <ul class="todo-list">
+                <li class="flight-item">Depart ICN T2 (21:00) ➔ Arrive SEA (14:55) | <strong>OZ272</strong></li>
+                <li class="flight-item">Transit in Seattle (SEA).</li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Evening</div>
+            <ul class="todo-list">
+                <li class="flight-item">Depart SEA (17:59) ➔ Arrive DEN (Denver International Airport at 21:51) |
+                    <strong>AS602</strong></li>
+                <li class="transit-item">Take the RTD A-Line to Union Station, then a quick Uber/Lyft to
+                    <strong>Staybridge Suites</strong> to check in.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <h2>June 3 (Workshop Day 1)</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Morning</div>
+            <ul class="todo-list">
+                <li class="coffee-item">Grab morning coffee nearby at <strong>Vibe Coffee and Wine</strong>.</li>
+                <li class="walk-item">Take a scenic morning stroll through the adjacent <strong>Civic Center
+                        Park</strong>.</li>
+                <li>Stroll down the 16th Street Mall (take the free MallRide shuttle if needed).</li>
+                <li>Visit the Colorado State Capitol and stand on the 13th step.</li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Afternoon</div>
+            <ul class="todo-list">
+                <li class="conference-item">Walk to the <strong>Colorado Convention Center</strong> for the
+                    <strong>DataMFM Workshop</strong>.</li>
+                <li class="conference-item">Attend sessions from <span class="highlight">1:00 PM – 6:00 PM</span>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <h2>June 4 (Workshop Day 2 - Sightseeing)</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Morning</div>
+            <ul class="todo-list">
+                <li class="walk-item">Walk 10 mins south from the hotel to the <strong>Denver Art Museum</strong>.</li>
+                <li><em>Action:</em> Ensure museum tickets are booked online in advance.</li>
+                <li>Explore the Golden Triangle neighborhood around the museum.</li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Afternoon</div>
+            <ul class="todo-list">
+                <li>Take an Uber to <strong>RiNo (River North Art District)</strong>.</li>
+                <li>Photograph the famous vibrant street art murals.</li>
+                <li>Visit the Denver Central Market for a snack or coffee.</li>
+                <li>Check out a local brewery in the area, like <strong>Great Divide Brewery</strong>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <h2>June 5 (Main Conference Day 1)</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Morning</div>
+            <ul class="todo-list">
+                <li class="coffee-item">Stop by <strong>Little Finch</strong> near the Convention Center for great
+                    coffee and pastries.</li>
+                <li class="conference-item">Attend <strong>Oral Session 1</strong> <span class="highlight">9:15 AM –
+                        10:30 AM</span>
+                    <ul>
+                        <li>1A: Multimodal Vision | 1B: Visual Security | 1C: Efficient Reasoning | 1D: Computational
+                            Imaging</li>
+                    </ul>
+                </li>
+                <li class="conference-item">Browse industry booths and network.</li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Afternoon</div>
+            <ul class="todo-list">
+                <li class="conference-item">Attend <strong>Oral Session 2</strong> <span class="highlight">1:00 PM –
+                        2:15 PM</span>
+                    <ul>
+                        <li>2A: 3D Reconstruction | 2B: Materials & Lighting | 2C: Gaussian Splatting | 2D:
+                            Spatio-Temporal</li>
+                    </ul>
+                </li>
+                <li class="conference-item">Attend main conference poster sessions (ExHall A & F) and expo floor.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="day-card" style="border-left-color: #F4A261;">
+        <div class="day-header">
+            <h2>June 6 (Main Conference Day 2) - Presentation</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Morning</div>
+            <ul class="todo-list">
+                <li class="conference-item">Attend <strong>Oral Session 3</strong> <span class="highlight">9:00 AM –
+                        10:15 AM</span>
+                    <ul>
+                        <li>3A: Diffusion Modeling | 3B: Spatial Understanding | 3C: Generative Editing | 3D: Multimodal
+                        </li>
+                    </ul>
+                </li>
+                <li class="conference-item"><strong>Poster Session 3:</strong> Present <em>Event6D</em> | <span
+                        class="highlight">11:45 AM – 1:45 PM</span> (ExHall F, Board 80)</li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Afternoon</div>
+            <ul class="todo-list">
+                <li class="conference-item">Attend <strong>Oral Session 4</strong> <span class="highlight">2:00 PM –
+                        3:15 PM</span></li>
+                <li class="conference-item"><strong>Poster Session 4:</strong> Present <em>Dataset Distillation</em> &
+                    <em>LiDAR Segmentation</em> | <span class="highlight">4:45 PM – 6:45 PM</span> (ExHall A, Boards 153
+                    & 258)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <h2>June 7 (Main Conference Day 3 - Sightseeing)</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Morning</div>
+            <ul class="todo-list">
+                <li>Uber (30-min) to <strong>Red Rocks Park and Amphitheatre</strong>.</li>
+                <li>Hike the trails, climb the amphitheater steps, and visit the Music Museum.</li>
+                <li>Head to Golden, Colorado (near Red Rocks) to walk down the historic main street.</li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">Afternoon</div>
+            <ul class="todo-list">
+                <li>Return to Denver and explore <strong>Larimer Square</strong>.</li>
+                <li>Grab dinner downtown to celebrate the end of the conference.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="day-card">
+        <div class="day-header">
+            <h2>June 8 - 10 (Return Trip)</h2>
+        </div>
+        <div class="time-block">
+            <div class="time-label">June 8</div>
+            <ul class="todo-list">
+                <li>Free morning for final Denver souvenirs.</li>
+                <li class="flight-item">Depart DEN (19:10) ➔ Arrive SEA (21:10) | <strong>UA360</strong></li>
+            </ul>
+        </div>
+        <div class="time-block">
+            <div class="time-label">June 9 - 10</div>
+            <ul class="todo-list">
+                <li class="flight-item">Depart SEA (00:55, June 9) ➔ Arrive ICN (05:15, June 10) |
+                    <strong>OZ271</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="food-section">
+        <h2>🍽️ Denver Dining Guide</h2>
+        <div class="food-item">
+            <h3>Colorado Green Chile & Breakfast</h3>
+            <p class="food-where"><strong>Sam's No. 3</strong> (Very close to your hotel!) or <strong>D'Corazon Mexican
+                    Restaurant</strong>.</p>
+        </div>
+        <div class="food-item">
+            <h3>Bison Steaks</h3>
+            <p class="food-where"><strong>Buckhorn Exchange</strong> (Reservations strictly required in advance).</p>
+        </div>
+        <div class="food-item">
+            <h3>Celebration Dinners & Drinks</h3>
+            <p class="food-where"><strong>Guard and Grace</strong> (Spectacular modern steakhouse; Reservations
+                absolutely required).</p>
+            <p class="food-where"><strong>54thirty Rooftop</strong> (Denver's highest open-air rooftop bar; great views,
+                walk-in only).</p>
+        </div>
+        <div class="food-item">
+            <h3>Local Craft Beer</h3>
+            <p class="food-where"><strong>Denver Beer Co.</strong> or <strong>Great Divide Brewery</strong>.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
