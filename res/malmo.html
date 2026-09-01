@@ -1,94 +1,209 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECCV 2026 Itinerary - Malmö & Copenhagen</title>
+    <title>ECCV 2026 Itinerary — Malmö, Lund & Copenhagen</title>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
     <style>
-        /* Swedish/Scandinavian Minimalist Design Palette
-           Swedish Blue: #006AA7
-           Swedish Yellow: #FECB00
-           Light Background: #F4F7F6
-           Dark Text: #2C3E50
-        */
+        html {
+            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+        }
+
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: inherit;
             line-height: 1.6;
             color: #2C3E50;
             background-color: #F4F7F6;
-            max-width: 900px;
-            margin: 0 auto;
+            margin: 0;
             padding: 0;
+            min-height: 100dvh;
+        }
+
+        :root {
+            --header-h: 118px;
+            --nav-h: 46px;
+            --chrome-h: calc(var(--header-h) + var(--nav-h));
         }
 
         header {
             text-align: center;
             background-color: #006AA7;
             color: #FFFFFF;
-            padding: 50px 20px 40px;
+            padding: 44px 20px 36px;
             border-bottom: 8px solid #FECB00;
-            margin-bottom: 40px;
+            margin-bottom: 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             margin: 0;
-            font-size: 2.8em;
+            font-size: 2.4em;
             font-weight: 300;
             letter-spacing: 1.5px;
         }
 
         .subtitle {
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: #E6F0FA;
             font-weight: 400;
             margin-top: 10px;
-            letter-spacing: 1px;
+        }
+
+        nav.quick-nav {
+            background: #fff;
+            border-bottom: 1px solid #DCE6EE;
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            justify-content: center;
+            font-size: 0.88em;
+        }
+
+        nav.quick-nav a {
+            color: #006AA7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav.quick-nav a:hover {
+            text-decoration: underline;
+        }
+
+        .dual-panel {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .panel {
+            padding: 20px 18px 40px;
+            min-width: 0;
+        }
+
+        .panel-head {
+            display: none;
+        }
+
+        .panel-reference {
+            order: 1;
+        }
+
+        .panel-schedule {
+            order: 2;
+        }
+
+        .map-wrap {
+            margin-bottom: 28px;
         }
 
         .container {
-            padding: 0 20px 40px;
+            padding: 24px 20px 48px;
         }
 
         #map {
-            height: 450px;
+            height: 420px;
             width: 100%;
             border-radius: 8px;
-            margin-bottom: 35px;
+            margin-bottom: 28px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border: 2px solid #DCE6EE;
             z-index: 1;
-            /* Keeps Leaflet controls from overlapping header if sticky */
+        }
+
+        .info-panel {
+            background-color: #FFF9E6;
+            border-left: 5px solid #FECB00;
+            padding: 20px;
+            margin-bottom: 24px;
+            border-radius: 4px;
+        }
+
+        .info-panel h3 {
+            margin-top: 0;
+            color: #B8860B;
+        }
+
+        .logistics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .logistics-card {
+            background: #fff;
+            border-radius: 4px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            border-top: 4px solid #006AA7;
+        }
+
+        .logistics-card h4 {
+            margin: 0 0 8px;
+            color: #006AA7;
+            font-size: 1em;
+        }
+
+        .logistics-card p,
+        .logistics-card ul {
+            margin: 0;
+            font-size: 0.93em;
+            color: #34495E;
+        }
+
+        .logistics-card ul {
+            padding-left: 18px;
+            margin-top: 6px;
+        }
+
+        .section-title {
+            color: #006AA7;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 36px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #FECB00;
         }
 
         .day-card {
             background-color: #FFFFFF;
             border-radius: 4px;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
-            margin-bottom: 35px;
+            margin-bottom: 28px;
             overflow: hidden;
             border-left: 6px solid #006AA7;
         }
 
+        .day-card.highlight-day {
+            border-left-color: #FECB00;
+        }
+
         .day-header {
             background-color: #EBF3F8;
-            padding: 15px 25px;
+            padding: 14px 22px;
             border-bottom: 1px solid #DCE6EE;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .day-header h2 {
             margin: 0;
             color: #006AA7;
-            font-size: 1.4em;
+            font-size: 1.25em;
             font-weight: 600;
         }
 
@@ -97,12 +212,12 @@
             color: #2C3E50;
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             font-weight: bold;
         }
 
         .time-block {
-            padding: 20px 25px;
+            padding: 18px 22px;
         }
 
         .time-block:not(:last-child) {
@@ -112,11 +227,10 @@
         .time-label {
             font-weight: 700;
             color: #7F8C8D;
-            font-size: 0.9em;
+            font-size: 0.85em;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 12px;
-            display: inline-block;
+            margin-bottom: 10px;
         }
 
         ul.todo-list {
@@ -150,7 +264,7 @@
         ul.todo-list ul li {
             padding-left: 15px;
             margin-bottom: 6px;
-            font-size: 0.95em;
+            font-size: 0.93em;
             color: #5D6D7E;
             position: relative;
         }
@@ -170,46 +284,566 @@
             border-radius: 3px;
         }
 
+        .conflict {
+            background-color: #FDEDEC;
+            color: #C0392B;
+            font-size: 0.88em;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
         .badge {
             display: inline-block;
             padding: 3px 8px;
             border-radius: 4px;
-            font-size: 0.8em;
+            font-size: 0.78em;
             font-weight: bold;
-            margin-right: 8px;
+            margin-right: 6px;
+            vertical-align: middle;
         }
 
-        .badge-conf {
-            background-color: #006AA7;
-            color: white;
+        .badge-conf { background-color: #006AA7; color: white; }
+        .badge-travel { background-color: #95A5A6; color: white; }
+        .badge-sight { background-color: #27AE60; color: white; }
+        .badge-food { background-color: #E67E22; color: white; }
+        .badge-light { background-color: #1ABC9C; color: white; }
+        .badge-heavy { background-color: #8E44AD; color: white; }
+        .badge-poster { background-color: #C0392B; color: white; }
+        .badge-fixed { background-color: #922B21; color: white; }
+        .badge-open { background-color: #2ECC71; color: white; }
+
+        em.en {
+            font-style: normal;
+            color: #006AA7;
+            font-weight: 400;
+            font-size: 0.92em;
         }
 
-        .badge-travel {
-            background-color: #95A5A6;
-            color: white;
+        em:not(.en) {
+            font-style: italic;
+            color: inherit;
         }
 
-        .badge-sight {
-            background-color: #27AE60;
-            color: white;
+        .diagram-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+            margin: 0;
         }
 
-        .badge-food {
-            background-color: #E67E22;
-            color: white;
+        .diagram-table th,
+        .diagram-table td {
+            border: 1px solid #DCE6EE;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
         }
 
-        .info-panel {
-            background-color: #FFF9E6;
-            border-left: 5px solid #FECB00;
-            padding: 20px;
-            margin-bottom: 30px;
+        .diagram-table th {
+            background: #EBF3F8;
+            color: #006AA7;
+            font-weight: 600;
+        }
+
+        .diagram-table .cell-fixed {
+            background: #FDEDEC;
+            color: #922B21;
+            font-weight: 600;
+        }
+
+        .diagram-table .cell-open {
+            background: #EAFAF1;
+            color: #1E8449;
+        }
+
+        .diagram-table .cell-poster {
+            background: #C0392B;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .flow-steps,
+        ol.flow-steps {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: stretch;
+        }
+
+        .flow-steps li {
+            flex: 1 1 120px;
+            background: #EBF3F8;
+            border: 1px solid #DCE6EE;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 0.88em;
+            position: relative;
+        }
+
+        .flow-steps li strong {
+            display: block;
+            color: #006AA7;
+            margin-bottom: 2px;
+        }
+
+        .flow-steps li span {
+            color: #5D6D7E;
+            font-size: 0.9em;
+        }
+
+        .venue-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.9em;
+        }
+
+        .venue-list li {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #F0F4F8;
+        }
+
+        .venue-list li:last-child { border-bottom: none; }
+
+        .venue-list .walk {
+            color: #7F8C8D;
+            white-space: nowrap;
+            font-size: 0.88em;
+        }
+
+        .visual-box {
+            background: #fff;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+            border: 1px solid #DCE6EE;
+        }
+
+        .visual-box h4 {
+            margin: 0 0 10px;
+            color: #006AA7;
+            font-size: 0.93em;
+            font-weight: 600;
+        }
+
+        .legend-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-size: 0.88em;
+        }
+
+        .constraint-panel {
+            background: linear-gradient(135deg, #EBF3F8 0%, #fff 100%);
+            border: 1px solid #DCE6EE;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 24px;
+        }
+
+        .constraint-panel h3 {
+            margin: 0 0 10px;
+            color: #006AA7;
+            font-size: 1.05em;
+        }
+
+        .poster-callout {
+            background: #FDEDEC;
+            border: 2px solid #C0392B;
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin-bottom: 24px;
+        }
+
+        .poster-callout h3 {
+            margin: 0 0 6px;
+            color: #C0392B;
+            font-size: 1.05em;
+        }
+
+        .cafe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .cafe-card {
+            background: #fff;
             border-radius: 4px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid #D35400;
+            font-size: 0.9em;
         }
 
-        .info-panel h3 {
-            margin-top: 0;
-            color: #B8860B;
+        .cafe-card strong { color: #2C3E50; }
+        .cafe-card .meta { color: #7F8C8D; font-size: 0.85em; margin-top: 4px; }
+
+        .tip-panel {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px 22px;
+            margin-top: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+            border-left: 6px solid #E67E22;
+        }
+
+        .tip-panel h3 { margin-top: 0; color: #D35400; }
+        .tip-panel h4 { color: #006AA7; margin: 16px 0 8px; font-size: 0.98em; }
+        .tip-panel ul { margin: 0; padding-left: 20px; font-size: 0.93em; }
+        .tip-panel li { margin-bottom: 6px; }
+
+        .open-window {
+            background: #EAFAF1;
+            border-left: 3px solid #27AE60;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-size: 0.9em;
+            border-radius: 0 4px 4px 0;
+        }
+
+        [id] {
+            scroll-margin-top: 56px;
+        }
+
+        nav.quick-nav .nav-divider {
+            color: #DCE6EE;
+            user-select: none;
+        }
+
+        a {
+            color: #006AA7;
+        }
+
+        table.transit {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+            margin: 12px 0;
+            background: #fff;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        table.transit th,
+        table.transit td {
+            border: 1px solid #DCE6EE;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        table.transit th {
+            background: #EBF3F8;
+            color: #006AA7;
+            font-weight: 600;
+        }
+
+        table.transit tr:nth-child(even) {
+            background: #FAFCFD;
+        }
+
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .food-card {
+            background: #fff;
+            border-radius: 4px;
+            padding: 14px 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            border-left: 4px solid #E67E22;
+        }
+
+        .food-card h4 {
+            margin: 0 0 6px;
+            color: #D35400;
+            font-size: 0.98em;
+        }
+
+        .food-card .area {
+            font-size: 0.8em;
+            color: #7F8C8D;
+            margin-bottom: 6px;
+        }
+
+        .food-card p {
+            margin: 0;
+            font-size: 0.9em;
+            color: #34495E;
+        }
+
+        .sight-tier {
+            background: #fff;
+            border-radius: 4px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .sight-tier h4 {
+            margin: 0 0 10px;
+            font-size: 1em;
+        }
+
+        .sight-tier ul {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 0.93em;
+            color: #34495E;
+        }
+
+        .sight-tier li {
+            margin-bottom: 6px;
+        }
+
+        .footnote {
+            font-size: 0.82em;
+            color: #7F8C8D;
+            margin-top: 8px;
+        }
+
+        .workshop-link {
+            font-size: 0.88em;
+        }
+
+        .flight-panel {
+            background: #fff;
+            border-radius: 4px;
+            padding: 20px 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+            border-left: 6px solid #006AA7;
+        }
+
+        .flight-panel h3 {
+            margin: 0 0 14px;
+            color: #006AA7;
+            font-size: 1.15em;
+        }
+
+        table.flights {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+            margin-bottom: 16px;
+        }
+
+        table.flights th,
+        table.flights td {
+            border: 1px solid #DCE6EE;
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        table.flights th {
+            background: #EBF3F8;
+            color: #006AA7;
+        }
+
+        table.flights tr:nth-child(even) {
+            background: #FAFCFD;
+        }
+
+        .route-box {
+            background: #EBF3F8;
+            border-radius: 4px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+
+        .route-box h4 {
+            margin: 0 0 8px;
+            color: #006AA7;
+            font-size: 0.98em;
+        }
+
+        .route-box p,
+        .route-box ol {
+            margin: 0 0 8px;
+            font-size: 0.9em;
+            color: #34495E;
+        }
+
+        .route-box ol {
+            padding-left: 20px;
+        }
+
+        .route-btn {
+            display: inline-block;
+            background: #006AA7;
+            color: #fff !important;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-size: 0.88em;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .route-btn:hover {
+            background: #005a8f;
+        }
+
+        .route-btn.secondary {
+            background: #5D6D7E;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            table.transit { font-size: 0.8em; }
+            .panel { padding: 16px 12px 32px; }
+            header { padding: 32px 16px 28px; }
+            :root { --header-h: 100px; }
+        }
+
+        @media (min-width: 1024px) {
+            header {
+                padding: 28px 32px 24px;
+            }
+
+            h1 { font-size: 2em; }
+
+            nav.quick-nav {
+                padding: 10px 32px;
+                justify-content: flex-start;
+                gap: 10px 18px;
+            }
+
+            .dual-panel {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr;
+                height: calc(100dvh - var(--chrome-h));
+                max-height: calc(100dvh - var(--chrome-h));
+            }
+
+            .panel-reference,
+            .panel-schedule {
+                order: unset;
+                overflow-y: auto;
+                overflow-x: hidden;
+                overscroll-behavior: contain;
+                height: 100%;
+                padding: 0 0 32px;
+            }
+
+            .panel-schedule {
+                grid-column: 1;
+                grid-row: 1;
+                border-right: 2px solid #DCE6EE;
+                background: #FAFCFD;
+            }
+
+            .panel-reference {
+                grid-column: 2;
+                grid-row: 1;
+                background: #F4F7F6;
+            }
+
+            .panel-head {
+                display: block;
+                position: sticky;
+                top: 0;
+                z-index: 20;
+                padding: 14px 24px 12px;
+                margin-bottom: 4px;
+                border-bottom: 2px solid #FECB00;
+                background: inherit;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            }
+
+            .panel-schedule .panel-head {
+                background: #FAFCFD;
+            }
+
+            .panel-reference .panel-head {
+                background: #F4F7F6;
+            }
+
+            .panel-title {
+                display: block;
+                font-size: 1.05em;
+                font-weight: 700;
+                color: #006AA7;
+            }
+
+            .panel-sub {
+                display: block;
+                font-size: 0.82em;
+                color: #7F8C8D;
+                margin-top: 2px;
+            }
+
+            .panel > :not(.panel-head) {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .panel .section-title:first-of-type {
+                margin-top: 20px;
+            }
+
+            .map-wrap {
+                position: sticky;
+                top: 62px;
+                z-index: 15;
+                background: #F4F7F6;
+                padding-top: 4px;
+                padding-bottom: 12px;
+                margin-bottom: 16px;
+            }
+
+            #map {
+                height: min(38vh, 400px);
+                margin-bottom: 0;
+            }
+
+            .logistics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .food-grid,
+            .cafe-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav.quick-nav .nav-divider {
+                margin: 0 4px;
+            }
+
+            nav.quick-nav::before {
+                content: "← Schedule · Reference →";
+                font-size: 0.75em;
+                color: #95A5A6;
+                margin-right: auto;
+                font-weight: 500;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .dual-panel {
+                grid-template-columns: 1.05fr 0.95fr;
+            }
+
+            #map {
+                height: min(42vh, 440px);
+            }
+        }
+
+        .leaflet-container,
+        .leaflet-popup-content {
+            font-family: inherit;
         }
     </style>
 </head>
@@ -218,248 +852,714 @@
 
     <header>
         <h1>ECCV 2026 Itinerary</h1>
-        <div class="subtitle">Malmö, Sweden & Copenhagen, Denmark</div>
+        <div class="subtitle">Malmö · Lund · Copenhagen &mdash; Sep 7–13, 2026</div>
     </header>
 
-    <div class="container">
+    <nav class="quick-nav">
+        <a href="#logistics">Logistics</a>
+        <a href="#flights">Flights</a>
+        <a href="#transit">Trains</a>
+        <a href="#map-section">Map</a>
+        <span class="nav-divider" aria-hidden="true">|</span>
+        <a href="#poster">Poster</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#food">Food &amp; Cafés</a>
+        <a href="#sightseeing">Sightseeing</a>
+        <a href="#lund">Lund</a>
+        <a href="#ikea">IKEA</a>
+        <a href="#tipping">Tipping</a>
+    </nav>
 
+    <div class="dual-panel">
+
+        <aside class="panel panel-reference" aria-label="Logistics and map">
+            <div class="panel-head">
+                <span class="panel-title">📍 Logistik &amp; karta / Logistics &amp; map</span>
+                <span class="panel-sub">Flights · trains · venues · interactive map</span>
+            </div>
+
+        <div class="info-panel" id="logistics">
+            <h3>Välkommen! <em class="en">(Welcome!)</em></h3>
+            <p><strong>Konferens / Conference:</strong> <a href="https://eccv.ecva.net/virtual/2026/calendar">ECCV 2026 kalender / calendar</a>
+                &middot; Huvudsessions / main sessions at <span class="bilingual"><strong>Malmö Arena</strong> <em class="en">(sports &amp; events arena)</em></span>;
+                workshops &amp; expo at <span class="bilingual"><strong>Malmömässan</strong> <em class="en">(convention centre)</em></span>
+                — both in <span class="bilingual"><strong>Hyllie</strong> <em class="en">(district)</em></span>, ~5 min walk apart.</p>
+            <p><strong>Hotell / Hotel:</strong> <a href="https://www.strawberryhotels.com/hotels/sweden/malmo/quality-hotel-view/">Quality Hotel View</a>,
+                Hyllie Stationstorg 29, 215 32 Malmö — connected to <span class="bilingual"><strong>Malmö Hyllie</strong> <em class="en">(train station)</em></span>;
+                ~5 min walk to arena; <span class="bilingual"><strong>Emporia</strong> <em class="en">(shopping centre)</em></span> next door.</p>
+            <p><strong>Flygplats / Airport:</strong> Arrive &amp; depart via <span class="bilingual"><strong>Københavns Lufthavn / Copenhagen Airport (CPH / Kastrup)</strong></span>.
+                Take <span class="bilingual"><strong>Öresundståg</strong> <em class="en">(Öresund regional train)</em></span> from the basement station to Malmö Hyllie
+                (~12 min, every 15–20 min, 24/7). No city change at the border.</p>
+            <p><strong>Biljetter / Tickets:</strong> <a href="https://www.oresundstag.se/en/">oresundstag.se</a> (CPH↔Malmö)
+                or <span class="bilingual"><strong>Skånetrafiken</strong> <em class="en">(Skåne transit app)</em></span> for local Malmö/Lund/bus.</p>
+        </div>
+
+        <div class="constraint-panel">
+            <h3>Schedule legend — fixed vs. travel windows</h3>
+            <div class="legend-row">
+                <span class="badge badge-fixed">Fixed</span> Workshops, keynotes &amp; your poster — do not skip
+                <span class="badge badge-open">Open</span> Sightseeing, Lund, IKEA, Copenhagen — flexible
+            </div>
+            <div class="visual-box">
+                <h4>Hyllie — all on foot from hotel</h4>
+                <ul class="venue-list">
+                    <li><span><strong>Quality Hotel View</strong> <em class="en">(your base)</em></span><span class="walk">0 min</span></li>
+                    <li><span><strong>Malmö Hyllie</strong> <em class="en">(train station)</em></span><span class="walk">2 min · elevator to lobby</span></li>
+                    <li><span><strong>Emporia</strong> <em class="en">(mall)</em></span><span class="walk">3 min</span></li>
+                    <li><span><strong>Malmö Arena</strong> <em class="en">(keynotes, posters)</em></span><span class="walk">5 min</span></li>
+                    <li><span><strong>Malmömässan</strong> <em class="en">(workshops)</em></span><span class="walk">5 min</span></li>
+                    <li><span><strong>CPH Airport</strong> <em class="en">(via Öresundståg)</em></span><span class="walk">12 min train</span></li>
+                </ul>
+            </div>
+            <div class="visual-box">
+                <h4>Arrival Mon Sep 7 — CPH → hotel</h4>
+                <ol class="flow-steps" style="display:block;">
+                    <li style="margin-bottom:6px;"><strong>19:00</strong> — Land CPH · passport &amp; bags · follow <em>Train / Tåg</em> signs down</li>
+                    <li style="margin-bottom:6px;"><strong>~20:04</strong> — Öresundståg to <strong>Malmö Hyllie</strong> <em class="en">(not Malmö C)</em> · 12 min</li>
+                    <li><strong>~20:20</strong> — Elevator from platform → Quality Hotel View lobby</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="logistics-grid">
+            <div class="logistics-card">
+                <h4>CPH ↔ Quality Hotel View</h4>
+                <ul>
+                    <li>Öresundståg: CPH Airport stn → Malmö Hyllie (~12 min)</li>
+                    <li>Hotel lobby via elevator from Hyllie station</li>
+                    <li><a href="#flights">Full flight &amp; route details ↓</a></li>
+                </ul>
+            </div>
+            <div class="logistics-card">
+                <h4>Your workshop rooms</h4>
+                <ul>
+                    <li><strong>LIMIT</strong> — Malmömässan C1</li>
+                    <li><strong>MUCG</strong> — Malmömässan A</li>
+                    <li><strong>Beyond Euclidean</strong> — Malmö Arena Hotel, Boulevarden 3</li>
+                    <li><strong>Gen4AVC</strong> — <span class="bilingual"><strong>Malmömässan</strong> <em class="en">(convention centre / exhibit hall)</em></span></li>
+                    <li><strong>CDEL</strong> — Malmö Arena Panorama 2</li>
+                    <li><strong>AVGenL</strong> — Malmömässan K1</li>
+                </ul>
+            </div>
+            <div class="logistics-card">
+                <h4>Useful links</h4>
+                <ul>
+                    <li><a href="https://eccv.ecva.net/Conferences/2026/Venues">Venue &amp; transport guide</a></li>
+                    <li><a href="https://eccv.ecva.net/Conferences/2026/Workshops">All workshops</a></li>
+                    <li><a href="https://eccv.ecva.net/virtual/2026/events/workshop">Virtual workshop list</a></li>
+                    <li><a href="https://www.oresundstag.se/reseinfo/planerade-banarbeten">Track work alerts</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="flight-panel" id="flights">
+            <h3>✈️ Flights &amp; ground transport (China Eastern)</h3>
+
+            <p style="margin:0 0 12px; font-size:0.93em; color:#34495E;">All times local. Long-haul segments on <strong>MU0707 / MU0708</strong>; connections via Shanghai Pudong (PVG, Terminal 1).</p>
+
+            <table class="flights">
+                <thead>
+                    <tr><th colspan="5">Outbound — Mon, Sep 7, 2026 (arrive Malmö evening)</th></tr>
+                    <tr><th>Flight</th><th>Route</th><th>Depart</th><th>Arrive</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MU5052</strong></td>
+                        <td>ICN → PVG</td>
+                        <td>08:55</td>
+                        <td>10:00</td>
+                        <td>China Eastern, PVG T1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MU0707</strong></td>
+                        <td>PVG → CPH</td>
+                        <td>13:15</td>
+                        <td><strong>19:00</strong></td>
+                        <td>Land Copenhagen Airport</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="flights">
+                <thead>
+                    <tr><th colspan="5">Return — Sun, Sep 13 – Mon, Sep 14, 2026</th></tr>
+                    <tr><th>Flight</th><th>Route</th><th>Depart</th><th>Arrive</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MU0708</strong></td>
+                        <td>CPH → PVG</td>
+                        <td><strong>21:00</strong> Sep 13</td>
+                        <td>13:15 Sep 14</td>
+                        <td>Be at CPH ~18:00</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MU8603</strong></td>
+                        <td>PVG → ICN</td>
+                        <td>14:35 Sep 14</td>
+                        <td>17:25 Sep 14</td>
+                        <td>PVG T1 connection</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="route-box">
+                <h4>🛬 Arrival — CPH Airport → Quality Hotel View (Mon Sep 7)</h4>
+                <p><strong>Suggested timeline after MU0707 lands 19:00:</strong></p>
+                <ol>
+                    <li><strong>19:00–19:45</strong> — Passport control, baggage, follow <em>Train / Tåg</em> signs to the basement station (same building as Terminal 3).</li>
+                    <li><strong>~19:49 or 20:04</strong> — Board <strong>Öresundståg</strong> toward Malmö / Lund / Göteborg (runs every ~15 min).</li>
+                    <li><strong>~12 min</strong> — Ride to <strong>Malmö Hyllie</strong> (do <em>not</em> get off at Malmö Central).</li>
+                    <li><strong>~20:15–20:20</strong> — Elevator from platform directly into <strong>Quality Hotel View</strong> lobby; check in.</li>
+                </ol>
+                <p class="footnote">Buy ticket at CPH station machines, Öresundståg app, or <a href="https://www.oresundstag.se/en/">oresundstag.se</a> (~DKK 150 / SEK 165). Keep passport/ID for border checks.</p>
+                <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&destination=Quality+Hotel+View,+Hyllie+Stationstorg+29,+215+32+Malm%C3%B6,+Sweden&travelmode=transit&departure_time=1788804900" target="_blank" rel="noopener">Open Google Maps — CPH → Hotel (transit, ~20:15 Sep 7)</a>
+            </div>
+
+            <div class="route-box">
+                <h4>🛫 Departure — Quality Hotel View → CPH Airport (Sun Sep 13)</h4>
+                <p><strong>MU0708 departs 21:00</strong> — aim to be at CPH check-in by <strong>18:00</strong> (3 h before long-haul).</p>
+                <ol>
+                    <li><strong>~17:30</strong> — Check out, walk to <strong>Malmö Hyllie</strong> station (2 min from hotel).</li>
+                    <li><strong>~17:34–17:49</strong> — Öresundståg toward <strong>Copenhagen Airport / Kastrup</strong> (~12 min, every ~15 min).</li>
+                    <li><strong>~17:50–18:05</strong> — Arrive CPH station; follow signs up to Terminal 3 departures for China Eastern.</li>
+                </ol>
+                <p class="footnote">If you spend the day in Copenhagen (checkout morning, luggage at hotel or station lockers), use the alternate route from <strong>København H</strong> — Metro M2 or Öresundståg to CPH (~15 min). Leave the city by <strong>17:15</strong>.</p>
+                <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Quality+Hotel+View,+Hyllie+Stationstorg+29,+215+32+Malm%C3%B6,+Sweden&destination=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&travelmode=transit&departure_time=1789313400" target="_blank" rel="noopener">Open Google Maps — Hotel → CPH (transit, ~17:30 Sep 13)</a>
+                <a class="route-btn secondary" href="https://www.google.com/maps/dir/?api=1&origin=Copenhagen+Central+Station,+Copenhagen,+Denmark&destination=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&travelmode=transit&departure_time=1789311600" target="_blank" rel="noopener" style="margin-left:8px;">Alternate: København H → CPH (~17:00)</a>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="map-section">Map / Karta</h2>
+        <div class="map-wrap">
+            <div id="map"></div>
+        </div>
+
+        <h2 class="section-title" id="transit">Train &amp; bus reference</h2>
+        <p class="footnote">Sample weekday departures for ECCV week (29 Jun–14 Aug 2026 timetable period). Always verify
+            live times in the Skånetrafiken or Öresundståg app before travel. Night services are less frequent.</p>
+
+        <p><strong>CPH Airport (Kastrup) → Malmö Hyllie</strong> — Öresundståg, ~12 min, ~DKK 150 / SEK 165 one-way</p>
+        <table class="transit">
+            <thead>
+                <tr><th>Depart CPH</th><th>Arrive Hyllie</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>07:04</td><td>07:16</td><td>Early workshop day</td></tr>
+                <tr><td>07:19</td><td>07:31</td><td></td></tr>
+                <tr><td>07:34</td><td>07:46</td><td></td></tr>
+                <tr><td>07:49</td><td>08:01</td><td></td></tr>
+                <tr><td>08:04</td><td>08:16</td><td></td></tr>
+                <tr><td>08:19</td><td>08:31</td><td></td></tr>
+                <tr><td>08:34</td><td>08:46</td><td></td></tr>
+                <tr><td>…every ~15 min…</td><td></td><td>Until ~23:30</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Malmö Hyllie → Malmö Central</strong> — Pågatåg / Öresundståg, ~6 min, included in Skåne zone ticket</p>
+        <table class="transit">
+            <thead>
+                <tr><th>Depart Hyllie</th><th>Arrive Malmö C</th><th>Operator</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>08:02</td><td>08:08</td><td>Pågatåg</td></tr>
+                <tr><td>08:12</td><td>08:18</td><td>Öresundståg</td></tr>
+                <tr><td>08:22</td><td>08:28</td><td>Pågatåg</td></tr>
+                <tr><td>08:32</td><td>08:38</td><td>Öresundståg</td></tr>
+                <tr><td>08:42</td><td>08:48</td><td>Pågatåg</td></tr>
+                <tr><td>…every ~10 min…</td><td></td><td></td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Malmö Central → Lund Central</strong> — Pågatåg / Öresundståg, ~10–13 min, ~SEK 46 one-way</p>
+        <table class="transit">
+            <thead>
+                <tr><th>Depart Malmö C</th><th>Arrive Lund C</th><th>Operator</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>09:08</td><td>09:19</td><td>Pågatåg</td></tr>
+                <tr><td>09:18</td><td>09:28</td><td>Öresundståg</td></tr>
+                <tr><td>09:28</td><td>09:39</td><td>Pågatåg</td></tr>
+                <tr><td>09:38</td><td>09:48</td><td>Öresundståg</td></tr>
+                <tr><td>09:48</td><td>09:59</td><td>Pågatåg</td></tr>
+                <tr><td>10:08</td><td>10:19</td><td>Pågatåg</td></tr>
+                <tr><td>…4–6 trains/hour…</td><td></td><td>Daytime</td></tr>
+            </tbody>
+        </table>
+
+        <p><strong>Malmö Hyllie → IKEA Malmö (Svågertorp)</strong> — Skånetrafiken bus <strong>line 10</strong>, ~20 min</p>
+        <table class="transit">
+            <thead>
+                <tr><th>Depart Hyllie stn</th><th>Arrive Svågertorp</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>10:08</td><td>10:28</td><td>Store opens 10:00</td></tr>
+                <tr><td>10:23</td><td>10:43</td><td></td></tr>
+                <tr><td>10:38</td><td>10:58</td><td></td></tr>
+                <tr><td>11:08</td><td>11:28</td><td></td></tr>
+                <tr><td>…every ~15 min daytime…</td><td></td><td>Also stops Hyllie Allé</td></tr>
+            </tbody>
+        </table>
+        <p class="footnote">Return: bus 10 toward Malmö Central from <em>Malmö Svågertorp station</em> stop.
+            IKEA restaurant 09:30–19:30 weekdays. <a href="https://www.ikea.com/se/en/stores/malmo/">IKEA Malmö info</a></p>
+
+        </aside>
+
+        <main class="panel panel-schedule" aria-label="Schedule and guide">
+            <div class="panel-head">
+                <span class="panel-title">📅 Schema &amp; guide / Schedule &amp; guide</span>
+                <span class="panel-sub">Day-by-day · poster · food · sightseeing · tips</span>
+            </div>
+
+        <div class="poster-callout" id="poster">
+            <h3>📌 Your poster — cannot skip</h3>
+            <p style="margin:0; font-size:0.95em;"><strong>Poster #393</strong> · <em>Rank-Aware Hyperbolic Alignment for Vision-Language Dataset Distillation</em><br>
+                <strong>Poster Session 5</strong> · Sat, Sep 12 · <strong>10:30 AM – 12:30 PM</strong> · Malmö Arena<br>
+                Pin up before session; stay at board for full slot. Morning oral sessions (9:00) are optional if prepping.</p>
+        </div>
+
+        <h2 class="section-title" id="schedule">Schema / Conference schedule</h2>
+
+        <div class="visual-box">
+            <h4>Week overview — <span class="badge badge-fixed">fixed</span> vs <span class="badge badge-open">open</span></h4>
+            <table class="diagram-table">
+                <thead>
+                    <tr><th>Day</th><th>Must attend</th><th>Travel OK</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Mon 7</td><td class="cell-open">Arrive CPH 19:00</td><td class="cell-open">Evening Malmö C</td></tr>
+                    <tr><td>Tue 8</td><td class="cell-fixed">Workshops 8:30+</td><td class="cell-open">Afternoon / evening</td></tr>
+                    <tr><td>Wed 9</td><td class="cell-fixed">CDEL · AVGenL</td><td class="cell-open">Evening Lund</td></tr>
+                    <tr><td>Thu 10</td><td class="cell-fixed">Grauman 15:00</td><td class="cell-open">AM spotlights optional · sauna eve</td></tr>
+                    <tr><td>Fri 11</td><td class="cell-fixed">LeCun 15:00</td><td class="cell-open">9:00–14:30 Lund / IKEA</td></tr>
+                    <tr><td>Sat 12</td><td class="cell-poster">Poster #393 · 10:30–12:30</td><td class="cell-open">After 12:30 · IKEA · Copenhagen</td></tr>
+                    <tr><td>Sun 13</td><td class="cell-open">—</td><td class="cell-open">Copenhagen · CPH 21:00 flight</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 1 — Arrival &amp; orientation</h2>
+                <span class="date-badge">Mon, Sep 7</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label">Long-haul &amp; arrival</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-travel">Flights</span> <strong>MU5052</strong> ICN 08:55 → PVG 10:00 ·
+                        <strong>MU0707</strong> PVG 13:15 → <strong>CPH 19:00</strong> (see <a href="#flights">flight details</a>).</li>
+                    <li><span class="badge badge-travel">Train</span> <strong>~19:45–20:15</strong> Öresundståg CPH Airport → Malmö Hyllie → Quality Hotel View (~12 min).
+                        <ul>
+                            <li><a href="https://www.google.com/maps/dir/?api=1&origin=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&destination=Quality+Hotel+View,+Hyllie+Stationstorg+29,+215+32+Malm%C3%B6,+Sweden&travelmode=transit&departure_time=1788804900" target="_blank" rel="noopener">Google Maps transit route</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="badge badge-travel">Check-in</span> Hotel by ~20:30; light supper at Emporia if needed.</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label">Kväll / Evening — <span class="badge badge-open">open</span></div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Lilla torg</strong> <em class="en">(Little Square)</em></span> &amp;
+                        <span class="bilingual"><strong>Stortorget</strong> <em class="en">(Big Square)</em></span>
+                        — tåg / train to Malmö C, 5 min walk. Cobblestone terraces.
+                    </li>
+                    <li><span class="badge badge-food">Eat</span> <span class="bilingual"><strong>Malmo Saluhall</strong> <em class="en">(food hall)</em></span> at
+                        Möllevångstorget <em class="en">(square)</em> — skagenröra <em class="en">(shrimp toast)</em>, oysters.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card highlight-day">
+            <div class="day-header">
+                <h2>Day 2 — Workshop day</h2>
+                <span class="date-badge">Tue, Sep 8</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-fixed">fixed</span> Morning workshops <span class="conflict">8:30–12:30 overlap</span></div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-conf">8:30</span> <strong><a href="https://eccv.ecva.net/virtual/2026/workshop/3097">4th LIMIT Workshop</a></strong>
+                        — Malmömässan <strong>C1</strong> (ends 1:00 PM)
+                        <span class="workshop-link">· <a href="https://limitlab.xyz/">LIMIT.Lab</a></span>
+                    </li>
+                    <li><span class="badge badge-conf">8:50</span> <strong><a href="https://eccv.ecva.net/virtual/2026/workshop/3003">2nd MUCG Workshop</a></strong>
+                        — Malmömässan <strong>A</strong> (ends 6:10 PM)
+                        <span class="workshop-link">· <a href="https://mllm-mucg.github.io/ECCV2026/">project page</a></span>
+                    </li>
+                    <li><span class="badge badge-conf">9:00</span> <strong><a href="https://sites.google.com/view/beyondeuclidean/home">Beyond Euclidean</a></strong>
+                        (3rd workshop) — Malmö Arena Hotel <strong>Boulevarden 3</strong> (ends 12:30 PM)
+                    </li>
+                    <li><span class="badge badge-conf">9:00</span> <strong><a href="https://gen4avc.github.io/eccv2026/">Gen4AVC</a></strong>
+                        (Generative AI for Audio-Visual Content Creation) — <span class="bilingual"><strong>Malmömässan</strong> <em class="en">(convention centre)</em></span>;
+                        poster session 10:00–11:00 in <strong>Exhibit Hall</strong> (ends ~12:20)
+                        <span class="workshop-link">· <a href="https://gen4avc.github.io/eccv2026/">official schedule</a></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Afternoon &amp; evening</div>
+                <div class="open-window">🟢 <strong>Travel window:</strong> After workshops (~13:00+) — waterfront walk, Malmö C old town, or early night.</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Turning Torso</strong></span> &amp;
+                        <span class="bilingual"><strong>Västra Hamnen</strong> <em class="en">(Western Harbour)</em></span> promenade — 10 min walk.</li>
+                    <li><span class="badge badge-food">Dinner</span> Harbour seafood, or <strong>Spill</strong> (craft beer, Malmö C).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card highlight-day">
+            <div class="day-header">
+                <h2>Day 3 — Workshops</h2>
+                <span class="date-badge">Wed, Sep 9</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-fixed">fixed</span> Workshops</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-conf">8:15</span> <strong><a href="https://curateddata.github.io/">CDEL</a></strong>
+                        (Curated Data for Efficient Learning) — Malmö Arena <strong>Panorama 2</strong> (ends 5:30 PM)
+                        <span class="workshop-link">· <a href="https://eccv.ecva.net/virtual/2026/events/workshop">ECCV page</a></span>
+                    </li>
+                    <li><span class="badge badge-conf">9:00</span> <strong><a href="https://avgen123.github.io/eccv26.html">AVGenL</a></strong>
+                        (3rd Audio-Visual Generation &amp; Learning) — Malmömässan <strong>K1</strong> (ends 5:30 PM)
+                    </li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Late afternoon / evening</div>
+                <div class="open-window">🟢 <strong>Best Lund slot:</strong> Leave after workshops (~17:30). Train Malmö C → Lund C ~12 min. Back by ~22:00.</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-heavy">Lund</span> <span class="bilingual"><strong>Lunds domkyrka</strong> <em class="en">(Lund Cathedral)</em></span> — see <a href="#lund">Lund section</a>.</li>
+                    <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Malmöhus</strong> <em class="en">(Malmö Castle)</em></span> &amp;
+                        <span class="bilingual"><strong>Slottsparken</strong> <em class="en">(Castle Park)</em></span> if staying in Malmö.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card highlight-day">
+            <div class="day-header">
+                <h2>Day 4 — Grauman keynote</h2>
+                <span class="date-badge">Thu, Sep 10</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Morning spotlights 9:00–10:30 — optional</div>
+                <ul class="todo-list">
+                    <li>Spotlights are <strong>optional</strong> — use for travel if preferred:
+                        <span class="bilingual"><strong>Emporia</strong> <em class="en">(mall)</em></span>, Hyllie walk, or Malmö C <em>fika</em> <em class="en">(coffee break)</em>.</li>
+                    <li><span class="badge badge-conf">9:00</span> <em>Or attend:</em> Spotlight VLM &amp; Foundation Models <span class="conflict">∥</span> 3D / Gaussian Splatting</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-fixed">fixed</span> Afternoon</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-conf">1:30–3:00</span> Spotlight: Robustness, Privacy, Learning &amp; Theory — <em>optional</em></li>
+                    <li><span class="badge badge-conf">3:00–4:00</span> <span class="highlight">Keynote: Kristen Grauman</span> — <strong>must attend</strong></li>
+                    <li><span class="badge badge-conf">4:00–4:30</span> Panel: <em>The Age of LLMs…</em> — optional</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Evening</div>
+                <div class="open-window">🟢 <strong>Travel window:</strong> After keynote (~16:30+) — sauna, old town dinner, or early Lund trip.</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-heavy">Heavy</span> <span class="bilingual"><strong>Ribersborgs Kallbadhus</strong> <em class="en">(open-air bath &amp; sauna)</em></span> — ~SEK 65 entry.</li>
+                    <li><span class="badge badge-food">Dinner</span> <strong>Bastard</strong> or <strong>Vollmers</strong> in
+                        <span class="bilingual"><strong>Gamla Staden</strong> <em class="en">(Old Town)</em></span>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card highlight-day">
+            <div class="day-header">
+                <h2>Day 5 — LeCun keynote</h2>
+                <span class="date-badge">Fri, Sep 11</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Morning — before keynote</div>
+                <div class="open-window">🟢 <strong>Travel window:</strong> 9:00–14:30 — Lund half-day, IKEA, or Malmöhus museum. Back for 3 PM keynote.</div>
+                <ul class="todo-list">
+                    <li>Morning orals/demos — optional; check <a href="https://eccv.ecva.net/virtual/2026/calendar">calendar</a>.</li>
+                    <li><span class="badge badge-heavy">Lund</span> or <span class="bilingual"><strong>IKEA Malmö</strong></span> — see sections below.</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-fixed">fixed</span> Afternoon</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-conf">3:00–4:00</span> <span class="highlight">Keynote: Yann LeCun</span> — <strong>must attend</strong></li>
+                    <li><span class="badge badge-conf">4:00–6:00</span> Poster Session 4 — optional (not your session)</li>
+                    <li><span class="badge badge-conf">Evening</span> ECCV social / gala — optional if registered</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Late evening</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-heavy">Lund</span> Evening cathedral &amp; student pubs if not visited yet.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card highlight-day" style="border-left-color:#C0392B;">
+            <div class="day-header">
+                <h2>Day 6 — Poster day + travel</h2>
+                <span class="date-badge">Sat, Sep 12</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Early morning</div>
+                <ul class="todo-list">
+                    <li>9:00 oral sessions — <strong>optional</strong> (use time to pin poster &amp; rehearse).</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-poster">fixed</span> Your poster session</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-poster">10:30–12:30</span> <span class="highlight">Poster Session 5 — #393</span><br>
+                        <em>Rank-Aware Hyperbolic Alignment for Vision-Language Dataset Distillation</em><br>
+                        Malmö Arena · Stay at board entire session · Business cards &amp; QR ready.</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Afternoon / evening — travel OK</div>
+                <div class="open-window">🟢 <strong>Travel window:</strong> After 12:30 — spotlights (1:30) optional. IKEA, Copenhagen, Nyhavn.</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-conf">1:30</span> Spotlights (Multimodal/Video ∥ Embodied AI) — <em>skip OK</em></li>
+                    <li><span class="badge badge-heavy">IKEA</span> Bus 10 → <a href="#ikea">IKEA Malmö</a> — köttbullar <em class="en">(meatballs)</em></li>
+                    <li><span class="badge badge-travel">Transit</span> Öresundståg → <span class="bilingual"><strong>København H</strong> <em class="en">(Copenhagen Central)</em></span></li>
+                    <li><span class="badge badge-sight">Sight</span> <span class="bilingual"><strong>Nyhavn</strong> <em class="en">(New Harbour)</em></span>, Strøget <em class="en">(walking street)</em></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 7 — Departure</h2>
+                <span class="date-badge">Sun, Sep 13</span>
+            </div>
+            <div class="time-block">
+                <div class="time-label"><span class="badge badge-open">open</span> Full day — Copenhagen</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-travel">Checkout</span> Leave Quality Hotel View by late morning; Öresundståg to <strong>København H</strong> (~20 min).</li>
+                    <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Tivoli</strong> <em class="en">(amusement park)</em></span>,
+                        <span class="bilingual"><strong>Nyhavn</strong> <em class="en">(New Harbour)</em></span>, or
+                        <span class="bilingual"><strong>Torvehallerne</strong> <em class="en">(food market)</em></span>.</li>
+                    <li><span class="badge badge-food">Lunch</span> <strong>Andersen &amp; Maillard</strong> or <strong>La Glace</strong>.</li>
+                </ul>
+            </div>
+            <div class="time-block">
+                <div class="time-label">Evening departure — MU0708 21:00</div>
+                <ul class="todo-list">
+                    <li><span class="badge badge-travel">~17:15–17:30</span> Head to <strong>CPH Airport</strong> from hotel or København H (be at terminal by <strong>18:00</strong>).
+                        <ul>
+                            <li><a href="https://www.google.com/maps/dir/?api=1&origin=Quality+Hotel+View,+Hyllie+Stationstorg+29,+215+32+Malm%C3%B6,+Sweden&destination=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&travelmode=transit&departure_time=1789313400" target="_blank" rel="noopener">Google Maps: Hotel → CPH</a></li>
+                            <li><a href="https://www.google.com/maps/dir/?api=1&origin=Copenhagen+Central+Station,+Copenhagen,+Denmark&destination=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&travelmode=transit&departure_time=1789311600" target="_blank" rel="noopener">Google Maps: København H → CPH</a></li>
+                        </ul>
+                    </li>
+                    <li><span class="badge badge-travel">Flights</span> <strong>MU0708</strong> CPH 21:00 → PVG 13:15 (+1) · <strong>MU8603</strong> PVG 14:35 → ICN 17:25
+                        (<a href="#flights">full itinerary</a>).</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="food">Mat &amp; caféer / Food &amp; cafés</h2>
+
+        <h3 style="color:#006AA7;font-size:1.1em;margin:0 0 12px;">☕ Near hotel &amp; Hyllie <em class="en">(walking distance)</em></h3>
+        <div class="cafe-grid">
+            <div class="cafe-card"><strong>Espresso House</strong> — Emporia, plan 3<br><span class="meta">☕ Chain café · kanelbulle <em class="en">(cinnamon bun)</em> · ~3 min walk</span></div>
+            <div class="cafe-card"><strong>Wayne's Coffee</strong> — Emporia<br><span class="meta">☕ Coffee &amp; lunch · familjevänligt <em class="en">(family-friendly)</em></span></div>
+            <div class="cafe-card"><strong>Quality Hotel View bar/restaurant</strong><br><span class="meta">🍽 Hotel dining · frukostbuffé <em class="en">(breakfast buffet)</em> for guests</span></div>
+            <div class="cafe-card"><strong>Pinchos</strong> — Emporia<br><span class="meta">🍽 Tapas-style · beställ via app <em class="en">(order via app)</em></span></div>
+            <div class="cafe-card"><strong>Emporia food court</strong> — Asian, burgers, salads<br><span class="meta">🍽 Fast &amp; varied · matplats <em class="en">(food court)</em></span></div>
+            <div class="cafe-card"><strong>Max Burgers</strong> — near Hyllie<br><span class="meta">🍔 Swedish burger chain · budget · ~5 min walk</span></div>
+        </div>
+
+        <h3 style="color:#006AA7;font-size:1.1em;margin:20px 0 12px;">🍽 Malmö centrum <em class="en">(city centre — 6 min train)</em></h3>
+        <div class="cafe-grid">
+            <div class="cafe-card"><strong>Malmo Saluhall</strong> — Gibraltargatan 6<br><span class="meta">Food hall · ölbar <em class="en">(beer bar)</em> · oysters · ~15 vendors</span></div>
+            <div class="cafe-card"><strong>Lilla Kafferiet</strong> — Baltzarsgatan 20<br><span class="meta">☕ Cosy café · fika <em class="en">(coffee + pastry break)</em> · Gamla Staden <em class="en">(Old Town)</em></span></div>
+            <div class="cafe-card"><strong>Bröd &amp; Salt</strong> — multiple locations<br><span class="meta">☕ Bakery-café · surdegsbröd <em class="en">(sourdough)</em> · near Malmö C</span></div>
+            <div class="cafe-card"><strong>Jugan Café</strong> — Lilla torg<br><span class="meta">☕ Terrace on cobblestones · people-watching</span></div>
+            <div class="cafe-card"><strong>SPON</strong> — Mitt Möllan<br><span class="meta">🍽 Modern Nordic · lunch &amp; dinner · book ahead</span></div>
+            <div class="cafe-card"><strong>Bastard</strong> — Adelgatan 21<br><span class="meta">🍽 Bistro · shared plates · walk-in often OK at lunch</span></div>
+            <div class="cafe-card"><strong>Restaurant Vollmers</strong> — Tegelgårdsgatan 5<br><span class="meta">🍽 2 Michelin stars · skånsk mat <em class="en">(Scanian cuisine)</em> · reserve weeks ahead</span></div>
+            <div class="cafe-card"><strong>Spill</strong> — Adelgatan 7<br><span class="meta">🍺 Craft beer · smårätter <em class="en">(small plates)</em> · near Malmö C</span></div>
+            <div class="cafe-card"><strong>Bloom in the Park</strong> — Pildammsvägen<br><span class="meta">🍽 Garden restaurant · seasonal · near Ribersborg</span></div>
+        </div>
+
+        <h3 style="color:#006AA7;font-size:1.1em;margin:20px 0 12px;">🍽 Lund &amp; Copenhagen</h3>
+        <div class="cafe-grid">
+            <div class="cafe-card"><strong>Broder Jakobs</strong> — Lund<br><span class="meta">☕ Classic fika · near domkyrkan <em class="en">(cathedral)</em></span></div>
+            <div class="cafe-card"><strong>Stadskällaren</strong> — Lund<br><span class="meta">🍽 Medieval cellar dining · lunch platters</span></div>
+            <div class="cafe-card"><strong>Meatballs for the People</strong> — Lund<br><span class="meta">🍽 Köttbullar <em class="en">(meatballs)</em> · casual</span></div>
+            <div class="cafe-card"><strong>Torvehallerne</strong> — Copenhagen<br><span class="meta">🍽 Glass market hall · smørrebrød <em class="en">(open sandwich)</em> · near Nørreport</span></div>
+            <div class="cafe-card"><strong>Andersen &amp; Maillard</strong> — Copenhagen<br><span class="meta">☕ Famous bakery · croissants · near Nørrebro</span></div>
+            <div class="cafe-card"><strong>La Glace</strong> — Copenhagen<br><span class="meta">☕ Historic patisserie · is <em class="en">(ice cream)</em> since 1870</span></div>
+        </div>
+
+        <div class="food-grid">
+            <div class="food-card">
+                <h4>Svenska klassiker / Swedish classics</h4>
+                <div class="area">Anywhere</div>
+                <p><strong>Köttbullar</strong> <em class="en">(meatballs + lingon)</em>, <strong>gravad lax</strong> <em class="en">(cured salmon)</em>,
+                    <strong>skagenröra</strong> <em class="en">(shrimp salad toast)</em>, <strong>pytt i panna</strong> <em class="en">(hash)</em>,
+                    <strong>kanelbulle</strong> <em class="en">(cinnamon bun)</em> + <strong>fika</strong> <em class="en">(coffee break)</em>,
+                    <strong>ärtsoppa</strong> <em class="en">(pea soup, Thu tradition)</em>.</p>
+            </div>
+            <div class="food-card">
+                <h4>IKEA Malmö restaurant</h4>
+                <div class="area">Svågertorp · bus 10</div>
+                <p><strong>Köttbullar</strong> plate, lax <em class="en">(salmon)</em>, plant balls, kids menu.
+                    <strong>Bistro:</strong> korv <em class="en">(hot dog)</em>, soft ice. Budget Swedish experience.</p>
+            </div>
+        </div>
+
+        <h2 class="section-title" id="sightseeing">Sevärdheter / Sightseeing</h2>
+
+        <div class="sight-tier">
+            <h4><span class="badge badge-light">Light</span> Lätt / 30 min – 2 hrs</h4>
+            <ul>
+                <li><span class="bilingual"><strong>Emporia</strong> <em class="en">(shopping centre)</em></span> — rooftop walk, architecture</li>
+                <li><span class="bilingual"><strong>Turning Torso</strong></span> &amp; <span class="bilingual"><strong>Västra Hamnen</strong> <em class="en">(Western Harbour)</em></span></li>
+                <li><span class="bilingual"><strong>Lilla torg</strong> <em class="en">(Little Square)</em></span> / <span class="bilingual"><strong>Stortorget</strong> <em class="en">(Big Square)</em></span></li>
+                <li><span class="bilingual"><strong>Folkets Park</strong> <em class="en">(People's Park)</em></span> — green space</li>
+                <li><span class="bilingual"><strong>Hyllie Vattenpark</strong> <em class="en">(water park/gardens)</em></span></li>
+                <li><span class="bilingual"><strong>Nyhavn</strong> <em class="en">(New Harbour, Copenhagen)</em></span></li>
+            </ul>
+        </div>
+
+        <div class="sight-tier">
+            <h4><span class="badge badge-heavy">Heavy</span> Halv dag+ / Half-day+</h4>
+            <ul>
+                <li><span class="bilingual"><strong>Lund</strong></span> — domkyrka <em class="en">(cathedral)</em>, universitet <em class="en">(university)</em>, <span class="bilingual"><strong>Kulturen</strong> <em class="en">(open-air museum)</em></span></li>
+                <li><span class="bilingual"><strong>IKEA Malmö</strong></span> — full store + restaurant (<a href="#ikea">below</a>)</li>
+                <li><span class="bilingual"><strong>Malmöhus</strong> <em class="en">(castle)</em></span> + <span class="bilingual"><strong>Malmö Konstmuseum</strong> <em class="en">(art museum)</em></span></li>
+                <li><span class="bilingual"><strong>Ribersborgs Kallbadhus</strong> <em class="en">(open-air bath)</em></span> — bastu <em class="en">(sauna)</em> + swim</li>
+                <li><span class="bilingual"><strong>Köpenhamn</strong> <em class="en">(Copenhagen)</em></span> — Rosenborg, Rundetårn <em class="en">(Round Tower)</em>, Tivoli</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title" id="lund">Lund dagsutflykt / Lund day-trip</h2>
         <div class="info-panel">
-            <h3>🇸🇪 Välkommen! (Welcome!)</h3>
-            <p>This itinerary is tightly optimized to balance your workshop commitments, your poster presentation, and
-                exploring the best of both Malmö and Copenhagen. Use the interactive map below to orient yourself
-                between the <strong>Malmö Arena</strong> conference site and your sightseeing destinations.</p>
+            <p><strong>Resa / Getting there:</strong> Hyllie → Malmö C <em class="en">(6 min)</em> → Lund C <em class="en">(10–13 min)</em>. ~SEK 46 each way.</p>
+            <p><strong>Route:</strong> Lund C → <strong>Lunds domkyrka</strong> <em class="en">(10 min walk)</em> → <strong>Lundagård</strong> → <strong>Kulturen</strong> or <strong>Botaniska trädgården</strong></p>
+            <ol style="margin:8px 0 0; padding-left:20px; font-size:0.93em;">
+                <li><span class="bilingual"><strong>Lunds domkyrka</strong> <em class="en">(Lund Cathedral)</em></span> — free, crypt, astronomical clock</li>
+                <li><span class="bilingual"><strong>Lundagård</strong> <em class="en">(university park)</em></span> &amp; main building</li>
+                <li><span class="bilingual"><strong>Kulturen</strong> <em class="en">(open-air museum)</em></span> OR <span class="bilingual"><strong>Botaniska trädgården</strong> <em class="en">(botanical garden, free)</em></span></li>
+                <li>Fika at <strong>Broder Jakobs</strong> or lunch at <strong>Stadskällaren</strong></li>
+            </ol>
+            <p class="footnote"><strong>Best open slots:</strong> Wed evening, Fri 9:00–14:30, Fri evening. Sat only after 12:30 poster.</p>
         </div>
 
-        <div id="map"></div>
-
-        <div class="day-card">
-            <div class="day-header">
-                <h2>Day 1: Arrival & Orientation</h2>
-                <span class="date-badge">Mon, Sept 7</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Afternoon</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-travel">Transit</span> <strong>2:00 PM – 4:00 PM:</strong> Arrive at
-                        Copenhagen Airport (CPH).
-                        <ul>
-                            <li>Take the Øresundståg train directly across the famous Øresund bridge to Malmö.</li>
-                        </ul>
-                    </li>
-                    <li><span class="badge badge-travel">Logistics</span> <strong>4:30 PM – 6:30 PM:</strong> Check into
-                        your hotel in Malmö and collect early ECCV registration materials.</li>
-                </ul>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Evening</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-sight">Sightseeing</span> <strong>7:00 PM – 9:00 PM:</strong> Explore
-                        <strong>Lilla torg</strong> (Little Square).
-                        <ul>
-                            <li>Enjoy your first Swedish meal at a terrace restaurant in this historic 16th-century
-                                cobblestone square.</li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+        <h2 class="section-title" id="ikea">IKEA Malmö</h2>
+        <div class="info-panel">
+            <p><strong>Adress / Address:</strong> Kulthusgatan 1, Svågertorp, Malmö</p>
+            <p><strong>Öppettider / Hours (Sep):</strong> Mon–Fri 10:00–20:00 · Sat–Sun 10:00–19:00 · Restaurang <em class="en">(restaurant)</em> from 09:30.</p>
+            <p><strong>Route:</strong> Buss / bus <strong>10</strong> from Malmö Hyllie → Svågertorp (~20 min).</p>
+            <p><strong>Plan:</strong> Showroom → marketplace → <strong>köttbullar</strong> <em class="en">(meatballs)</em> + lingon. Best Fri morning or Sat after poster.</p>
+            <p><a href="https://www.ikea.com/se/en/stores/malmo/">ikea.com/se/en/stores/malmo</a></p>
         </div>
 
-        <div class="day-card">
-            <div class="day-header">
-                <h2>Day 2: Workshops & Architecture</h2>
-                <span class="date-badge">Tue, Sept 8</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Daytime</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-conf">Conference</span> <strong>8:30 AM – 5:00 PM:</strong> Workshops
-                        at <strong>Malmö Arena</strong> (Hyllie district).</li>
-                </ul>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Evening</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-sight">Sightseeing</span> <strong>5:30 PM – 7:00 PM:</strong> Visit the
-                        <strong>Turning Torso</strong> in Västra Hamnen (Western Harbour).
-                        <ul>
-                            <li>Walk the waterfront promenade and admire Scandinavia's tallest, twisted skyscraper.</li>
-                        </ul>
-                    </li>
-                    <li><span class="badge badge-food">Dining</span> <strong>7:30 PM – 9:00 PM:</strong> Seafood dinner
-                        along the Western Harbour boardwalk watching the sunset over the strait.</li>
-                </ul>
-            </div>
+        <h2 class="section-title" id="tipping">Dricks / Tipping culture</h2>
+        <div class="tip-panel">
+            <h3>🇸🇪 Sverige / Sweden &amp; 🇩🇰 Danmark / Denmark</h3>
+            <p style="margin:0 0 12px; font-size:0.93em;">Both countries include fair wages in menu prices. Tipping is <strong>appreciated but never obligatory</strong> — unlike the US. Round up or add 5–10% only for exceptional service.</p>
+
+            <h4>☕ Caféer / Cafés</h4>
+            <ul>
+                <li><strong>No tip expected.</strong> Pay at counter; say <em>tack</em> <em class="en">(thanks)</em>. Round up öre <em class="en">(cents)</em> if paying cash — e.g. SEK 47 → 50.</li>
+                <li>Card/contactless is default everywhere (Swish in Sweden, MobilePay in Denmark).</li>
+            </ul>
+
+            <h4>🍽 Restauranger / Restaurants</h4>
+            <ul>
+                <li><strong>Sweden:</strong> Service included. Optional <strong>5–10%</strong> for excellent table service at nicer places (Vollmers, Bastard). Not expected at food halls, IKEA, or counter service.</li>
+                <li><strong>Denmark:</strong> Similarly — service included. Round up DKK 10–50 or ~10% at fine dining. Casual lunch: zero tip is normal.</li>
+                <li>Check bill for <em>serviceavgift</em> <em class="en">(service charge)</em> — rare but if present, no extra tip needed.</li>
+            </ul>
+
+            <h4>🍺 Barer / Bars &amp; pubar <em class="en">(pubs)</em></h4>
+            <ul>
+                <li>Round up to nearest SEK/DKK 10 at craft-beer bars (Spill). Not required at self-service.</li>
+            </ul>
+
+            <h4>🚕 Taxi &amp; hotel</h4>
+            <ul>
+                <li><strong>Taxi:</strong> Round up 5–10%. Uber/Bolt: optional in-app tip — most locals skip it.</li>
+                <li><strong>Hotel:</strong> SEK/DKK 20–50 for porter; leave nothing for daily housekeeping unless exceptional (not customary in Scandinavia).</li>
+            </ul>
+
+            <h4>Quick reference</h4>
+            <table class="diagram-table" style="margin-top:8px;">
+                <thead>
+                    <tr><th>Setting</th><th>Tip?</th><th>Notes</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Café / counter</td><td><strong>0%</strong></td><td>Round up cash if you like</td></tr>
+                    <tr><td>Casual lunch</td><td><strong>0%</strong></td><td>Normal in Sweden &amp; Denmark</td></tr>
+                    <tr><td>Nice dinner</td><td><strong>5–10%</strong></td><td>Only if service was exceptional</td></tr>
+                    <tr><td>IKEA / food hall</td><td><strong>0%</strong></td><td>Never expected</td></tr>
+                    <tr><td>Taxi</td><td><strong>Round up</strong></td><td>5–10% or nearest 10 SEK/DKK</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="day-card">
-            <div class="day-header">
-                <h2>Day 3: Workshops & History</h2>
-                <span class="date-badge">Wed, Sept 9</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Daytime</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-conf">Conference</span> <strong>8:30 AM – 5:00 PM:</strong> Workshops
-                        and Expo at <strong>MalmöMässan</strong>.</li>
-                </ul>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Evening</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-sight">Sightseeing</span> <strong>5:30 PM – 7:30 PM:</strong> Evening
-                        stroll around <strong>Malmö Castle</strong> (Malmöhus).
-                        <ul>
-                            <li>Walk through the peaceful Slottsparken (Castle Park) and along the historic moat.</li>
-                        </ul>
-                    </li>
-                    <li><span class="badge badge-food">Dining</span> <strong>8:00 PM – 9:30 PM:</strong> Dinner in the
-                        Gamla Staden (Old Town) district.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="day-card">
-            <div class="day-header">
-                <h2>Day 4: Main Conference & Swedish Traditions</h2>
-                <span class="date-badge">Thu, Sept 10</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Daytime</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-conf">Conference</span> <strong>9:00 AM – 5:00 PM:</strong> ECCV Main
-                        Conference Keynotes and Oral Sessions.</li>
-                </ul>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Evening</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-sight">Experience</span> <strong>6:00 PM – 8:00 PM:</strong>
-                        <strong>Ribersborgs open-air bath</strong> (Ribersborgs Kallbadhus).
-                        <ul>
-                            <li>Recharge before your presentation with a traditional Swedish wood-fired sauna and an
-                                ocean plunge.</li>
-                        </ul>
-                    </li>
-                    <li><span class="badge badge-food">Dining</span> <strong>8:30 PM – 10:00 PM:</strong> Casual dinner
-                        in the Ribersborg neighborhood.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="day-card" style="border-left-color: #FECB00;">
-            <div class="day-header">
-                <h2>Day 5: Poster Presentation Day</h2>
-                <span class="date-badge">Fri, Sept 11</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Morning</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-conf">Prep</span> <strong>8:00 AM – 9:00 AM:</strong> Pin up poster at
-                        MalmöMässan and review talking points.</li>
-                    <li><span class="badge badge-conf">Conference</span> <strong>9:00 AM – 12:00 PM:</strong> Morning
-                        conference sessions.</li>
-                </ul>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Afternoon & Evening</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-conf">Presentation</span> <strong>1:00 PM – 4:00 PM:</strong> <span
-                            class="highlight">Poster Presentation Session</span>. Engage with peers and showcase
-                        research.</li>
-                    <li><span class="badge badge-conf">Social</span> <strong>5:00 PM – 7:00 PM:</strong> Official ECCV
-                        2026 Social Event / Gala Dinner.</li>
-                    <li><span class="badge badge-food">Celebrate</span> <strong>7:30 PM onward:</strong>
-                        Post-presentation drinks with lab mates at a local pub in central Malmö.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="day-card">
-            <div class="day-header">
-                <h2>Day 6: Conclusion & Copenhagen</h2>
-                <span class="date-badge">Sat, Sept 12</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Morning</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-conf">Conference</span> <strong>9:00 AM – 1:00 PM:</strong> Final ECCV
-                        sessions and closing remarks.</li>
-                    <li><span class="badge badge-travel">Transit</span> <strong>1:30 PM – 2:30 PM:</strong> Grab luggage
-                        and take the train across the bridge to Copenhagen, Denmark.</li>
-                </ul>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Afternoon & Evening</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-sight">Sightseeing</span> <strong>3:30 PM – 5:30 PM:</strong> Explore
-                        <strong>Nyhavn</strong>.
-                        <ul>
-                            <li>Photograph the iconic colorful townhouses and historic ships. Grab a Danish coffee.</li>
-                        </ul>
-                    </li>
-                    <li><span class="badge badge-sight">Sightseeing</span> <strong>5:30 PM – 8:30 PM:</strong> Wander
-                        the Indre By (Inner City) district.</li>
-                    <li><span class="badge badge-food">Dining</span> <strong>8:30 PM:</strong> Celebratory dinner at a
-                        lively restaurant along the Copenhagen canals.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="day-card">
-            <div class="day-header">
-                <h2>Day 7: Departure Day</h2>
-                <span class="date-badge">Sun, Sept 13</span>
-            </div>
-            <div class="time-block">
-                <div class="time-label">Morning</div>
-                <ul class="todo-list">
-                    <li><span class="badge badge-sight">Sightseeing</span> <strong>9:00 AM – 12:00 PM:</strong> Visit
-                        <strong>Tivoli Gardens</strong> (right next to Copenhagen Central Station).
-                        <ul>
-                            <li>Wander through the beautifully landscaped 19th-century amusement park.</li>
-                            <li>Grab a quick Danish pastry before heading to the airport.</li>
-                        </ul>
-                    </li>
-                    <li><span class="badge badge-travel">Transit</span> <strong>Afternoon:</strong> Short train ride
-                        from Copenhagen Central to CPH Airport for departure.</li>
-                </ul>
-            </div>
-        </div>
+        </main>
 
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-        // Initialize map centered between Malmö and Copenhagen
-        var map = L.map('map').setView([55.60, 12.80], 10);
+        var map = L.map('map').setView([55.60, 12.85], 11);
 
-        // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        // Define locations to pin
         var locations = [
-            { name: "🎙️ <strong>Malmö Arena & Mässan</strong><br>Conference Venue", lat: 55.5645, lng: 12.9759 },
-            { name: "🇸🇪 <strong>Lilla torg</strong><br>Historic Market Square", lat: 55.6041, lng: 12.9995 },
-            { name: "🏢 <strong>Turning Torso</strong><br>Västra Hamnen", lat: 55.6133, lng: 12.9763 },
-            { name: "🏰 <strong>Malmö Castle</strong><br>Historic Fortress", lat: 55.6048, lng: 12.9877 },
-            { name: "🌊 <strong>Ribersborgs open-air bath</strong><br>Sauna & Ocean Plunge", lat: 55.6033, lng: 12.9649 },
-            { name: "✈️ <strong>Copenhagen Airport (CPH)</strong>", lat: 55.6279, lng: 12.6515 },
-            { name: "🇩🇰 <strong>Nyhavn</strong><br>Iconic Copenhagen Canal", lat: 55.6800, lng: 12.5910 },
-            { name: "🎢 <strong>Tivoli Gardens</strong><br>Historic Amusement Park", lat: 55.6737, lng: 12.5681 }
+            { name: "🏨 <strong>Quality Hotel View</strong><br>Hyllie Stationstorg 29", lat: 55.5628, lng: 12.9758 },
+            { name: "🚉 <strong>Malmö Hyllie</strong><br><em class="en">(train station / tågstation)</em>", lat: 55.5625, lng: 12.9755 },
+            { name: "🎙️ <strong>Malmö Arena</strong><br><em class="en">(main conference / keynotes / posters)</em>", lat: 55.5645, lng: 12.9759 },
+            { name: "🎙️ <strong>Malmömässan</strong><br><em class="en">(convention centre / mässa)</em>", lat: 55.5655, lng: 12.9735 },
+            { name: "🛍️ <strong>Emporia</strong><br><em class="en">(shopping centre / köpcentrum)</em>", lat: 55.5640, lng: 12.9730 },
+            { name: "☕ <strong>Espresso House</strong><br>Emporia", lat: 55.5642, lng: 12.9728 },
+            { name: "🏢 <strong>Turning Torso</strong><br><em>Västra Hamnen (Western Harbour)</em>", lat: 55.6133, lng: 12.9763 },
+            { name: "🇸🇪 <strong>Lilla torg</strong><br><em class="en">(Little Square / Gamla Staden)</em>", lat: 55.6041, lng: 12.9995 },
+            { name: "🍽️ <strong>Malmo Saluhall</strong><br><em class="en">(food hall / saluhall)</em>", lat: 55.5890, lng: 13.0070 },
+            { name: "🏰 <strong>Malmöhus</strong><br><em class="en">(castle / slott)</em>", lat: 55.6048, lng: 12.9877 },
+            { name: "🌊 <strong>Ribersborgs Kallbadhus</strong><br><em class="en">(open-air bath / bastu)</em>", lat: 55.6033, lng: 12.9649 },
+            { name: "🪑 <strong>IKEA Malmö</strong><br>Svågertorp", lat: 55.5450, lng: 12.9600 },
+            { name: "⛪ <strong>Lunds domkyrka</strong><br><em class="en">(Lund Cathedral)</em>", lat: 55.7041, lng: 13.1926 },
+            { name: "🎓 <strong>Lunds universitet</strong><br><em class="en">(Lund University / Lundagård)</em>", lat: 55.7055, lng: 13.1930 },
+            { name: "✈️ <strong>Københavns Lufthavn (CPH)</strong><br><em class="en">(Copenhagen Airport)</em>", lat: 55.6279, lng: 12.6515 },
+            { name: "🇩🇰 <strong>Nyhavn</strong><br><em class="en">(New Harbour)</em>", lat: 55.6800, lng: 12.5910 },
+            { name: "🎢 <strong>Tivoli</strong><br><em class="en">(amusement park / nöjespark)</em>", lat: 55.6737, lng: 12.5681 }
         ];
 
-        // Add markers to the map
         locations.forEach(function (loc) {
-            L.marker([loc.lat, loc.lng]).addTo(map)
-                .bindPopup(loc.name);
+            L.marker([loc.lat, loc.lng]).addTo(map).bindPopup(loc.name);
+        });
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () { map.invalidateSize(); }, 150);
+        });
+        setTimeout(function () { map.invalidateSize(); }, 400);
+
+        document.querySelectorAll('nav.quick-nav a[href^="#"]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                var id = this.getAttribute('href').slice(1);
+                var target = document.getElementById(id);
+                if (!target || !window.matchMedia('(min-width: 1024px)').matches) return;
+                var panel = target.closest('.panel');
+                if (!panel) return;
+                e.preventDefault();
+                var head = panel.querySelector('.panel-head');
+                var headH = head ? head.offsetHeight : 0;
+                var y = target.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - headH - 8;
+                panel.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+                history.pushState(null, '', '#' + id);
+            });
         });
     </script>
 </body>
 
 </html>
-
-```
