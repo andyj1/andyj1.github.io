@@ -1,0 +1,52 @@
+name: Update Malmö weather
+
+on:
+  schedule:
+    # 06:00 UTC daily ≈ 08:00 Europe/Stockholm (summer) until workflow is removed
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-weather:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check conference window
+        id: window
+        run: |
+          TODAY=$(date -u +%F)
+          if [[ "$TODAY" > "2026-09-13" ]]; then
+            echo "active=false" >> "$GITHUB_OUTPUT"
+            echo "Conference ended; nothing to do."
+          else
+            echo "active=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.window.outputs.active == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.window.outputs.active == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch forecast and patch malmo.html
+        if: steps.window.outputs.active == 'true'
+        run: python scripts/update_malmo_weather.py
+
+      - name: Commit and push if changed
+        if: steps.window.outputs.active == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add res/malmo.html
+          if git diff --staged --quiet; then
+            echo "No weather changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(weather): refresh ECCV Malmö forecast"
+          git push

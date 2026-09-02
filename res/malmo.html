@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ECCV 2026 Itinerary — Malmö, Lund & Copenhagen</title>
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" as="style" crossorigin
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
@@ -32,6 +32,13 @@
             --chrome-h: calc(var(--header-h) + var(--nav-h));
         }
 
+        .site-chrome {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #fff;
+        }
+
         header {
             text-align: center;
             background-color: #006AA7;
@@ -40,6 +47,34 @@
             border-bottom: 8px solid #FECB00;
             margin-bottom: 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-height: 200px;
+            transition: max-height 0.28s ease, padding 0.28s ease, opacity 0.22s ease, border-width 0.28s ease;
+        }
+
+        body.chrome-compact {
+            --header-h: 0px;
+            --nav-h: 38px;
+        }
+
+        body.chrome-compact header {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-bottom-width: 0;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        body.chrome-compact nav.quick-nav {
+            padding: 6px 16px;
+            font-size: 0.82em;
+            gap: 6px 10px;
+        }
+
+        body.chrome-compact .site-chrome {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
         }
 
         h1 {
@@ -60,14 +95,26 @@
             background: #fff;
             border-bottom: 1px solid #DCE6EE;
             padding: 10px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
             display: flex;
             flex-wrap: wrap;
             gap: 8px 14px;
             justify-content: center;
             font-size: 0.88em;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: none;
+            font-weight: 700;
+            color: #006AA7;
+            font-size: 0.95em;
+            white-space: nowrap;
+            margin-right: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        body.chrome-compact .nav-brand {
+            display: inline-block;
         }
 
         nav.quick-nav a {
@@ -113,6 +160,7 @@
 
         #map {
             height: 420px;
+            min-height: 280px;
             width: 100%;
             border-radius: 8px;
             margin-bottom: 28px;
@@ -322,6 +370,200 @@
         em:not(.en) {
             font-style: italic;
             color: inherit;
+        }
+
+        .bilingual {
+            display: inline;
+            white-space: normal;
+        }
+
+        .bilingual em.en {
+            background: #E8F4FC;
+            border-radius: 3px;
+            padding: 1px 5px;
+            margin-left: 2px;
+            border-left: 2px solid #3498DB;
+        }
+
+        .weather-strip {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .weather-day {
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 0.78em;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #3498DB;
+            min-width: 0;
+        }
+
+        .weather-day .wx-icon {
+            font-size: 1.6em;
+            line-height: 1.2;
+            display: block;
+            margin: 4px 0;
+        }
+
+        .weather-day .wx-temp {
+            font-weight: 700;
+            color: #2C3E50;
+            font-size: 1.05em;
+        }
+
+        .weather-day .wx-lo {
+            color: #7F8C8D;
+            font-size: 0.9em;
+        }
+
+        .weather-day .wx-label {
+            font-weight: 600;
+            color: #006AA7;
+            font-size: 0.95em;
+        }
+
+        .weather-day.sunny { border-top-color: #F39C12; background: linear-gradient(180deg, #FFF9E6 0%, #fff 40%); }
+        .weather-day.cloudy { border-top-color: #95A5A6; background: linear-gradient(180deg, #F4F6F7 0%, #fff 40%); }
+        .weather-day.partly { border-top-color: #5DADE2; background: linear-gradient(180deg, #EBF5FB 0%, #fff 40%); }
+        .weather-day.rainy { border-top-color: #3498DB; background: linear-gradient(180deg, #EBF5FB 0%, #fff 40%); }
+        .weather-day.windy { border-top-color: #1ABC9C; }
+
+        .weather-day.lund-pick {
+            outline: 2px solid #27AE60;
+            outline-offset: 1px;
+        }
+
+        .weather-day .wx-lund {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #1E8449;
+        }
+
+        .weather-updated {
+            font-size: 0.78em;
+            color: #7F8C8D;
+            margin: 8px 0 0;
+        }
+
+        .lund-wx-hint {
+            background: #EAFAF1;
+            border-left: 4px solid #27AE60;
+            padding: 10px 12px;
+            margin: 10px 0 0;
+            font-size: 0.9em;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .weather-panel {
+            background: linear-gradient(135deg, #EBF5FB 0%, #FFF9E6 100%);
+            border: 2px solid #3498DB;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 24px;
+        }
+
+        .weather-panel h3 {
+            margin: 0 0 10px;
+            color: #2980B9;
+            font-size: 1.05em;
+        }
+
+        .pack-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .pack-chip {
+            background: #fff;
+            border: 1px solid #DCE6EE;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.85em;
+            color: #34495E;
+        }
+
+        .pack-chip strong { color: #006AA7; }
+
+        .weather-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #EBF5FB;
+            color: #2980B9;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .map-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            margin-bottom: 10px;
+            font-size: 0.82em;
+        }
+
+        .map-legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .map-legend .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .dot-hotel { background: #E74C3C; }
+        .dot-conf { background: #006AA7; }
+        .dot-transit { background: #27AE60; }
+        .dot-sight { background: #9B59B6; }
+        .dot-food { background: #E67E22; }
+        .dot-cph { background: #2980B9; }
+
+        .scroll-sync-hint {
+            display: none;
+            font-size: 0.75em;
+            color: #27AE60;
+            font-weight: 600;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .leaflet-marker-icon.custom-pin {
+            background: transparent;
+            border: none;
+        }
+
+        .custom-pin .pin {
+            width: 28px;
+            height: 28px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            border: 3px solid #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+            margin: -14px 0 0 -14px;
+        }
+
+        .custom-pin .pin-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50% 50% 50% 0;
         }
 
         .diagram-table {
@@ -705,6 +947,9 @@
             .panel { padding: 16px 12px 32px; }
             header { padding: 32px 16px 28px; }
             :root { --header-h: 100px; }
+            .weather-strip {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         @media (min-width: 1024px) {
@@ -714,10 +959,16 @@
 
             h1 { font-size: 2em; }
 
+            :root { --header-h: 100px; }
+
             nav.quick-nav {
                 padding: 10px 32px;
                 justify-content: flex-start;
                 gap: 10px 18px;
+            }
+
+            body.chrome-compact nav.quick-nav::before {
+                content: none;
             }
 
             .dual-panel {
@@ -823,11 +1074,23 @@
             }
 
             nav.quick-nav::before {
-                content: "← Schedule · Reference →";
+                content: "↕ Synced scroll — both panels move together";
                 font-size: 0.75em;
-                color: #95A5A6;
+                color: #27AE60;
                 margin-right: auto;
-                font-weight: 500;
+                font-weight: 600;
+            }
+
+            body.chrome-compact nav.quick-nav::before {
+                display: none;
+            }
+
+            .scroll-sync-hint {
+                display: inline-flex;
+            }
+
+            .weather-strip {
+                gap: 8px;
             }
         }
 
@@ -850,13 +1113,16 @@
 
 <body>
 
+    <div class="site-chrome" id="site-chrome">
     <header>
         <h1>ECCV 2026 Itinerary</h1>
         <div class="subtitle">Malmö · Lund · Copenhagen &mdash; Sep 7–13, 2026</div>
     </header>
 
     <nav class="quick-nav">
+        <span class="nav-brand">ECCV 2026</span>
         <a href="#logistics">Logistics</a>
+        <a href="#weather">Weather</a>
         <a href="#flights">Flights</a>
         <a href="#transit">Trains</a>
         <a href="#map-section">Map</a>
@@ -869,6 +1135,7 @@
         <a href="#ikea">IKEA</a>
         <a href="#tipping">Tipping</a>
     </nav>
+    </div>
 
     <div class="dual-panel">
 
@@ -892,6 +1159,73 @@
                 (~12 min, every 15–20 min, 24/7). No city change at the border.</p>
             <p><strong>Biljetter / Tickets:</strong> <a href="https://www.oresundstag.se/en/">oresundstag.se</a> (CPH↔Malmö)
                 or <span class="bilingual"><strong>Skånetrafiken</strong> <em class="en">(Skåne transit app)</em></span> for local Malmö/Lund/bus.</p>
+        </div>
+
+        <div class="weather-panel" id="weather">
+            <h3>🌤 Väder / Weather — Sep 7–13 (Malmö forecast)</h3>
+            <p style="margin:0 0 12px; font-size:0.9em; color:#34495E;">
+                <strong>For visitors:</strong> Auto-updated daily from Open-Meteo until the conference ends (Sep&nbsp;13).
+                Schedule stays fixed; only these weather cards and badges refresh.
+            </p>
+            <!-- AUTO_WEATHER_STRIP_START -->
+            <div class="weather-strip" role="list" aria-label="Daily weather overview">
+                <div class="weather-day cloudy" data-wx-date="2026-09-07" role="listitem">
+                    <span class="wx-label">Mon 7</span>
+                    <span class="wx-icon">☁️</span>
+                    <span class="wx-temp">20°</span><span class="wx-lo"> / 16°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Overcast</div>
+                </div>
+                <div class="weather-day rainy" data-wx-date="2026-09-08" role="listitem">
+                    <span class="wx-label">Tue 8</span>
+                    <span class="wx-icon">🌦️</span>
+                    <span class="wx-temp">18°</span><span class="wx-lo"> / 14°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Drizzle</div>
+                </div>
+                <div class="weather-day rainy" data-wx-date="2026-09-09" role="listitem">
+                    <span class="wx-label">Wed 9</span>
+                    <span class="wx-icon">🌧️</span>
+                    <span class="wx-temp">16°</span><span class="wx-lo"> / 14°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Rain</div>
+                </div>
+                <div class="weather-day rainy" data-wx-date="2026-09-10" role="listitem">
+                    <span class="wx-label">Thu 10</span>
+                    <span class="wx-icon">🌦️</span>
+                    <span class="wx-temp">15°</span><span class="wx-lo"> / 12°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Drizzle</div>
+                </div>
+                <div class="weather-day cloudy lund-pick" data-wx-date="2026-09-11" role="listitem">
+                    <span class="wx-label">Fri 11</span>
+                    <span class="wx-icon">☁️</span>
+                    <span class="wx-temp">15°</span><span class="wx-lo"> / 12°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Overcast</div>
+                    <span class="wx-lund">🏛 Best for Lund</span>
+                </div>
+                <div class="weather-day cloudy" data-wx-date="2026-09-12" role="listitem">
+                    <span class="wx-label">Sat 12</span>
+                    <span class="wx-icon">☁️</span>
+                    <span class="wx-temp">16°</span><span class="wx-lo"> / 14°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Poster day</div>
+                </div>
+                <div class="weather-day cloudy" data-wx-date="2026-09-13" role="listitem">
+                    <span class="wx-label">Sun 13</span>
+                    <span class="wx-icon">☁️</span>
+                    <span class="wx-temp">18°</span><span class="wx-lo"> / 13°</span>
+                    <div class="wx-desc" style="color:#7F8C8D;margin-top:2px;">Copenhagen</div>
+                </div>
+            </div>
+            <!-- AUTO_WEATHER_STRIP_END -->
+            <!-- AUTO_WEATHER_PACK_START -->
+            <div class="pack-chips">
+                <span class="pack-chip">🧥 <strong>Light jacket</strong> — evenings cool</span>
+                <span class="pack-chip">☔ <strong>Umbrella</strong> — likely wet: Tue 8, Wed 9, Thu 10</span>
+                <span class="pack-chip">👟 <strong>Walking shoes</strong> — cobblestones</span>
+                <span class="pack-chip">🩱 <strong>Swimsuit</strong> — sauna/bath (Thu)</span>
+                <span class="pack-chip">🏛 <strong>Lund weather</strong> — Fri 11 looks clearest</span>
+            </div>
+            <!-- AUTO_WEATHER_PACK_END -->
+            <p class="weather-updated" id="weather-updated"><!-- AUTO_WEATHER_UPDATED_START -->
+Last auto-update: 2026-09-02 05:48 UTC · Open-Meteo Malmö · schedule unchanged
+            <!-- AUTO_WEATHER_UPDATED_END --></p>
         </div>
 
         <div class="constraint-panel">
@@ -1031,6 +1365,14 @@
         </div>
 
         <h2 class="section-title" id="map-section">Map / Karta</h2>
+        <div class="map-legend" aria-hidden="false">
+            <span><span class="dot dot-hotel"></span> Hotel &amp; station</span>
+            <span><span class="dot dot-conf"></span> Conference venues</span>
+            <span><span class="dot dot-transit"></span> Transit hubs</span>
+            <span><span class="dot dot-sight"></span> Sightseeing</span>
+            <span><span class="dot dot-food"></span> Food</span>
+            <span><span class="dot dot-cph"></span> Copenhagen</span>
+        </div>
         <div class="map-wrap">
             <div id="map"></div>
         </div>
@@ -1124,16 +1466,16 @@
             <h4>Week overview — <span class="badge badge-fixed">fixed</span> vs <span class="badge badge-open">open</span></h4>
             <table class="diagram-table">
                 <thead>
-                    <tr><th>Day</th><th>Must attend</th><th>Travel OK</th></tr>
+                    <tr><th>Day</th><th>Weather</th><th>Must attend</th><th>Travel OK</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td>Mon 7</td><td class="cell-open">Arrive CPH 19:00</td><td class="cell-open">Evening Malmö C</td></tr>
-                    <tr><td>Tue 8</td><td class="cell-fixed">Workshops 8:30+</td><td class="cell-open">Afternoon / evening</td></tr>
-                    <tr><td>Wed 9</td><td class="cell-fixed">CDEL · AVGenL</td><td class="cell-open">Evening Lund</td></tr>
-                    <tr><td>Thu 10</td><td class="cell-fixed">Grauman 15:00</td><td class="cell-open">AM spotlights optional · sauna eve</td></tr>
-                    <tr><td>Fri 11</td><td class="cell-fixed">LeCun 15:00</td><td class="cell-open">9:00–14:30 Lund / IKEA</td></tr>
-                    <tr><td>Sat 12</td><td class="cell-poster">Poster #393 · 10:30–12:30</td><td class="cell-open">After 12:30 · IKEA · Copenhagen</td></tr>
-                    <tr><td>Sun 13</td><td class="cell-open">—</td><td class="cell-open">Copenhagen · CPH 21:00 flight</td></tr>
+                    <tr><td>Mon 7</td><td data-wx-overview="2026-09-07">☁️ 20°</td><td class="cell-open">Arrive CPH 19:00</td><td class="cell-open">Evening Malmö C</td></tr>
+                    <tr><td>Tue 8</td><td data-wx-overview="2026-09-08">🌦️ 18°</td><td class="cell-fixed">Workshops 8:30+</td><td class="cell-open">Afternoon / evening</td></tr>
+                    <tr><td>Wed 9</td><td data-wx-overview="2026-09-09">🌧️ 16°</td><td class="cell-fixed">CDEL · AVGenL</td><td class="cell-open">Evening Lund</td></tr>
+                    <tr><td>Thu 10</td><td data-wx-overview="2026-09-10">🌦️ 15°</td><td class="cell-fixed">Grauman 15:00</td><td class="cell-open">AM spotlights optional · sauna eve</td></tr>
+                    <tr><td>Fri 11</td><td data-wx-overview="2026-09-11">☁️ 15°</td><td class="cell-fixed">LeCun 15:00</td><td class="cell-open">9:00–14:30 Lund / IKEA</td></tr>
+                    <tr><td>Sat 12</td><td data-wx-overview="2026-09-12">☁️ 16°</td><td class="cell-poster">Poster #393 · 10:30–12:30</td><td class="cell-open">After 12:30 · IKEA · Copenhagen</td></tr>
+                    <tr><td>Sun 13</td><td data-wx-overview="2026-09-13">☁️ 18°</td><td class="cell-open">—</td><td class="cell-open">Copenhagen · CPH 21:00 flight</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1142,6 +1484,7 @@
             <div class="day-header">
                 <h2>Day 1 — Arrival &amp; orientation</h2>
                 <span class="date-badge">Mon, Sep 7</span>
+                <span class="weather-badge" data-wx-badge="2026-09-07">☁️ 20° / 16°</span>
             </div>
             <div class="time-block">
                 <div class="time-label">Long-haul &amp; arrival</div>
@@ -1173,6 +1516,7 @@
             <div class="day-header">
                 <h2>Day 2 — Workshop day</h2>
                 <span class="date-badge">Tue, Sep 8</span>
+                <span class="weather-badge" data-wx-badge="2026-09-08" style="background:#D6EAF8;color:#1A5276;">🌦️ 18° / 14° · bring umbrella</span>
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-fixed">fixed</span> Morning workshops <span class="conflict">8:30–12:30 overlap</span></div>
@@ -1210,6 +1554,7 @@
             <div class="day-header">
                 <h2>Day 3 — Workshops</h2>
                 <span class="date-badge">Wed, Sep 9</span>
+                <span class="weather-badge" data-wx-badge="2026-09-09" style="background:#D6EAF8;color:#1A5276;">🌧️ 16° / 14° · bring umbrella</span>
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-fixed">fixed</span> Workshops</div>
@@ -1238,6 +1583,7 @@
             <div class="day-header">
                 <h2>Day 4 — Grauman keynote</h2>
                 <span class="date-badge">Thu, Sep 10</span>
+                <span class="weather-badge" data-wx-badge="2026-09-10" style="background:#D6EAF8;color:#1A5276;">🌦️ 15° / 12° · bring umbrella</span>
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-open">open</span> Morning spotlights 9:00–10:30 — optional</div>
@@ -1257,7 +1603,7 @@
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-open">open</span> Evening</div>
-                <div class="open-window">🟢 <strong>Travel window:</strong> After keynote (~16:30+) — sauna, old town dinner, or early Lund trip.</div>
+                <div class="open-window">🟢 <strong>Travel window:</strong> After keynote (~16:30+) — sauna (indoor, rain OK Thu 🌧️), old town dinner, or early Lund trip.</div>
                 <ul class="todo-list">
                     <li><span class="badge badge-heavy">Heavy</span> <span class="bilingual"><strong>Ribersborgs Kallbadhus</strong> <em class="en">(open-air bath &amp; sauna)</em></span> — ~SEK 65 entry.</li>
                     <li><span class="badge badge-food">Dinner</span> <strong>Bastard</strong> or <strong>Vollmers</strong> in
@@ -1270,6 +1616,7 @@
             <div class="day-header">
                 <h2>Day 5 — LeCun keynote</h2>
                 <span class="date-badge">Fri, Sep 11</span>
+                <span class="weather-badge" data-wx-badge="2026-09-11" style="background:#FFF3CD;color:#856404;">☁️ 15° / 12° · best for Lund</span>
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-open">open</span> Morning — before keynote</div>
@@ -1299,6 +1646,7 @@
             <div class="day-header">
                 <h2>Day 6 — Poster day + travel</h2>
                 <span class="date-badge">Sat, Sep 12</span>
+                <span class="weather-badge" data-wx-badge="2026-09-12">☁️ 16° / 14°</span>
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-open">open</span> Early morning</div>
@@ -1330,6 +1678,7 @@
             <div class="day-header">
                 <h2>Day 7 — Departure</h2>
                 <span class="date-badge">Sun, Sep 13</span>
+                <span class="weather-badge" data-wx-badge="2026-09-13">☁️ 18° / 13°</span>
             </div>
             <div class="time-block">
                 <div class="time-label"><span class="badge badge-open">open</span> Full day — Copenhagen</div>
@@ -1443,7 +1792,10 @@
                 <li><span class="bilingual"><strong>Kulturen</strong> <em class="en">(open-air museum)</em></span> OR <span class="bilingual"><strong>Botaniska trädgården</strong> <em class="en">(botanical garden, free)</em></span></li>
                 <li>Fika at <strong>Broder Jakobs</strong> or lunch at <strong>Stadskällaren</strong></li>
             </ol>
-            <p class="footnote"><strong>Best open slots:</strong> Wed evening, Fri 9:00–14:30, Fri evening. Sat only after 12:30 poster.</p>
+            <p class="footnote"><strong>Best open slots (schedule fixed):</strong> Wed evening, Fri 9:00–14:30, Fri evening. Sat only after 12:30 poster.</p>
+            <!-- AUTO_LUND_WX_HINT_START -->
+<p class="lund-wx-hint" id="lund-wx-hint">🌤 <strong>Weather pick for Lund</strong> (hint only — itinerary unchanged): <strong>Fri 11</strong> — ☁️ Overcast, 15° / 12° (precip ~39%). Use existing slot: Fri 9:00–14:30 (best half-day window).</p>
+            <!-- AUTO_LUND_WX_HINT_END -->
         </div>
 
         <h2 class="section-title" id="ikea">IKEA Malmö</h2>
@@ -1503,62 +1855,233 @@
 
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        var map = L.map('map').setView([55.60, 12.85], 11);
+        (function () {
+            var panelSchedule = document.querySelector('.panel-schedule');
+            var panelReference = document.querySelector('.panel-reference');
+            var syncing = false;
+            var desktopMq = window.matchMedia('(min-width: 1024px)');
+            var chromeCompact = false;
+            var map = null;
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+            function refreshMap() {
+                if (map) map.invalidateSize({ animate: false });
+            }
 
-        var locations = [
-            { name: "🏨 <strong>Quality Hotel View</strong><br>Hyllie Stationstorg 29", lat: 55.5628, lng: 12.9758 },
-            { name: "🚉 <strong>Malmö Hyllie</strong><br><em class="en">(train station / tågstation)</em>", lat: 55.5625, lng: 12.9755 },
-            { name: "🎙️ <strong>Malmö Arena</strong><br><em class="en">(main conference / keynotes / posters)</em>", lat: 55.5645, lng: 12.9759 },
-            { name: "🎙️ <strong>Malmömässan</strong><br><em class="en">(convention centre / mässa)</em>", lat: 55.5655, lng: 12.9735 },
-            { name: "🛍️ <strong>Emporia</strong><br><em class="en">(shopping centre / köpcentrum)</em>", lat: 55.5640, lng: 12.9730 },
-            { name: "☕ <strong>Espresso House</strong><br>Emporia", lat: 55.5642, lng: 12.9728 },
-            { name: "🏢 <strong>Turning Torso</strong><br><em>Västra Hamnen (Western Harbour)</em>", lat: 55.6133, lng: 12.9763 },
-            { name: "🇸🇪 <strong>Lilla torg</strong><br><em class="en">(Little Square / Gamla Staden)</em>", lat: 55.6041, lng: 12.9995 },
-            { name: "🍽️ <strong>Malmo Saluhall</strong><br><em class="en">(food hall / saluhall)</em>", lat: 55.5890, lng: 13.0070 },
-            { name: "🏰 <strong>Malmöhus</strong><br><em class="en">(castle / slott)</em>", lat: 55.6048, lng: 12.9877 },
-            { name: "🌊 <strong>Ribersborgs Kallbadhus</strong><br><em class="en">(open-air bath / bastu)</em>", lat: 55.6033, lng: 12.9649 },
-            { name: "🪑 <strong>IKEA Malmö</strong><br>Svågertorp", lat: 55.5450, lng: 12.9600 },
-            { name: "⛪ <strong>Lunds domkyrka</strong><br><em class="en">(Lund Cathedral)</em>", lat: 55.7041, lng: 13.1926 },
-            { name: "🎓 <strong>Lunds universitet</strong><br><em class="en">(Lund University / Lundagård)</em>", lat: 55.7055, lng: 13.1930 },
-            { name: "✈️ <strong>Københavns Lufthavn (CPH)</strong><br><em class="en">(Copenhagen Airport)</em>", lat: 55.6279, lng: 12.6515 },
-            { name: "🇩🇰 <strong>Nyhavn</strong><br><em class="en">(New Harbour)</em>", lat: 55.6800, lng: 12.5910 },
-            { name: "🎢 <strong>Tivoli</strong><br><em class="en">(amusement park / nöjespark)</em>", lat: 55.6737, lng: 12.5681 }
-        ];
+            /* Hide large banner while scrolling; sticky nav keeps "ECCV 2026" brand. */
+            function updateChromeCompact() {
+                var scrolled;
+                if (desktopMq.matches) {
+                    scrolled = (panelSchedule && panelSchedule.scrollTop > 20) ||
+                        (panelReference && panelReference.scrollTop > 20);
+                } else {
+                    scrolled = (window.scrollY || document.documentElement.scrollTop || 0) > 20;
+                }
+                if (scrolled === chromeCompact) return;
+                chromeCompact = scrolled;
+                document.body.classList.toggle('chrome-compact', chromeCompact);
+                requestAnimationFrame(function () {
+                    refreshMap();
+                    setTimeout(refreshMap, 300);
+                });
+            }
 
-        locations.forEach(function (loc) {
-            L.marker([loc.lat, loc.lng]).addTo(map).bindPopup(loc.name);
-        });
+            window.addEventListener('scroll', updateChromeCompact, { passive: true });
+            if (desktopMq.addEventListener) {
+                desktopMq.addEventListener('change', function () {
+                    updateChromeCompact();
+                    setTimeout(refreshMap, 50);
+                });
+            }
 
-        var resizeTimer;
-        window.addEventListener('resize', function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function () { map.invalidateSize(); }, 150);
-        });
-        setTimeout(function () { map.invalidateSize(); }, 400);
+            if (typeof L !== 'undefined') {
+                var PIN_COLORS = {
+                    hotel: '#E74C3C',
+                    conf: '#006AA7',
+                    transit: '#27AE60',
+                    sight: '#9B59B6',
+                    food: '#E67E22',
+                    cph: '#2980B9'
+                };
 
-        document.querySelectorAll('nav.quick-nav a[href^="#"]').forEach(function (link) {
-            link.addEventListener('click', function (e) {
-                var id = this.getAttribute('href').slice(1);
-                var target = document.getElementById(id);
-                if (!target || !window.matchMedia('(min-width: 1024px)').matches) return;
-                var panel = target.closest('.panel');
-                if (!panel) return;
-                e.preventDefault();
-                var head = panel.querySelector('.panel-head');
-                var headH = head ? head.offsetHeight : 0;
-                var y = target.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - headH - 8;
-                panel.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-                history.pushState(null, '', '#' + id);
+                function makePinIcon(color) {
+                    return L.divIcon({
+                        className: 'custom-pin',
+                        html: '<div class="pin"><div class="pin-inner" style="background:' + color + ';"></div></div>',
+                        iconSize: [28, 28],
+                        iconAnchor: [14, 28],
+                        popupAnchor: [0, -28]
+                    });
+                }
+
+                var mapEl = document.getElementById('map');
+                map = L.map(mapEl, { scrollWheelZoom: true }).setView([55.60, 12.85], 11);
+
+                /*
+                 * OSM.org tiles return Access Denied for github.io referers (works locally).
+                 * CARTO free basemaps now watermark "API KEY REQUIRED".
+                 * Esri World Street Map works on GitHub Pages without a key.
+                 * Popup HTML must stay in single-quoted JS strings so class="en" never breaks parse.
+                 */
+                var esriTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 19,
+                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, OpenStreetMap'
+                });
+                var osmFrTiles = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                    maxZoom: 20,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> / OSM France'
+                });
+                var tileErrors = 0;
+                esriTiles.on('tileerror', function () {
+                    tileErrors += 1;
+                    if (tileErrors >= 3 && map.hasLayer(esriTiles) && !map.hasLayer(osmFrTiles)) {
+                        map.removeLayer(esriTiles);
+                        osmFrTiles.addTo(map);
+                    }
+                });
+                esriTiles.addTo(map);
+
+                var locations = [
+                    { name: '🏨 <strong>Quality Hotel View</strong><br>Hyllie Stationstorg 29', lat: 55.5628, lng: 12.9758, type: 'hotel' },
+                    { name: '🚉 <strong>Malmö Hyllie</strong><br><em class="en">(train station / tågstation)</em>', lat: 55.5625, lng: 12.9755, type: 'transit' },
+                    { name: '🎙️ <strong>Malmö Arena</strong><br><em class="en">(main conference / keynotes / posters)</em>', lat: 55.5645, lng: 12.9759, type: 'conf' },
+                    { name: '🎙️ <strong>Malmömässan</strong><br><em class="en">(convention centre / mässa)</em>', lat: 55.5655, lng: 12.9735, type: 'conf' },
+                    { name: '🛍️ <strong>Emporia</strong><br><em class="en">(shopping centre / köpcentrum)</em>', lat: 55.5640, lng: 12.9730, type: 'sight' },
+                    { name: '☕ <strong>Espresso House</strong><br>Emporia', lat: 55.5642, lng: 12.9728, type: 'food' },
+                    { name: '🏢 <strong>Turning Torso</strong><br><em>Västra Hamnen (Western Harbour)</em>', lat: 55.6133, lng: 12.9763, type: 'sight' },
+                    { name: '🇸🇪 <strong>Lilla torg</strong><br><em class="en">(Little Square / Gamla Staden)</em>', lat: 55.6041, lng: 12.9995, type: 'sight' },
+                    { name: '🍽️ <strong>Malmo Saluhall</strong><br><em class="en">(food hall / saluhall)</em>', lat: 55.5890, lng: 13.0070, type: 'food' },
+                    { name: '🏰 <strong>Malmöhus</strong><br><em class="en">(castle / slott)</em>', lat: 55.6048, lng: 12.9877, type: 'sight' },
+                    { name: '🌊 <strong>Ribersborgs Kallbadhus</strong><br><em class="en">(open-air bath / bastu)</em>', lat: 55.6033, lng: 12.9649, type: 'sight' },
+                    { name: '🪑 <strong>IKEA Malmö</strong><br>Svågertorp', lat: 55.5450, lng: 12.9600, type: 'sight' },
+                    { name: '⛪ <strong>Lunds domkyrka</strong><br><em class="en">(Lund Cathedral)</em>', lat: 55.7041, lng: 13.1926, type: 'sight' },
+                    { name: '🎓 <strong>Lunds universitet</strong><br><em class="en">(Lund University / Lundagård)</em>', lat: 55.7055, lng: 13.1930, type: 'sight' },
+                    { name: '✈️ <strong>Københavns Lufthavn (CPH)</strong><br><em class="en">(Copenhagen Airport)</em>', lat: 55.6279, lng: 12.6515, type: 'cph' },
+                    { name: '🇩🇰 <strong>Nyhavn</strong><br><em class="en">(New Harbour)</em>', lat: 55.6800, lng: 12.5910, type: 'cph' },
+                    { name: '🎢 <strong>Tivoli</strong><br><em class="en">(amusement park / nöjespark)</em>', lat: 55.6737, lng: 12.5681, type: 'cph' }
+                ];
+
+                var bounds = [];
+                locations.forEach(function (loc) {
+                    var color = PIN_COLORS[loc.type] || PIN_COLORS.sight;
+                    L.marker([loc.lat, loc.lng], { icon: makePinIcon(color) })
+                        .addTo(map)
+                        .bindPopup(loc.name);
+                    bounds.push([loc.lat, loc.lng]);
+                });
+
+                if (bounds.length) {
+                    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+                }
+
+                var resizeTimer;
+                window.addEventListener('resize', function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(refreshMap, 150);
+                });
+
+                if (typeof ResizeObserver !== 'undefined') {
+                    new ResizeObserver(function () { refreshMap(); }).observe(mapEl);
+                }
+
+                setTimeout(refreshMap, 100);
+                setTimeout(refreshMap, 600);
+
+                if (typeof IntersectionObserver !== 'undefined') {
+                    new IntersectionObserver(function (entries) {
+                        if (entries.some(function (e) { return e.isIntersecting; })) {
+                            refreshMap();
+                        }
+                    }, { threshold: 0.1 }).observe(mapEl);
+                }
+            } else {
+                var mapFallback = document.getElementById('map');
+                if (mapFallback) {
+                    mapFallback.innerHTML = '<p style="padding:1.5rem;text-align:center;color:#7F8C8D;">Map could not load. Check your connection or try again later.</p>';
+                }
+                console.error('Leaflet failed to load; map unavailable.');
+            }
+
+            function scrollRatio(el) {
+                var max = el.scrollHeight - el.clientHeight;
+                return max > 0 ? el.scrollTop / max : 0;
+            }
+
+            function applyRatio(el, ratio) {
+                var max = el.scrollHeight - el.clientHeight;
+                el.scrollTop = ratio * max;
+            }
+
+            function syncPanels(source, target) {
+                if (!desktopMq.matches || syncing) return;
+                syncing = true;
+                applyRatio(target, scrollRatio(source));
+                requestAnimationFrame(function () { syncing = false; });
+            }
+
+            if (panelSchedule && panelReference) {
+                panelSchedule.addEventListener('scroll', function () {
+                    syncPanels(panelSchedule, panelReference);
+                    updateChromeCompact();
+                }, { passive: true });
+
+                panelReference.addEventListener('scroll', function () {
+                    syncPanels(panelReference, panelSchedule);
+                    updateChromeCompact();
+                }, { passive: true });
+            }
+
+            updateChromeCompact();
+
+            var navBrand = document.querySelector('.nav-brand');
+            if (navBrand) {
+                navBrand.style.cursor = 'pointer';
+                navBrand.title = 'Back to top';
+                navBrand.addEventListener('click', function () {
+                    if (desktopMq.matches) {
+                        syncing = true;
+                        if (panelSchedule) panelSchedule.scrollTo({ top: 0, behavior: 'smooth' });
+                        if (panelReference) panelReference.scrollTo({ top: 0, behavior: 'smooth' });
+                        setTimeout(function () { syncing = false; updateChromeCompact(); }, 500);
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            }
+
+            document.querySelectorAll('nav.quick-nav a[href^="#"]').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    var id = this.getAttribute('href').slice(1);
+                    var target = document.getElementById(id);
+                    if (!target || !desktopMq.matches) return;
+                    e.preventDefault();
+
+                    var panel = target.closest('.panel');
+                    if (!panel) return;
+
+                    var head = panel.querySelector('.panel-head');
+                    var headH = head ? head.offsetHeight : 0;
+                    var y = target.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - headH - 8;
+                    y = Math.max(0, y);
+
+                    syncing = true;
+                    panel.scrollTo({ top: y, behavior: 'smooth' });
+
+                    var other = panel === panelSchedule ? panelReference : panelSchedule;
+                    var ratio = y / Math.max(1, panel.scrollHeight - panel.clientHeight);
+                    var otherY = ratio * Math.max(0, other.scrollHeight - other.clientHeight);
+                    other.scrollTo({ top: otherY, behavior: 'smooth' });
+                    setTimeout(function () {
+                        syncing = false;
+                        updateChromeCompact();
+                        refreshMap();
+                    }, 600);
+
+                    history.pushState(null, '', '#' + id);
+                });
             });
-        });
+        })();
     </script>
 </body>
 
