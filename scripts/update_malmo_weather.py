@@ -243,23 +243,22 @@ def patch_html(html: str, days: List[Dict[str, Any]]) -> str:
     )
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    updated = f"Last auto-update: {now} · Open-Meteo Malmö · schedule unchanged"
+    updated = f"Last auto-update: {now} · Open-Meteo Malmö"
     html = replace_marked(html, "AUTO_WEATHER_UPDATED_START", "AUTO_WEATHER_UPDATED_END", updated)
 
     if lund_date:
         slot = LUND_CANDIDATES[lund_date]
         d = by_date[lund_date]
         hint = (
-            f'<p class="lund-wx-hint" id="lund-wx-hint">🌤 <strong>Weather pick for Lund</strong> '
-            f"(hint only — itinerary unchanged): <strong>{DAY_META[lund_date]['label']}</strong> "
+            f'<p class="lund-wx-hint" id="lund-wx-hint">🌤 <strong>Clearest day for Lund this week:</strong> '
+            f"<strong>{DAY_META[lund_date]['label']}</strong> "
             f"— {d['icon']} {d['desc']}, {d['tmax']}° / {d['tmin']}° "
-            f"(precip ~{d['precip_prob']}%). Use existing slot: {slot}.</p>"
+            f"(precip ~{d['precip_prob']}%). Suggested window: {slot}.</p>"
         )
     else:
         hint = (
-            '<p class="lund-wx-hint" id="lund-wx-hint">🌤 <strong>Weather pick for Lund</strong> '
-            "(hint only — itinerary unchanged): no clearly dry day in the open windows yet; "
-            "keep Wed evening / Fri morning / Sat afternoon as listed.</p>"
+            '<p class="lund-wx-hint" id="lund-wx-hint">🌤 <strong>Clearest day for Lund this week:</strong> '
+            "no clearly dry day yet among Wed evening / Fri morning / Sat afternoon.</p>"
         )
     html = replace_marked(html, "AUTO_LUND_WX_HINT_START", "AUTO_LUND_WX_HINT_END", hint)
 
