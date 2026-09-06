@@ -754,7 +754,7 @@
         }
 
         [id] {
-            scroll-margin-top: 56px;
+            scroll-margin-top: calc(var(--chrome-h) + 16px);
         }
 
         nav.quick-nav .nav-divider {
@@ -881,6 +881,11 @@
             margin-bottom: 16px;
         }
 
+        .table-scroll {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
         table.flights th,
         table.flights td {
             border: 1px solid #DCE6EE;
@@ -953,6 +958,7 @@
         }
 
         @media (min-width: 1024px) {
+            [id] { scroll-margin-top: 90px; }
             header {
                 padding: 28px 32px 24px;
             }
@@ -1108,6 +1114,57 @@
         .leaflet-popup-content {
             font-family: inherit;
         }
+
+        .bike-atlas {
+            --ride-blue: #006AA7;
+            --ride-ochre: #A34C00;
+            --rental-green: #176B47;
+            background: #fff;
+            border: 1px solid #DCE6EE;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .bike-controls, .bike-key, .bike-pickups {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .bike-controls button, .bike-controls select, .bike-pickups button {
+            font: inherit;
+            font-size: 0.9em;
+            padding: 8px 12px;
+            min-height: 44px;
+            border: 1px solid #006AA7;
+            border-radius: 4px;
+            background: #fff;
+            color: #006AA7;
+            cursor: pointer;
+            max-width: 100%;
+        }
+
+        .bike-controls button[aria-pressed="true"] { background: #006AA7; color: #fff; }
+        .bike-controls label { font-weight: 600; }
+        .bike-key { font-size: 0.85em; gap: 8px 16px; }
+        .bike-key span { display: inline-flex; align-items: center; gap: 6px; }
+        .bike-line-key { width: 28px; border-top: 4px solid var(--ride-blue); }
+        .bike-rental-key { color: #fff; background: var(--rental-green); border-radius: 4px; padding: 0 6px; font-style: normal; font-weight: 700; }
+        #bike-map { height: 440px; width: 100%; border-radius: 4px; z-index: 1; }
+        .bike-stop-pin, .bike-rental-pin { color: #fff; border: 2px solid #fff; box-shadow: 0 1px 5px #0005; font-weight: 700; text-align: center; line-height: 26px; border-radius: 50%; }
+        .bike-rental-pin { background: var(--rental-green); border-radius: 5px; line-height: 30px; }
+        .bike-shop-label { color: #176B47; border-color: #176B47; font-weight: 700; }
+        .bike-stop-list { font-size: 0.9em; padding-left: 24px; }
+        .bike-stop-list li { margin-bottom: 5px; }
+        .bike-pickup-note { background: #EAFAF1; border-left: 4px solid var(--rental-green); padding: 12px; }
+        .bike-map-status { margin: 12px 0; font-weight: 600; color: #006AA7; }
+        @media (max-width: 600px) {
+            #bike-map { height: 390px; }
+            .bike-atlas { padding: 12px; }
+        }
     </style>
 </head>
 
@@ -1126,8 +1183,10 @@
         <a href="#flights">Flights</a>
         <a href="#transit">Trains</a>
         <a href="#map-section">Map</a>
+        <a href="#cycling">Bike routes</a>
+        <a href="#bike-rental">Bike rental</a>
         <span class="nav-divider" aria-hidden="true">|</span>
-        <a href="#poster">Poster</a>
+        <a href="#poster">RAHA presentations</a>
         <a href="#schedule">Schedule</a>
         <a href="#food">Food &amp; Cafés</a>
         <a href="#malmo">Malmö</a>
@@ -1288,6 +1347,7 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
 
             <p style="margin:0 0 12px; font-size:0.93em; color:#34495E;">All times local. Long-haul segments on <strong>MU0707 / MU0708</strong>; connections via Shanghai Pudong (PVG, Terminal 1).</p>
 
+            <div class="table-scroll" role="region" aria-label="Outbound flights; scroll horizontally on small screens" tabindex="0">
             <table class="flights">
                 <thead>
                     <tr><th colspan="5">Outbound — Mon, Sep 7, 2026 (arrive Malmö evening)</th></tr>
@@ -1311,6 +1371,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                 </tbody>
             </table>
 
+            </div>
+            <div class="table-scroll" role="region" aria-label="Return flights; scroll horizontally on small screens" tabindex="0">
             <table class="flights">
                 <thead>
                     <tr><th colspan="5">Return — Sun, Sep 13 – Mon, Sep 14, 2026</th></tr>
@@ -1334,6 +1396,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                 </tbody>
             </table>
 
+            </div>
+
             <div class="route-box">
                 <h4>🛬 Arrival — CPH Airport → Quality Hotel View (Mon Sep 7)</h4>
                 <p><strong>Suggested timeline after MU0707 lands 19:00:</strong></p>
@@ -1355,7 +1419,9 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                     <li><strong>~17:34–17:49</strong> — Öresundståg toward <strong>Copenhagen Airport / Kastrup</strong> (~12 min, every ~15 min).</li>
                     <li><strong>~17:50–18:05</strong> — Arrive CPH station; follow signs up to Terminal 3 departures for China Eastern.</li>
                 </ol>
-                <p class="footnote">If you spend the day in Copenhagen (checkout morning, luggage at hotel or station lockers), use the alternate route from <strong>København H</strong> — Metro M2 or Öresundståg to CPH (~15 min). Leave the city by <strong>17:15</strong>.</p>
+                <p class="footnote">For the Sunday bike plan, take luggage to Copenhagen and store it before riding.
+                    Return the bike by 16:00, collect luggage by 16:30, then take a direct regional train from <strong>København H</strong>
+                    to CPH (~15 min plus waiting). Leave the city by <strong>17:15</strong>. M2 runs from Kongens Nytorv / Nørreport, not directly from København H.</p>
                 <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&origin=Quality+Hotel+View,+Hyllie+Stationstorg+29,+215+32+Malm%C3%B6,+Sweden&destination=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&travelmode=transit&departure_time=1789313400" target="_blank" rel="noopener">Open Google Maps — Hotel → CPH (transit, ~17:30 Sep 13)</a>
                 <a class="route-btn secondary" href="https://www.google.com/maps/dir/?api=1&origin=Copenhagen+Central+Station,+Copenhagen,+Denmark&destination=Copenhagen+Airport+(CPH),+Kastrup,+Denmark&travelmode=transit&departure_time=1789311600" target="_blank" rel="noopener" style="margin-left:8px;">Alternate: København H → CPH (~17:00)</a>
             </div>
@@ -1373,6 +1439,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
         <div class="map-wrap">
             <div id="map"></div>
         </div>
+        <p class="footnote">Bike-rental shops are green pins labelled “Bike rental” in their popups. New sightseeing pins cover both cities; positions are approximate location markers.
+            For cycling directions and stop order, use <a href="#cycling">M1 / M2 / C1 / C2</a>; this overview map does not show a navigable route line.</p>
 
         <h2 class="section-title" id="transit">Train &amp; bus reference</h2>
         <p class="footnote">Sample weekday departures for ECCV week (29 Jun–14 Aug 2026 timetable period). Always verify
@@ -1451,10 +1519,17 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </div>
 
         <div class="poster-callout" id="poster">
-            <h3>📌 Poster #393</h3>
+            <h3>RAHA — two presentation days</h3>
             <p style="margin:0; font-size:0.95em;"><em>Rank-Aware Hyperbolic Alignment for Vision-Language Dataset Distillation</em><br>
-                <strong>Poster Session 5</strong> · Sat, Sep 12 · <strong>10:30 AM – 12:30 PM</strong> · Malmö Arena<br>
-                Pin up before the session and stay at the board for the full slot.</p>
+                <a href="https://andyj1.github.io/raha/">RAHA project / presentation QR destination</a></p>
+            <p><strong>Wed, Sep 9 — Workshop presentation.</strong> Keep the day in Hyllie for presenting, setup and discussions.
+                <a href="https://curateddata.github.io/">CDEL workshop</a> (also linked from the RAHA project page).
+                Exact presentation time and room: confirm with your workshop organiser.</p>
+            <p><strong>Sat, Sep 12 — Main conference presentation.</strong> Existing itinerary lists Poster Session 5,
+                #393, 10:30–12:30 at Malmö Arena; reconfirm the slot and hall in the
+                <a href="https://eccv.ecva.net/virtual/2026/calendar">official programme</a>.</p>
+            <p>Presentation dates supplied by you. Rehearse the evening before, check poster/slides and QR links,
+                and reserve time for setup and follow-up. All rides are optional; no sightseeing before either presentation.</p>
         </div>
 
         <h2 class="section-title" id="schedule">Schema / Conference schedule</h2>
@@ -1468,10 +1543,10 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                 <tbody>
                     <tr><td>Mon 7</td><td data-wx-overview="2026-09-07">☁️ 22°</td><td class="cell-open">Arrive CPH 19:00</td><td class="cell-open">Evening Malmö C</td></tr>
                     <tr><td>Tue 8</td><td data-wx-overview="2026-09-08">🌦️ 20°</td><td class="cell-fixed">Workshops 8:30+</td><td class="cell-open">Afternoon / evening</td></tr>
-                    <tr><td>Wed 9</td><td data-wx-overview="2026-09-09">🌦️ 18°</td><td class="cell-fixed">CDEL · AVGenL</td><td class="cell-open">Evening Lund</td></tr>
+                    <tr><td>Wed 9</td><td data-wx-overview="2026-09-09">🌦️ 18°</td><td class="cell-poster">RAHA workshop presentation</td><td class="cell-open">Local dinner / rest</td></tr>
                     <tr><td>Thu 10</td><td data-wx-overview="2026-09-10">🌦️ 16°</td><td class="cell-fixed">Grauman 15:00</td><td class="cell-open">AM spotlights · sauna eve</td></tr>
                     <tr><td>Fri 11</td><td data-wx-overview="2026-09-11">🌦️ 16°</td><td class="cell-fixed">LeCun 15:00</td><td class="cell-open">9:00–14:30 Lund / IKEA</td></tr>
-                    <tr><td>Sat 12</td><td data-wx-overview="2026-09-12">☁️ 18°</td><td class="cell-poster">Poster #393 · 10:30–12:30</td><td class="cell-open">After 12:30 · IKEA · Copenhagen</td></tr>
+                    <tr><td>Sat 12</td><td data-wx-overview="2026-09-12">☁️ 18°</td><td class="cell-poster">RAHA main · confirm 10:30–12:30</td><td class="cell-open">After session + follow-up: one outing</td></tr>
                     <tr><td>Sun 13</td><td data-wx-overview="2026-09-13">🌦️ 17°</td><td class="cell-open">—</td><td class="cell-open">Copenhagen · CPH 21:00 flight</td></tr>
                 </tbody>
             </table>
@@ -1503,8 +1578,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                         <span class="bilingual"><strong>Stortorget</strong> <em class="en">(Big Square)</em></span>
                         — tåg / train to Malmö C, 5 min walk. Cobblestone terraces.
                     </li>
-                    <li><span class="badge badge-food">Eat</span> <span class="bilingual"><strong>Malmo Saluhall</strong> <em class="en">(food hall)</em></span> at
-                        Möllevångstorget <em class="en">(square)</em> — skagenröra <em class="en">(shrimp toast)</em>, oysters.</li>
+                    <li><span class="badge badge-food">Eat</span> Choose a place still open near the hotel or Lilla torg.
+                        Save <strong>Malmö Saluhall</strong> (Gibraltargatan 6, near Malmö C) for a daytime visit.</li>
                 </ul>
             </div>
         </div>
@@ -1538,7 +1613,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </div>
             <div class="time-block">
                 <div class="time-label">Afternoon &amp; evening</div>
-                <div class="open-window">After workshops (~13:00+) — waterfront walk, Malmö C old town, or an early night.</div>
+                <div class="open-window">If finished with workshops: <a href="#ride-m1">M1 waterfront ride</a> (2–3 hours including stops).
+                    Return the bike before the shop closes and keep the evening for RAHA rehearsal.</div>
                 <ul class="todo-list">
                     <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Turning Torso</strong></span> &amp;
                         <span class="bilingual"><strong>Västra Hamnen</strong> <em class="en">(Western Harbour)</em></span> promenade — 10 min walk.</li>
@@ -1549,13 +1625,15 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
 
         <div class="day-card highlight-day">
             <div class="day-header">
-                <h2>Day 3 — Workshops</h2>
+                <h2>Day 3 — RAHA workshop presentation</h2>
                 <span class="date-badge">Wed, Sep 9</span>
                 <span class="weather-badge" data-wx-badge="2026-09-09" style="background:#D6EAF8;color:#1A5276;">🌦️ 18° / 15° · bring umbrella</span>
             </div>
             <div class="time-block">
                 <div class="time-label">Workshops</div>
                 <ul class="todo-list">
+                    <li><span class="badge badge-fixed">Your presentation</span> <strong>RAHA workshop presentation — time / room to confirm.</strong>
+                        Prioritise your presenting session over the parallel workshops below. Keep slides, poster and a local PDF backup ready.</li>
                     <li><span class="badge badge-conf">8:15</span> <strong><a href="https://curateddata.github.io/">CDEL</a></strong>
                         (Curated Data for Efficient Learning) — Malmö Arena <strong>Panorama 2</strong> (ends 5:30 PM)
                         <span class="workshop-link">· <a href="https://eccv.ecva.net/virtual/2026/events/workshop">ECCV page</a></span>
@@ -1567,9 +1645,9 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </div>
             <div class="time-block">
                 <div class="time-label">Late afternoon / evening</div>
-                <div class="open-window">After workshops (~17:30) — train Malmö C → Lund C ~12 min; back by ~22:00.</div>
+                <div class="open-window">After presenting and workshop discussions — local dinner and rest. Keep any outing short and optional.</div>
                 <ul class="todo-list">
-                    <li><span class="badge badge-heavy">Lund</span> <span class="bilingual"><strong>Lunds domkyrka</strong> <em class="en">(Lund Cathedral)</em></span> — see <a href="#lund">Lund section</a>.</li>
+                    <li><span class="badge badge-light">Nearby</span> Hyllie Vattenpark or an old-town stroll if energy permits; move <a href="#lund">Lund</a> to a free window.</li>
                     <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Malmöhus</strong> <em class="en">(Malmö Castle)</em></span> &amp;
                         <span class="bilingual"><strong>Slottsparken</strong> <em class="en">(Castle Park)</em></span> if staying in Malmö.</li>
                 </ul>
@@ -1600,7 +1678,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </div>
             <div class="time-block">
                 <div class="time-label">Evening</div>
-                <div class="open-window">After the keynote (~16:30+) — sauna (indoor), old town dinner, or an early Lund trip.</div>
+                <div class="open-window">After conference commitments (~16:30+) — <a href="#ride-m1">M1 waterfront ride</a> if dry and rental return allows;
+                    otherwise sauna or old-town dinner. Skip the longer coast route if daylight or energy is limited.</div>
                 <ul class="todo-list">
                     <li><span class="badge badge-heavy">Heavy</span> <span class="bilingual"><strong>Ribersborgs Kallbadhus</strong> <em class="en">(open-air bath &amp; sauna)</em></span> — ~SEK 65 entry.</li>
                     <li><span class="badge badge-food">Dinner</span> <strong>Bastard</strong> or <strong>Vollmers</strong> in
@@ -1634,14 +1713,14 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             <div class="time-block">
                 <div class="time-label">Late evening</div>
                 <ul class="todo-list">
-                    <li><span class="badge badge-heavy">Lund</span> Evening cathedral &amp; student pubs if not visited yet.</li>
+                    <li><span class="badge badge-fixed">RAHA prep</span> Rehearse for Saturday, pack the poster and check the main-session hall. Choose an early night after the social.</li>
                 </ul>
             </div>
         </div>
 
         <div class="day-card highlight-day" style="border-left-color:#C0392B;">
             <div class="day-header">
-                <h2>Day 6 — Poster day + travel</h2>
+                <h2>Day 6 — RAHA main presentation + optional outing</h2>
                 <span class="date-badge">Sat, Sep 12</span>
                 <span class="weather-badge" data-wx-badge="2026-09-12" style="background:#FFF3CD;color:#856404;">☁️ 18° / 15° · best for Lund</span>
             </div>
@@ -1661,7 +1740,9 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </div>
             <div class="time-block">
                 <div class="time-label">Afternoon / evening</div>
-                <div class="open-window">After 12:30 — IKEA, Copenhagen, or Nyhavn (spotlights at 1:30 if interested).</div>
+                <div class="open-window">Only after your confirmed session, poster removal and follow-up conversations:
+                    choose <a href="#ride-m1">M1 in Malmö</a>, IKEA, or a Copenhagen visit. Do not stack all three.
+                    A late Copenhagen arrival suits a short walk or app bike; the full ride fits Sunday better.</div>
                 <ul class="todo-list">
                     <li><span class="badge badge-conf">1:30</span> Spotlights (Multimodal/Video ∥ Embodied AI)</li>
                     <li><span class="badge badge-heavy">IKEA</span> Bus 10 → <a href="#ikea">IKEA Malmö</a> — köttbullar <em class="en">(meatballs)</em></li>
@@ -1680,7 +1761,11 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             <div class="time-block">
                 <div class="time-label">Full day — Copenhagen</div>
                 <ul class="todo-list">
-                    <li><span class="badge badge-travel">Checkout</span> Leave Quality Hotel View by late morning; Öresundståg to <strong>København H</strong> (~20 min).</li>
+                    <li><span class="badge badge-travel">Checkout</span> Aim to leave Quality Hotel View around 09:00; train to <strong>København H</strong>
+                        (allow roughly 30–40 min from Hyllie, plus waiting; check live trains). Store luggage in Copenhagen before renting a bike.</li>
+                    <li><span class="badge badge-sight">Bike option</span> <strong>~10:30–14:00:</strong> choose <a href="#ride-c1">C1 royal waterfront</a>
+                        or <a href="#ride-c2">C2 Harbour Circle</a>, with lunch and photo stops. Return by <strong>16:00 at the latest</strong>
+                        or the shop's earlier deadline; collect luggage by 16:30. In rain, use the <a href="#copenhagen">museum alternatives</a>.</li>
                     <li><span class="badge badge-light">Light</span> <span class="bilingual"><strong>Tivoli</strong> <em class="en">(amusement park)</em></span>,
                         <span class="bilingual"><strong>Nyhavn</strong> <em class="en">(New Harbour)</em></span>, or
                         <span class="bilingual"><strong>Torvehallerne</strong> <em class="en">(food market)</em></span>.</li>
@@ -1702,7 +1787,183 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </div>
         </div>
 
-                <h2 class="section-title" id="food">Mat &amp; caféer / Food &amp; cafés — Malmö</h2>
+        <h2 class="section-title" id="cycling">Cykelturer / Bike routes</h2>
+        <section class="bike-atlas" id="bike-map-section" aria-label="Bike routes and rental pickup map">
+            <div class="bike-controls" aria-label="Choose city">
+                <button type="button" data-bike-city="malmo" aria-pressed="true">Malmö</button>
+                <button type="button" data-bike-city="copenhagen" aria-pressed="false">Copenhagen</button>
+            </div>
+            <div class="bike-controls">
+                <label for="bike-route-select">Ride</label>
+                <select id="bike-route-select">
+                    <option value="m1">M1 · Old town &amp; beach</option>
+                    <option value="m2">M2 · Coast &amp; bridge view</option>
+                </select>
+                <button type="button" id="bike-fit">Fit whole ride</button>
+            </div>
+            <div class="bike-key">
+                <span><i class="bike-line-key" aria-hidden="true"></i>Selected cycling route</span>
+                <span><i class="bike-rental-key" aria-hidden="true">R</i>Rental / pickup search area</span>
+                <span>Numbers = stop order</span>
+            </div>
+            <div id="bike-map" role="region" aria-label="Interactive cycling map; route stops and rental details also listed below"></div>
+            <p id="bike-map-status" class="bike-map-status" aria-live="polite">Loading route map…</p>
+            <div id="bike-pickup-note" class="bike-pickup-note"></div>
+            <p><strong>Find a rental pickup on the map:</strong></p>
+            <div id="bike-pickups" class="bike-pickups"></div>
+            <details>
+                <summary>Route stops in riding order</summary>
+                <ol id="bike-stop-list" class="bike-stop-list"></ol>
+            </details>
+            <p class="footnote">Lines follow a saved <a href="https://brouter.de/brouter-web/">BRouter</a> cycling route based on
+                <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, generated September 6, 2026.
+                These are suggested rides, not surveyed tracks. Park and walk for pedestrian-only sightseeing stops;
+                obey local signs and closures. Rental markers locate shops or named app-search areas, not live bike inventory.</p>
+            <noscript><p>Enable JavaScript for the map, or use the written routes and rental directions below.</p></noscript>
+        </section>
+        <div class="info-panel">
+            <h3>One ride per free window</h3>
+            <p><strong>Best fit:</strong> M1 for a free Malmö afternoon; C1 or C2 on Sunday, Sep 13.
+                Sep 9 and Sep 12 stay centred on your RAHA presentations. M2 needs a genuinely free half-day.</p>
+            <p>Custom distances and riding times below are planning estimates, excluding the train from Hyllie,
+                rental pickup and return. Stop-inclusive budgets are shown separately. Map links request cycling directions;
+                follow current signs and check the route before departure.</p>
+            <p><strong>Between cities:</strong> take the train and rent separately on each side.
+                You cannot cycle across the Øresund Bridge. A bridge-view ride ends on the Swedish coast.
+                If carrying a bike on a train, check the <a href="https://www.oresundstag.se/en/travel-information/">Öresundståg conditions</a>
+                and rental permission first; bike space and tickets are separate considerations.</p>
+        </div>
+
+        <div class="route-box" id="ride-m1">
+            <h4>M1 · Malmö old town &amp; beach promenade</h4>
+            <p><strong>Mapped loop 9.4 km · easy · 60–90 min riding · allow 2–3 hours with stops.</strong>
+                <a href="#bike-map-section" data-bike-route="m1">Show M1 on the map</a></p>
+            <ol>
+                <li>Start at <strong>Malmö C / Travelshop</strong>; Stortorget, S:t Petri and Lilla torg are a short old-town detour. Walk the bike on pedestrian areas.</li>
+                <li>Continue to <strong>Malmöhus</strong>, the castle parks and <strong>Fiskehoddorna</strong> fish huts; add a daytime food stop if open.</li>
+                <li>Ride to <strong>Ribersborg beach promenade</strong>, the highlight in your Komoot link. Park for the Kallbadhus pier; a sauna visit needs extra time.</li>
+                <li>Follow the coast toward <strong>Scaniaparken / Västra Hamnen</strong>, view Turning Torso from outside, then return to Malmö C via Malmö Saluhall.</li>
+            </ol>
+            <p><strong>Rental:</strong> Travelshop for a continuous ride; Malmö by bike for shorter legs if its return rules suit you.
+                <strong>Shorten:</strong> skip Västra Hamnen and return after Ribersborg. In wind or rain, walk the castle parks instead.</p>
+            <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Malmo+Centralstation+Sweden&amp;destination=Malmo+Centralstation+Sweden&amp;waypoints=Malmo+Castle+Sweden%7CRibersborgs+Kallbadhus+Sweden%7CTurning+Torso+Sweden&amp;travelmode=bicycling" target="_blank" rel="noopener">M1 cycling directions</a>
+            <a class="route-btn secondary" href="https://www.komoot.com/highlight/212649" target="_blank" rel="noopener">Komoot beach highlight</a>
+        </div>
+
+        <div class="route-box" id="ride-m2">
+            <h4>M2 · Malmö coast to the Øresund Bridge viewpoint</h4>
+            <p><strong>Mapped return ride 22 km · moderate distance, exposed coast · 1½–2½ hours riding · allow 3–4 hours.</strong>
+                <a href="#bike-map-section" data-bike-route="m2">Show M2 on the map</a></p>
+            <ol>
+                <li>Start at <strong>Malmö C</strong> and ride via Ribersborg's seaside paths.</li>
+                <li>Continue through <strong>Limhamn</strong> toward <strong>Sibbarp</strong>; use signed cycle streets around the harbour.</li>
+                <li>Make <strong>Luftkastellet / Lernacken</strong> your bridge-photo turnaround, then retrace the coast to Malmö C.</li>
+            </ol>
+            <p><strong>Rental:</strong> a day-hire city bike or e-bike from Travelshop. This adapts the coastal bridge-view idea in the
+                <a href="https://experiences.myrealtrip.com/products/5824039">MyRealTrip trip and traveller reviews</a>.
+                Turn back at Limhamn if the headwind is tiring; keep off the motorway and bridge approach.</p>
+            <p><strong>Conference fit:</strong> only a free half-day after checking the programme. Skip it on presentation mornings and on departure day.</p>
+            <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Malmo+Centralstation+Sweden&amp;destination=Luftkastellet+Malmo+Sweden&amp;waypoints=Ribersborgs+Kallbadhus+Sweden%7CLimhamns+smabatshamn+Sweden%7CSibbarps+Kallbadhus+Sweden&amp;travelmode=bicycling" target="_blank" rel="noopener">M2 outbound cycling directions</a>
+        </div>
+
+        <div class="route-box" id="ride-c1">
+            <h4>C1 · Copenhagen royal waterfront &amp; old town</h4>
+            <p><strong>Mapped loop 9.7 km · easy city riding · 60–90 min riding · allow 3–4 hours for exterior visits.</strong>
+                <a href="#bike-map-section" data-bike-route="c1">Show C1 on the map</a></p>
+            <ol>
+                <li><strong>København H → City Hall Square → Christiansborg → Royal Library / Black Diamond.</strong>
+                    Park to explore courtyards and the waterfront. Use cycle streets around pedestrian Strøget.</li>
+                <li><strong>Nyhavn → Amalienborg → Marble Church → Gefion Fountain → Little Mermaid.</strong>
+                    Walk through busy squares; add a short walk around Kastellet.</li>
+                <li><strong>Rosenborg / King's Garden → Torvehallerne → København H.</strong>
+                    Park outside the gardens and browse on foot; return to the rental's agreed drop-off.</li>
+            </ol>
+            <p><strong>Rental:</strong> Donkey Republic near København H for Sunday; Rosenborg Cykler near Nørreport if its opening hours fit.
+                <strong>Shorten:</strong> skip the Mermaid / Kastellet extension. Palace interiors or a canal tour replace other stops.</p>
+            <p>Combines the Copenhagen stops in your <a href="https://www.modetour.com/package/105333914">Modetour reference</a>
+                and <a href="https://m.blog.naver.com/millionname1/223616822867">Naver cycling diary</a>.
+                Two navigation legs keep the principal waypoints usable on mobile; the written stops include short detours.</p>
+            <a class="route-btn" href="https://www.google.com/maps/dir/?api=1&amp;origin=Copenhagen+Central+Station&amp;destination=Amalienborg+Copenhagen&amp;waypoints=Copenhagen+City+Hall%7CThe+Black+Diamond+Copenhagen%7CNyhavn+Copenhagen&amp;travelmode=bicycling" target="_blank" rel="noopener">C1 · station to Amalienborg</a>
+            <a class="route-btn secondary" href="https://www.google.com/maps/dir/?api=1&amp;origin=Amalienborg+Copenhagen&amp;destination=Copenhagen+Central+Station&amp;waypoints=Gefion+Fountain+Copenhagen%7CThe+Little+Mermaid+Copenhagen%7CRosenborg+Castle+Copenhagen&amp;travelmode=bicycling" target="_blank" rel="noopener">C1 · Mermaid &amp; return</a>
+        </div>
+
+        <div class="route-box" id="ride-c2">
+            <h4>C2 · Havneringen / Harbour Circle</h4>
+            <p><strong>Official Harbour Circle: 13 km. Our mapped circuit: 16.6 km including station access and detours.</strong>
+                Easy–moderate · allow 1½–2 hours riding and 3–4 hours with stops.
+                <a href="#bike-map-section" data-bike-route="c2">Show C2 on the map</a></p>
+            <p>The mapped ride adapts the official Harbour Circle through <strong>Nyhavn, Christianshavn, Islands Brygge, Nokken,
+                Slusen and Sydhavnen</strong>, returning along the city waterfront. Choose the shorter 2, 4 or 7 km sections if time is tight.</p>
+            <p><strong>Architecture detour:</strong> Cykelslangen (Bicycle Snake) links Dybbølsbro to Bryggebroen and Islands Brygge;
+                it is also a useful shortcut across the harbour. Cirkelbroen and the Black Diamond make good photo stops.</p>
+            <p><strong>Rental:</strong> Donkey Republic for Sunday; Baisikeli near Dybbølsbro on days it is open.
+                Add Christiania only if time allows, park and explore on foot, and respect posted photography rules.
+                This route covers the library / Islands Brygge / Christianshavn side of the Naver diary.</p>
+            <p><strong>Sunday cutoff:</strong> turn toward your return hub by 15:00, finish rental by 16:00 and retrieve luggage by 16:30.
+                Retain the 17:15–17:30 airport departure plan and 18:00 terminal arrival target.</p>
+            <a class="route-btn" href="https://www.visitcopenhagen.com/copenhagen/planning/the-harbour-circle-gdk1117372" target="_blank" rel="noopener">Official Harbour Circle &amp; map</a>
+            <a class="route-btn secondary" href="https://www.visitcopenhagen.com/copenhagen/planning/the-bicycle-snake-gdk1087414" target="_blank" rel="noopener">Bicycle Snake detour</a>
+        </div>
+
+        <h2 class="section-title" id="bike-rental">Where to rent a bike</h2>
+        <div class="logistics-grid">
+            <div class="logistics-card">
+                <h4>Malmö · Travelshop — staffed rental</h4>
+                <p><strong>Centralplan 10, Cykelgaraget, Malmö Centralstation.</strong> Take the train from Hyllie to Malmö C;
+                    look for the station bicycle garage. Best starting point for M1 / M2. Ask for a city bike or e-bike, helmet,
+                    lock and the exact return deadline; confirm September opening hours and availability before travelling.</p>
+                <p><a href="https://travelshop.se/sv/kontakt">Official contact / pickup address</a> ·
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Travelshop+Centralplan+10+Malmo">Find the shop</a> ·
+                    <a href="tel:+4640330570">+46 40 330 570</a></p>
+            </div>
+            <div class="logistics-card">
+                <h4>Malmö · Malmö by bike — station-based hire</h4>
+                <p>Use the official app to find bikes and return docks near <strong>Malmö C, central Malmö or Hyllie</strong>.
+                    Check live availability, station coverage, pass price and each ride's time limit before unlocking.
+                    For M2, a continuous day rental is simpler than managing docking intervals.</p>
+                <p><a href="https://malmo.se/hyrcykel">City of Malmö: bike-hire information</a> ·
+                    <a href="https://www.malmobybike.se/">Operator / station map</a></p>
+            </div>
+            <div class="logistics-card">
+                <h4>Copenhagen · Donkey Republic — best fit for Sunday</h4>
+                <p>App-based rental with designated return hubs. Search around <strong>København H, Nørreport or Nyhavn</strong>
+                    in the live app, check the price and choose a return hub before setting off. At the end, lock the bike
+                    and finish the rental in the app; simply parking does not end the hire. Carry a charged phone.</p>
+                <p><a href="https://www.donkey.bike/cities/copenhagen">Official Copenhagen rental / live hubs</a></p>
+            </div>
+            <div class="logistics-card">
+                <h4>Copenhagen · Baisikeli — near the Bicycle Snake</h4>
+                <p><strong>Ingerslevsgade 100, 1705 København V</strong>, by Dybbølsbro / Fisketorvet.
+                    The operator's rental page lists <strong>Mon–Fri 10:00–17:30, Sat 10:00–14:00, Sun closed</strong>.
+                    Reconfirm directly: that page is labelled an archive. Its listed hours do not fit your Sunday ride or a relaxed post-presentation Saturday pickup.</p>
+                <p><a href="https://baisikeli.dk/bike-rental-archive/">Operator's rental details</a> ·
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Baisikeli+Ingerslevsgade+100+Copenhagen">Find the shop</a> ·
+                    <a href="mailto:rental@baisikeli.dk">rental@baisikeli.dk</a></p>
+            </div>
+            <div class="logistics-card">
+                <h4>Copenhagen · Rosenborg Cykler — near Nørreport</h4>
+                <p><strong>Rosenborggade 3K, 1130 København K.</strong> Listed hours: Mon–Fri 08:30–18:00, Sat 10:00–15:00;
+                    Sunday hours are not listed. Standard bike: <strong>DKK 150 / 6 hours or DKK 200 / 24 hours</strong>;
+                    helmet extra. Verify booking price and return terms. Do not rely on a Sunday walk-in.</p>
+                <p><a href="https://rosenborgcykler.dk/rent-a-bike/">Official rentals / prices</a> ·
+                    <a href="https://rosenborgcykler.dk/contact/">Hours</a> ·
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Rosenborg+Cykler+Rosenborggade+3K+Copenhagen">Find the shop</a></p>
+            </div>
+        </div>
+        <div class="sight-tier">
+            <h4>Before riding</h4>
+            <ul>
+                <li>Keep right, follow bicycle signals and signal turns / stops. Pull completely out of the lane for photos or navigation.</li>
+                <li>Walk the bike in pedestrian areas, crowded squares and any park or attraction that prohibits cycling. Bring a helmet, lights, lock and rain layer.</li>
+                <li>Coastal wind can change the effort considerably. Choose M1 or a short C2 section over a long exposed ride when tired.</li>
+                <li>The Naver writer hired from Grand Joanne in 2024. Treat its DKK 150/day mention as historical;
+                    guest access, current prices and availability need checking with the hotel.</li>
+            </ul>
+            <p class="footnote">Rental information checked September 6, 2026; prices, hours and availability can change.
+                <a href="https://www.visitcopenhagen.com/copenhagen/things-to-do/biking/bike-rules-in-copenhagen">Copenhagen cycling rules</a>.</p>
+        </div>
+
+        <h2 class="section-title" id="food">Mat &amp; caféer / Food &amp; cafés — Malmö</h2>
 
         <h3 style="color:#006AA7;font-size:1.1em;margin:0 0 12px;">☕ Near hotel &amp; Hyllie <em class="en">(walking distance)</em></h3>
         <div class="cafe-grid">
@@ -1772,6 +2033,19 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             </ul>
         </div>
 
+        <div class="sight-tier">
+            <h4>Along the rides · Malmö additions</h4>
+            <ul>
+                <li><strong>Fiskehoddorna</strong> — colourful fish-market huts by the castle, highlighted in the MyRealTrip traveller reviews.
+                    A daytime food/photo stop on M1; check stall opening before planning lunch.</li>
+                <li><strong>S:t Petri Church</strong> — an old-town architecture stop close to Stortorget and Malmö C.
+                    A useful short visit on M1; respect services and check visitor access.</li>
+                <li><strong>Scaniaparken / Västra Hamnen</strong> — open-water views near Turning Torso, a natural M1 stop.
+                    The shoreline is exposed, so let the wind determine how long you stay.</li>
+                <li><strong>Sibbarp &amp; Lernacken</strong> — coast and bridge-view turnaround for M2; allow time to ride back to the same rental shop.</li>
+            </ul>
+        </div>
+
         <h2 class="section-title" id="ikea">IKEA Malmö</h2>
         <div class="info-panel">
             <p><strong>Adress / Address:</strong> Kulthusgatan 1, Svågertorp, Malmö</p>
@@ -1786,7 +2060,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             <p><strong>Separate from Malmö:</strong> a compact university town ~12 min north by train. Cathedral, parks, and student cafés — easy half-day or evening trip.</p>
             <p><strong>Resa / Getting there:</strong> Hyllie → Malmö C <em class="en">(6 min)</em> → Lund C <em class="en">(10–13 min)</em>. ~SEK 46 each way.</p>
             <p><strong>Suggested route:</strong> Lund C → <strong>Lunds domkyrka</strong> <em class="en">(10 min walk)</em> → <strong>Lundagård</strong> → <strong>Kulturen</strong> or <strong>Botaniska trädgården</strong></p>
-            <p class="footnote"><strong>Good times to go:</strong> Wed evening, Fri 9:00–14:30, Fri evening, or Sat after 12:30.</p>
+            <p class="footnote"><strong>Good times to go:</strong> Fri morning if conference priorities allow, or Sat after the confirmed RAHA session and follow-up.
+                Keep Wednesday evening for rest and Friday evening for main-presentation preparation.</p>
             <!-- AUTO_LUND_WX_HINT_START -->
 <p class="lund-wx-hint" id="lund-wx-hint">🌤 <strong>Clearest day for Lund this week:</strong> <strong>Sat 12</strong> — ☁️ Overcast, 18° / 15° (precip ~30%). Suggested window: Sat after 12:30 poster.</p>
             <!-- AUTO_LUND_WX_HINT_END -->
@@ -1813,7 +2088,8 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
 
         <h2 class="section-title" id="copenhagen">🇩🇰 København / Copenhagen — day trip (Denmark)</h2>
         <div class="info-panel">
-            <p><strong>Broader day trip across the Öresund:</strong> another country, same regional trains. About 20–35 min from Malmö to <strong>København H</strong>. Keep ID handy for border checks.</p>
+            <p><strong>Broader day trip across the Öresund:</strong> another country, same regional trains.
+                Budget roughly 30–40 min from Hyllie to <strong>København H</strong>, longer from Malmö C, plus waiting; check live times. Keep your passport handy for border checks.</p>
             <p><strong>Resa / Getting there:</strong> Öresundståg from Malmö Hyllie or Malmö C → København H. Same ticket family as CPH Airport trains.</p>
             <p><strong>When:</strong> Sat afternoon after the poster, or all day Sunday before the evening flight from CPH.</p>
         </div>
@@ -1849,7 +2125,52 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                 <div class="cafe-card"><strong>Andersen &amp; Maillard</strong> — Nørrebro<br><span class="meta">☕ Famous bakery · croissants</span></div>
                 <div class="cafe-card"><strong>La Glace</strong> — near Strøget<br><span class="meta">☕ Historic patisserie · is <em class="en">(ice cream)</em> since 1870</span></div>
             </div>
-            <p class="footnote">From København H to CPH Airport: Metro M2 or Öresundståg ~15 min. Leave the city by ~17:15 on Sun Sep 13 for the 21:00 MU0708 departure.</p>
+            <p class="footnote">From København H to CPH Airport: direct regional train, roughly 15 minutes plus waiting.
+                M2 does not serve København H directly; it is an alternative from Kongens Nytorv or Nørreport.
+                Leave the city by ~17:15 on Sun Sep 13 for the 21:00 MU0708 departure.</p>
+        </div>
+
+        <div class="sight-tier" id="copenhagen-reference-sights">
+            <h4>From your references · Copenhagen stops to add</h4>
+            <ul>
+                <li><strong>Rådhuspladsen / City Hall Square</strong> — an easy exterior stop near the station, from Modetour's Copenhagen day.
+                    Pair with nearby Tivoli; allow 15–20 minutes for the square.</li>
+                <li><strong>Amalienborg</strong> — royal square from both Modetour and Naver; add the nearby
+                    <a href="https://www.visitcopenhagen.com/copenhagen/planning/the-marble-church-gdk414142">Marble Church</a> for its dome and architecture.
+                    Budget 30–45 minutes outside; interior visits need extra time.</li>
+                <li><a href="https://www.visitcopenhagen.com/copenhagen/planning/gefion-fountain-gdk410604"><strong>Gefion Fountain</strong></a>
+                    — Modetour stop beside Kastellet, easy to combine with the Mermaid. The sculpture depicts the Norse goddess and oxen;
+                    allow 15–20 minutes, longer for a walk around the citadel.</li>
+                <li><a href="https://www.kb.dk/en/visit-us/black-diamond-copenhagen"><strong>Royal Library / Black Diamond</strong></a>
+                    — Naver's architecture and work-break stop. The waterfront exterior fits C1 / C2; check the date-specific hours for the library, café and exhibitions.</li>
+                <li><strong>Islands Brygge</strong> — Naver's harbour-side stop, best paired with C2 and the Bicycle Snake.
+                    Enjoy the waterfront even without a swim; check the local bathing status before entering the water.</li>
+                <li><strong>Christiania</strong> — Naver's alternative-neighbourhood stop near Christianshavn.
+                    Allow 30–45 minutes on foot, respect residents and follow on-site photography signs.</li>
+                <li><strong>Nyhavn, Rosenborg and Christiansborg</strong> — already in this guide and linked together by C1.
+                    Choose one interior visit at most for a relaxed departure day.</li>
+            </ul>
+            <p><strong>Rain alternative:</strong> choose Glyptoteket or Designmuseum Danmark plus lunch and a short canal-side walk.
+                Do not try to fit both museums and a full bike loop before your flight.</p>
+        </div>
+
+        <div class="sight-tier" id="trip-sources">
+            <h4>Reference trail · what was used</h4>
+            <ul>
+                <li><a href="https://www.modetour.com/package/105333914">Modetour package 105333914</a>:
+                    Copenhagen day — Nyhavn, City Hall Square, Amalienborg, Gefion Fountain and the Little Mermaid.
+                    The package's Sep 14–22 dates and other Nordic cities are separate from this Sep 7–13 conference trip.</li>
+                <li><a href="https://experiences.myrealtrip.com/products/5824039?mylink_id=3537127&amp;utm_source=ssajam&amp;utm_medium=affiliate&amp;utm_content=copenhagen-tours-5824039">MyRealTrip Malmö day trip</a>:
+                    cross-border transport and self-guided cycling inspiration. Reviews mention coastal bridge views and Fiskehoddorna.
+                    Its ten-sight leaflet is not enumerated on the accessible page; rental inclusion depends on the selected option.</li>
+                <li><a href="https://www.komoot.com/highlight/212649">Komoot highlight 212649</a>:
+                    Malmö beach promenade, used in M1 and M2. This is a location highlight, not a complete route track.</li>
+                <li><a href="https://m.blog.naver.com/millionname1/223616822867?recommendCode=2&amp;recommendTrackingCode=2">Naver cycling diary, October 13, 2024</a>:
+                    Mermaid, Amalienborg, Rosenborg, Christiansborg, Royal Library, Islands Brygge, Christiania and Nyhavn.
+                    Its older rental prices are not current quotes.</li>
+            </ul>
+            <p class="footnote">Read September 6, 2026. New route combinations, distances and stop budgets are planning suggestions;
+                operator links above support rental details, and VisitCopenhagen supplies the official Harbour Circle route.</p>
         </div>
 
         <h2 class="section-title" id="tipping">Dricks / Tipping culture</h2>
@@ -1900,6 +2221,10 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
 
     </div>
 
+    <script type="application/json" id="bike-route-data">
+[{"id":"m1","city":"malmo","name":"M1 · Old town & beach","color":"#006AA7","stops":[["Travelshop / Malmö C",55.6101,13.0004],["Stortorget / old town",55.6057,13.0004],["Malmöhus / fish huts",55.6052,12.9869],["Ribersborg beach",55.6008,12.97],["Scaniaparken",55.6188,12.9756],["Turning Torso",55.6133,12.9763],["Malmö Saluhall",55.6072,12.9945],["Return · Travelshop",55.6101,13.0004]],"km":9.4,"coordinates":[[55.61005,13.00043],[55.60998,13.00004],[55.60994,12.99985],[55.60994,12.99962],[55.60993,12.99952],[55.60992,12.99938],[55.60989,12.99939],[55.60985,12.9994],[55.60976,12.99939],[55.6097,12.99937],[55.60966,12.9993],[55.60958,12.99912],[55.60954,12.99894],[55.60952,12.99887],[55.60947,12.99864],[55.60941,12.99863],[55.60935,12.99864],[55.60925,12.99867],[55.60922,12.99868],[55.60903,12.99877],[55.60896,12.99887],[55.60863,12.99904],[55.60849,12.99911],[55.60833,12.99922],[55.60826,12.99926],[55.60814,12.99933],[55.60791,12.99945],[55.60787,12.99946],[55.60778,12.9995],[55.60768,12.99956],[55.60759,12.99961],[55.60718,12.99981],[55.60715,12.99983],[55.60676,13.00003],[55.60666,13.00007],[55.60664,13.00018],[55.60663,13.0003],[55.60663,13.00073],[55.60657,13.00089],[55.60652,13.00101],[55.60648,13.00108],[55.60641,13.00116],[55.60634,13.00122],[55.60628,13.00126],[55.60619,13.00129],[55.6061,13.00129],[55.60601,13.00126],[55.60587,13.00114],[55.60577,13.00099],[55.6057,13.00082],[55.60565,13.00056],[55.60565,13.0004],[55.60565,13.00056],[55.6057,13.00082],[55.60577,13.00099],[55.60587,13.00114],[55.60601,13.00126],[55.6061,13.00129],[55.60619,13.00129],[55.60628,13.00126],[55.60634,13.00122],[55.60641,13.00116],[55.60648,13.00108],[55.60652,13.00101],[55.60657,13.00089],[55.60663,13.00073],[55.60663,13.0003],[55.60664,13.00018],[55.60666,13.00007],[55.60676,13.00003],[55.60715,12.99983],[55.60718,12.99981],[55.60716,12.99972],[55.60703,12.99899],[55.60702,12.99895],[55.6067,12.99773],[55.60668,12.99765],[55.60667,12.99758],[55.60648,12.99654],[55.60647,12.99644],[55.60645,12.99635],[55.60618,12.99475],[55.60616,12.99466],[55.60591,12.99347],[55.6059,12.99341],[55.60571,12.99253],[55.60571,12.9925],[55.60568,12.99237],[55.60564,12.99221],[55.60569,12.99217],[55.60572,12.99214],[55.6057,12.99207],[55.60545,12.99096],[55.60536,12.99058],[55.60534,12.99054],[55.60531,12.99051],[55.60517,12.98986],[55.60518,12.98977],[55.60519,12.98974],[55.60522,12.98972],[55.60562,12.98953],[55.60565,12.9895],[55.60567,12.98948],[55.60568,12.98944],[55.60572,12.98918],[55.60576,12.9891],[55.60584,12.98897],[55.60588,12.98888],[55.60592,12.98874],[55.60593,12.98871],[55.60594,12.98864],[55.60594,12.98852],[55.60592,12.98834],[55.60554,12.98646],[55.6055,12.98649],[55.60548,12.9865],[55.60545,12.98651],[55.60542,12.98653],[55.60534,12.98659],[55.60516,12.9867],[55.60534,12.98659],[55.60542,12.98653],[55.60545,12.98651],[55.60548,12.9865],[55.6055,12.98649],[55.60554,12.98646],[55.60533,12.98547],[55.60518,12.98483],[55.60499,12.98398],[55.60497,12.9839],[55.60495,12.98385],[55.60494,12.98379],[55.60493,12.98372],[55.6047,12.98334],[55.60411,12.98236],[55.60399,12.98214],[55.60388,12.98197],[55.60387,12.98189],[55.60389,12.98181],[55.60402,12.98154],[55.60411,12.98138],[55.60456,12.98075],[55.60464,12.98059],[55.6047,12.98048],[55.60473,12.98045],[55.60478,12.98038],[55.60481,12.98034],[55.60484,12.98029],[55.60487,12.98024],[55.60491,12.98017],[55.60486,12.98005],[55.60481,12.97988],[55.60479,12.97983],[55.60474,12.97974],[55.60467,12.97968],[55.60412,12.97833],[55.60405,12.97811],[55.60399,12.97788],[55.60392,12.9775],[55.60389,12.97731],[55.60388,12.97719],[55.60382,12.97687],[55.6037,12.97637],[55.6036,12.97584],[55.6033,12.97445],[55.60318,12.97398],[55.60314,12.97386],[55.60308,12.97367],[55.60299,12.97342],[55.60298,12.97337],[55.60245,12.97213],[55.60241,12.97203],[55.602,12.97057],[55.6016,12.96912],[55.60159,12.96907],[55.60159,12.96901],[55.6016,12.96894],[55.60163,12.96888],[55.60165,12.96884],[55.60163,12.96878],[55.6016,12.96869],[55.60157,12.9686],[55.60153,12.96858],[55.60144,12.9685],[55.60139,12.96842],[55.60134,12.96846],[55.60126,12.96854],[55.60127,12.9686],[55.60126,12.96866],[55.60125,12.96876],[55.60122,12.96884],[55.6012,12.96889],[55.60119,12.96891],[55.6011,12.96907],[55.60104,12.96911],[55.60081,12.96926],[55.60068,12.96934],[55.60081,12.96926],[55.60104,12.96911],[55.6011,12.96907],[55.60122,12.969],[55.60133,12.96893],[55.60136,12.96899],[55.60139,12.96902],[55.60143,12.96903],[55.60148,12.969],[55.60151,12.96897],[55.60153,12.96888],[55.60154,12.96883],[55.60153,12.96875],[55.6016,12.96869],[55.60163,12.96878],[55.60165,12.96884],[55.6018,12.96888],[55.60192,12.96879],[55.60235,12.96844],[55.60247,12.96832],[55.60251,12.9683],[55.60254,12.96826],[55.60414,12.97392],[55.60475,12.97602],[55.60516,12.97735],[55.60542,12.97829],[55.60552,12.97852],[55.60562,12.9787],[55.60567,12.97863],[55.60573,12.97863],[55.60578,12.97868],[55.60586,12.97882],[55.60602,12.97905],[55.60603,12.97907],[55.60613,12.97913],[55.6065,12.97895],[55.60658,12.97892],[55.60718,12.97867],[55.60755,12.9785],[55.60774,12.97843],[55.6079,12.97836],[55.60795,12.97832],[55.60827,12.97817],[55.60836,12.97816],[55.60838,12.97815],[55.60856,12.97807],[55.60885,12.97796],[55.60912,12.97783],[55.6096,12.97764],[55.60967,12.97761],[55.60991,12.97751],[55.60994,12.97751],[55.60997,12.97752],[55.60999,12.97756],[55.61001,12.97761],[55.61009,12.97821],[55.61011,12.9782],[55.61022,12.97815],[55.61063,12.97798],[55.61111,12.97777],[55.61134,12.97767],[55.61185,12.97745],[55.61186,12.97745],[55.61199,12.97739],[55.61205,12.97737],[55.61215,12.97732],[55.61262,12.97711],[55.61296,12.97697],[55.61307,12.97692],[55.61318,12.97687],[55.61357,12.97671],[55.61447,12.97632],[55.61489,12.97615],[55.6155,12.97588],[55.61572,12.97579],[55.61574,12.97578],[55.61586,12.97573],[55.61589,12.97572],[55.61633,12.97552],[55.61648,12.97546],[55.61664,12.9754],[55.61671,12.97537],[55.61704,12.97521],[55.6176,12.9759],[55.61773,12.97607],[55.61792,12.9763],[55.61805,12.9763],[55.61818,12.97624],[55.61826,12.97619],[55.6184,12.97616],[55.61849,12.97617],[55.61865,12.97623],[55.61859,12.97616],[55.61784,12.97528],[55.6176,12.9759],[55.61704,12.97521],[55.61662,12.97458],[55.61648,12.97464],[55.61637,12.97471],[55.61623,12.97472],[55.61613,12.97474],[55.61597,12.97481],[55.61577,12.97487],[55.61565,12.97482],[55.6156,12.97483],[55.61537,12.97494],[55.61435,12.97539],[55.61344,12.97578],[55.61297,12.97597],[55.61303,12.97604],[55.61309,12.97611],[55.61311,12.97613],[55.61317,12.9762],[55.61311,12.97613],[55.61309,12.97611],[55.61303,12.97604],[55.61297,12.97597],[55.61293,12.97599],[55.61307,12.97692],[55.61296,12.97697],[55.61262,12.97711],[55.61215,12.97732],[55.61205,12.97737],[55.61199,12.97739],[55.61186,12.97745],[55.61185,12.97745],[55.61134,12.97767],[55.61111,12.97777],[55.61063,12.97798],[55.61022,12.97815],[55.61011,12.9782],[55.61009,12.97821],[55.61001,12.97824],[55.60991,12.97828],[55.60986,12.9783],[55.60984,12.97815],[55.60981,12.9781],[55.60977,12.97805],[55.60973,12.97805],[55.60943,12.97817],[55.60925,12.97826],[55.60893,12.97839],[55.60865,12.97851],[55.60862,12.97852],[55.60831,12.97865],[55.60793,12.97882],[55.60699,12.97926],[55.60681,12.97934],[55.60674,12.97937],[55.60686,12.98024],[55.60698,12.98124],[55.60699,12.98148],[55.60697,12.98166],[55.60693,12.98188],[55.60692,12.98209],[55.60698,12.98256],[55.60704,12.98286],[55.60706,12.98308],[55.60706,12.98315],[55.60705,12.98323],[55.60707,12.98333],[55.60709,12.98347],[55.60711,12.98366],[55.60715,12.98372],[55.60717,12.9839],[55.60721,12.98417],[55.60721,12.98423],[55.60728,12.98475],[55.6073,12.98489],[55.60733,12.98511],[55.60734,12.98521],[55.60741,12.98588],[55.60748,12.98651],[55.60754,12.98699],[55.60757,12.98721],[55.60767,12.98808],[55.60768,12.98823],[55.60769,12.98832],[55.6077,12.9884],[55.60777,12.98905],[55.60788,12.99009],[55.60792,12.99021],[55.60799,12.99081],[55.60804,12.9913],[55.60803,12.99133],[55.60803,12.99137],[55.608,12.9914],[55.60801,12.99143],[55.60801,12.99149],[55.60802,12.99163],[55.60804,12.99177],[55.60804,12.99184],[55.6081,12.99214],[55.60829,12.99396],[55.6084,12.99504],[55.6084,12.99507],[55.60839,12.99519],[55.60836,12.99528],[55.60832,12.99534],[55.60814,12.99546],[55.60788,12.99567],[55.60771,12.99577],[55.60748,12.99588],[55.60748,12.99585],[55.60724,12.99488],[55.60712,12.99475],[55.60724,12.99488],[55.60748,12.99585],[55.60748,12.99588],[55.60771,12.99577],[55.60788,12.99567],[55.60814,12.99546],[55.60832,12.99534],[55.60836,12.99528],[55.60839,12.99519],[55.6084,12.99527],[55.60841,12.99542],[55.60842,12.99556],[55.60842,12.99563],[55.60845,12.99573],[55.6085,12.99592],[55.60854,12.99603],[55.60866,12.99641],[55.60869,12.9965],[55.60871,12.99654],[55.60878,12.99666],[55.60881,12.99675],[55.60897,12.99735],[55.6091,12.99783],[55.60914,12.99799],[55.60921,12.9984],[55.60923,12.99847],[55.60923,12.99856],[55.60925,12.99867],[55.60927,12.99882],[55.6093,12.99904],[55.60942,12.99896],[55.60944,12.99901],[55.60951,12.99928],[55.60956,12.99939],[55.60961,12.99947],[55.60966,12.99952],[55.6097,12.99954],[55.60981,12.99954],[55.60991,12.99952],[55.60993,12.99952],[55.60994,12.99962],[55.60994,12.99985],[55.60998,13.00004],[55.61005,13.00043]],"source":"https://brouter.de/brouter?lonlats=13.0004%2C55.6101%7C13.0004%2C55.6057%7C12.9869%2C55.6052%7C12.97%2C55.6008%7C12.9756%2C55.6188%7C12.9763%2C55.6133%7C12.9945%2C55.6072%7C13.0004%2C55.6101&profile=trekking&alternativeidx=0&format=geojson"},{"id":"m2","city":"malmo","name":"M2 · Coast & bridge view","color":"#A34C00","stops":[["Travelshop / Malmö C",55.6101,13.0004],["Ribersborg beach",55.6008,12.97],["Limhamn harbour",55.5923,12.9298],["Sibbarp",55.578,12.916],["Luftkastellet · turn back here",55.566,12.9009],["Return · Travelshop",55.6101,13.0004]],"km":22,"coordinates":[[55.61005,13.00043],[55.60998,13.00004],[55.60994,12.99985],[55.60994,12.99962],[55.60993,12.99952],[55.60992,12.99938],[55.60991,12.99931],[55.6099,12.99928],[55.60988,12.99926],[55.60982,12.99927],[55.60979,12.99926],[55.60976,12.99922],[55.60969,12.99899],[55.60966,12.99884],[55.60954,12.99829],[55.60951,12.99833],[55.60941,12.99838],[55.60931,12.99844],[55.60923,12.99847],[55.60921,12.9984],[55.60914,12.99799],[55.6091,12.99783],[55.60897,12.99735],[55.60881,12.99675],[55.60878,12.99666],[55.60871,12.99654],[55.60869,12.9965],[55.60866,12.99641],[55.60854,12.99603],[55.6085,12.99592],[55.60845,12.99573],[55.60842,12.99563],[55.60842,12.99556],[55.60841,12.99542],[55.6084,12.99527],[55.60839,12.99519],[55.6084,12.99507],[55.6084,12.99504],[55.60829,12.99396],[55.6081,12.99214],[55.60804,12.99184],[55.60804,12.99177],[55.60802,12.99163],[55.60801,12.99149],[55.60801,12.99143],[55.608,12.9914],[55.60803,12.99137],[55.60803,12.99133],[55.60804,12.9913],[55.60799,12.99081],[55.60792,12.99021],[55.60788,12.99009],[55.60777,12.98905],[55.6077,12.9884],[55.60769,12.98832],[55.60768,12.98823],[55.60767,12.98808],[55.60757,12.98721],[55.60754,12.98699],[55.60748,12.98651],[55.60741,12.98588],[55.60734,12.98521],[55.60733,12.98511],[55.6073,12.98489],[55.60728,12.98475],[55.60721,12.98423],[55.60721,12.98417],[55.60717,12.9839],[55.60715,12.98372],[55.60711,12.98366],[55.60709,12.98347],[55.60707,12.98333],[55.60705,12.98323],[55.60706,12.98315],[55.60706,12.98308],[55.60704,12.98286],[55.60698,12.98256],[55.60692,12.98209],[55.60693,12.98188],[55.60697,12.98166],[55.60699,12.98148],[55.60698,12.98124],[55.60686,12.98024],[55.60674,12.97937],[55.60668,12.97923],[55.60661,12.97918],[55.60619,12.97935],[55.60607,12.97938],[55.606,12.97931],[55.60592,12.9792],[55.60577,12.97895],[55.60572,12.97891],[55.60567,12.97891],[55.60564,12.97894],[55.60562,12.97898],[55.60553,12.97912],[55.60541,12.97932],[55.60533,12.9795],[55.60521,12.97971],[55.60519,12.97975],[55.6051,12.9799],[55.60491,12.98017],[55.60486,12.98005],[55.60481,12.97988],[55.60479,12.97983],[55.60474,12.97974],[55.60467,12.97968],[55.60412,12.97833],[55.60405,12.97811],[55.60399,12.97788],[55.60392,12.9775],[55.60389,12.97731],[55.60388,12.97719],[55.60382,12.97687],[55.6037,12.97637],[55.6036,12.97584],[55.6033,12.97445],[55.60318,12.97398],[55.60314,12.97386],[55.60308,12.97367],[55.60299,12.97342],[55.60298,12.97337],[55.60245,12.97213],[55.60241,12.97203],[55.602,12.97057],[55.6016,12.96912],[55.60159,12.96907],[55.60159,12.96901],[55.6016,12.96894],[55.60163,12.96888],[55.60165,12.96884],[55.60163,12.96878],[55.6016,12.96869],[55.60157,12.9686],[55.60153,12.96858],[55.60144,12.9685],[55.60139,12.96842],[55.60134,12.96846],[55.60126,12.96854],[55.60127,12.9686],[55.60126,12.96866],[55.60125,12.96876],[55.60122,12.96884],[55.6012,12.96889],[55.60119,12.96891],[55.6011,12.96907],[55.60104,12.96911],[55.60081,12.96926],[55.60068,12.96934],[55.60081,12.96926],[55.60104,12.96911],[55.6011,12.96907],[55.60119,12.96891],[55.6012,12.96889],[55.60122,12.96884],[55.60125,12.96876],[55.60126,12.96866],[55.60127,12.9686],[55.60126,12.96854],[55.60134,12.96846],[55.60139,12.96842],[55.60137,12.96826],[55.60133,12.96805],[55.60132,12.96802],[55.60041,12.96448],[55.60011,12.96347],[55.59986,12.96264],[55.59964,12.96202],[55.5994,12.96138],[55.59922,12.96087],[55.59918,12.96078],[55.59902,12.96037],[55.59897,12.96023],[55.59896,12.9602],[55.59878,12.95974],[55.59851,12.95896],[55.59841,12.95874],[55.59798,12.95769],[55.59777,12.95722],[55.5973,12.9561],[55.59714,12.95579],[55.59698,12.95553],[55.59687,12.95541],[55.59622,12.95458],[55.59542,12.95272],[55.59424,12.95025],[55.59409,12.94992],[55.594,12.94967],[55.59393,12.94948],[55.59356,12.94848],[55.59339,12.94799],[55.59321,12.94756],[55.59291,12.94688],[55.59288,12.94681],[55.5921,12.94523],[55.59087,12.94298],[55.5904,12.94213],[55.59038,12.94203],[55.59038,12.94192],[55.59037,12.94182],[55.59036,12.94176],[55.5903,12.94157],[55.59027,12.94152],[55.59025,12.9415],[55.5902,12.94147],[55.59064,12.94032],[55.59104,12.93924],[55.59147,12.93807],[55.59152,12.93796],[55.59154,12.93791],[55.59155,12.9378],[55.59154,12.93773],[55.59155,12.93769],[55.59159,12.93762],[55.59163,12.93755],[55.59175,12.93734],[55.59235,12.93578],[55.5928,12.93459],[55.59312,12.93374],[55.59333,12.9332],[55.59359,12.93254],[55.5938,12.932],[55.59389,12.93175],[55.59347,12.93135],[55.59343,12.93131],[55.5933,12.93119],[55.59303,12.93093],[55.59302,12.93092],[55.59288,12.93078],[55.59264,12.93056],[55.59258,12.9305],[55.59256,12.93047],[55.59263,12.93016],[55.59229,12.92984],[55.59184,12.92942],[55.59175,12.92935],[55.59167,12.92963],[55.59126,12.92924],[55.5912,12.92919],[55.59059,12.92866],[55.59051,12.92852],[55.59006,12.92811],[55.58986,12.92795],[55.58994,12.92752],[55.5893,12.92693],[55.58914,12.9268],[55.5888,12.92649],[55.58877,12.92647],[55.58833,12.92604],[55.58816,12.92588],[55.58813,12.92585],[55.58808,12.92577],[55.58804,12.92572],[55.58794,12.92557],[55.58792,12.92554],[55.58788,12.92549],[55.58786,12.92545],[55.58769,12.92581],[55.58731,12.92665],[55.58695,12.92739],[55.58694,12.9274],[55.5869,12.92747],[55.58684,12.92739],[55.58679,12.92744],[55.58676,12.92745],[55.58631,12.9269],[55.58614,12.92669],[55.58523,12.9256],[55.58507,12.92537],[55.58438,12.92424],[55.58432,12.92413],[55.58388,12.92341],[55.5836,12.92289],[55.58319,12.92213],[55.58308,12.92195],[55.58297,12.92178],[55.58287,12.92157],[55.58278,12.92141],[55.58274,12.92133],[55.58266,12.92127],[55.58252,12.92103],[55.5823,12.92066],[55.5822,12.92048],[55.58172,12.91961],[55.58151,12.91926],[55.58139,12.91909],[55.58123,12.91888],[55.58087,12.91854],[55.58045,12.91815],[55.58004,12.91776],[55.57956,12.91724],[55.57948,12.91718],[55.57887,12.9165],[55.5785,12.91606],[55.57805,12.91556],[55.57779,12.91526],[55.57739,12.91483],[55.57737,12.91481],[55.57735,12.91495],[55.57751,12.91509],[55.578,12.91565],[55.57796,12.91598],[55.578,12.91565],[55.57751,12.91509],[55.57735,12.91495],[55.57724,12.91484],[55.57648,12.91423],[55.57611,12.91394],[55.57608,12.91391],[55.57604,12.91388],[55.57571,12.91362],[55.57566,12.91355],[55.57561,12.91351],[55.57507,12.9131],[55.57497,12.91301],[55.5746,12.91269],[55.57412,12.91232],[55.57343,12.91176],[55.57322,12.91166],[55.57313,12.91162],[55.57279,12.91146],[55.57203,12.91108],[55.57177,12.91095],[55.57167,12.91092],[55.57122,12.91064],[55.57104,12.91056],[55.57086,12.9105],[55.57079,12.91049],[55.57073,12.91049],[55.57045,12.91047],[55.57032,12.91044],[55.57017,12.91036],[55.57007,12.91023],[55.56999,12.91008],[55.56992,12.90978],[55.56987,12.9095],[55.56985,12.90927],[55.56985,12.90916],[55.56987,12.90906],[55.5699,12.90895],[55.56993,12.90882],[55.56995,12.90867],[55.56995,12.90844],[55.56997,12.90817],[55.57003,12.90789],[55.57009,12.90772],[55.57006,12.90768],[55.57005,12.90762],[55.57005,12.90752],[55.57008,12.90696],[55.57007,12.90691],[55.57005,12.90685],[55.57013,12.9066],[55.57015,12.90631],[55.5702,12.90585],[55.57024,12.90537],[55.57033,12.9042],[55.57034,12.90404],[55.57035,12.90387],[55.57034,12.90358],[55.57032,12.90293],[55.57032,12.90267],[55.57035,12.90254],[55.57042,12.90234],[55.57045,12.9022],[55.57049,12.90175],[55.57051,12.90156],[55.57052,12.90139],[55.57051,12.90131],[55.57049,12.90127],[55.57045,12.90121],[55.57044,12.90119],[55.5704,12.90113],[55.57039,12.90108],[55.57046,12.90062],[55.57046,12.90043],[55.57044,12.90023],[55.57039,12.90004],[55.57024,12.8996],[55.57018,12.89944],[55.57005,12.89915],[55.56994,12.89886],[55.56987,12.89868],[55.56977,12.89832],[55.56974,12.89821],[55.56969,12.89799],[55.56958,12.89767],[55.56952,12.89745],[55.56944,12.89725],[55.56938,12.89716],[55.56925,12.89699],[55.56909,12.89679],[55.56905,12.89676],[55.569,12.89672],[55.56891,12.89669],[55.56882,12.89667],[55.56872,12.89668],[55.56863,12.89671],[55.56855,12.89677],[55.56826,12.89703],[55.56798,12.89722],[55.56769,12.89776],[55.56758,12.89794],[55.56749,12.89813],[55.56744,12.8983],[55.56738,12.89866],[55.56737,12.89876],[55.56732,12.8989],[55.56724,12.89878],[55.56694,12.89836],[55.56676,12.89808],[55.56666,12.8979],[55.56656,12.89763],[55.56649,12.89741],[55.56644,12.89719],[55.56639,12.89688],[55.56637,12.89661],[55.56636,12.89637],[55.56637,12.89614],[55.56646,12.89521],[55.56642,12.89519],[55.56641,12.89537],[55.56639,12.89542],[55.56633,12.8955],[55.56631,12.89556],[55.56628,12.89571],[55.56626,12.89579],[55.56621,12.89583],[55.56619,12.8959],[55.56618,12.89593],[55.56619,12.896],[55.56619,12.89608],[55.56616,12.89616],[55.56616,12.8962],[55.56617,12.89626],[55.56622,12.89634],[55.56626,12.8964],[55.56629,12.89647],[55.56631,12.89652],[55.5663,12.89658],[55.56629,12.89662],[55.56619,12.89672],[55.56615,12.89677],[55.56612,12.89685],[55.56611,12.89691],[55.56608,12.89695],[55.56599,12.89702],[55.56596,12.89707],[55.56595,12.8971],[55.56595,12.89717],[55.56595,12.89748],[55.56598,12.89751],[55.56601,12.89784],[55.56602,12.89807],[55.56604,12.89824],[55.56608,12.89847],[55.56596,12.89847],[55.56592,12.8985],[55.56591,12.89854],[55.56586,12.89857],[55.56585,12.89861],[55.56587,12.8988],[55.56587,12.89888],[55.56586,12.89893],[55.56584,12.89908],[55.56583,12.8991],[55.56574,12.89911],[55.5657,12.89912],[55.56568,12.89916],[55.56568,12.89921],[55.56569,12.89924],[55.5657,12.89926],[55.56582,12.8993],[55.56589,12.8994],[55.56594,12.89949],[55.56594,12.89956],[55.56592,12.89961],[55.56592,12.8997],[55.56593,12.89977],[55.56597,12.89986],[55.56601,12.89992],[55.56602,12.89998],[55.56601,12.90006],[55.56599,12.90009],[55.56595,12.90009],[55.56589,12.90005],[55.56584,12.90005],[55.5658,12.90008],[55.56579,12.90014],[55.56578,12.90022],[55.5658,12.90028],[55.56585,12.90032],[55.56594,12.90043],[55.56598,12.9005],[55.56598,12.90057],[55.56596,12.90062],[55.5659,12.90071],[55.56596,12.90062],[55.56598,12.90057],[55.56598,12.9005],[55.56594,12.90043],[55.56585,12.90032],[55.5658,12.90028],[55.56578,12.90022],[55.56579,12.90014],[55.5658,12.90008],[55.56584,12.90005],[55.56589,12.90005],[55.56595,12.90009],[55.56599,12.90009],[55.56601,12.90006],[55.56602,12.89998],[55.56601,12.89992],[55.56597,12.89986],[55.56593,12.89977],[55.56592,12.8997],[55.56592,12.89961],[55.56594,12.89956],[55.56594,12.89949],[55.56589,12.8994],[55.56582,12.8993],[55.5657,12.89926],[55.56569,12.89924],[55.56568,12.89921],[55.56568,12.89916],[55.5657,12.89912],[55.56574,12.89911],[55.56583,12.8991],[55.56584,12.89908],[55.56586,12.89893],[55.56587,12.89888],[55.56587,12.8988],[55.56585,12.89861],[55.56586,12.89857],[55.56591,12.89854],[55.56592,12.8985],[55.56596,12.89847],[55.56608,12.89847],[55.56604,12.89824],[55.56602,12.89807],[55.56601,12.89784],[55.56598,12.89751],[55.56595,12.89748],[55.56595,12.89717],[55.56595,12.8971],[55.56596,12.89707],[55.56599,12.89702],[55.56608,12.89695],[55.56611,12.89691],[55.56612,12.89685],[55.56615,12.89677],[55.56619,12.89672],[55.56629,12.89662],[55.5663,12.89658],[55.56631,12.89652],[55.56629,12.89647],[55.56626,12.8964],[55.56622,12.89634],[55.56617,12.89626],[55.56616,12.8962],[55.56616,12.89616],[55.56619,12.89608],[55.56619,12.896],[55.56618,12.89593],[55.56619,12.8959],[55.56621,12.89583],[55.56626,12.89579],[55.56628,12.89571],[55.56631,12.89556],[55.56633,12.8955],[55.56639,12.89542],[55.56641,12.89537],[55.56642,12.89519],[55.56646,12.89521],[55.56637,12.89614],[55.56636,12.89637],[55.56637,12.89661],[55.56639,12.89688],[55.56644,12.89719],[55.56649,12.89741],[55.56656,12.89763],[55.56666,12.8979],[55.56676,12.89808],[55.56694,12.89836],[55.56724,12.89878],[55.56732,12.8989],[55.56737,12.89876],[55.56738,12.89866],[55.56744,12.8983],[55.56749,12.89813],[55.56758,12.89794],[55.56769,12.89776],[55.56798,12.89722],[55.56826,12.89703],[55.56855,12.89677],[55.56863,12.89671],[55.56872,12.89668],[55.56882,12.89667],[55.56891,12.89669],[55.569,12.89672],[55.56905,12.89676],[55.56909,12.89679],[55.56925,12.89699],[55.56938,12.89716],[55.56944,12.89725],[55.56952,12.89745],[55.56958,12.89767],[55.56969,12.89799],[55.56974,12.89821],[55.56977,12.89832],[55.56987,12.89868],[55.56994,12.89886],[55.57005,12.89915],[55.57018,12.89944],[55.57024,12.8996],[55.57039,12.90004],[55.57044,12.90023],[55.57046,12.90043],[55.57046,12.90062],[55.57039,12.90108],[55.5704,12.90113],[55.57044,12.90119],[55.57045,12.90121],[55.57049,12.90127],[55.57051,12.90131],[55.57052,12.90139],[55.57051,12.90156],[55.57049,12.90175],[55.57045,12.9022],[55.57042,12.90234],[55.57035,12.90254],[55.57032,12.90267],[55.57032,12.90293],[55.57034,12.90358],[55.57035,12.90387],[55.57034,12.90404],[55.57033,12.9042],[55.57024,12.90537],[55.5702,12.90585],[55.57015,12.90631],[55.57013,12.9066],[55.57005,12.90685],[55.57007,12.90691],[55.57008,12.90696],[55.57005,12.90752],[55.57005,12.90762],[55.57006,12.90768],[55.57009,12.90772],[55.57003,12.90789],[55.56997,12.90817],[55.56995,12.90844],[55.56995,12.90867],[55.56993,12.90882],[55.5699,12.90895],[55.56987,12.90906],[55.56985,12.90916],[55.56985,12.90927],[55.56987,12.9095],[55.56992,12.90978],[55.56999,12.91008],[55.57007,12.91023],[55.57017,12.91036],[55.57032,12.91044],[55.57045,12.91047],[55.57073,12.91049],[55.57079,12.91049],[55.57086,12.9105],[55.57104,12.91056],[55.57122,12.91064],[55.57167,12.91092],[55.57177,12.91095],[55.57203,12.91108],[55.57279,12.91146],[55.57313,12.91162],[55.57322,12.91166],[55.57343,12.91176],[55.57412,12.91232],[55.5746,12.91269],[55.57497,12.91301],[55.57507,12.9131],[55.57561,12.91351],[55.57566,12.91355],[55.57571,12.91362],[55.57604,12.91388],[55.57608,12.91391],[55.57611,12.91394],[55.57648,12.91423],[55.57724,12.91484],[55.57735,12.91495],[55.57751,12.91509],[55.578,12.91565],[55.57796,12.91598],[55.578,12.91565],[55.57751,12.91509],[55.57735,12.91495],[55.57737,12.91481],[55.57739,12.91483],[55.57779,12.91526],[55.57805,12.91556],[55.5785,12.91606],[55.57887,12.9165],[55.57948,12.91718],[55.57956,12.91724],[55.58004,12.91776],[55.58045,12.91815],[55.58087,12.91854],[55.58123,12.91888],[55.58139,12.91909],[55.58151,12.91926],[55.58172,12.91961],[55.5822,12.92048],[55.5823,12.92066],[55.58252,12.92103],[55.58266,12.92127],[55.58274,12.92133],[55.58278,12.92141],[55.58287,12.92157],[55.58297,12.92178],[55.58308,12.92195],[55.58319,12.92213],[55.5836,12.92289],[55.58388,12.92341],[55.58432,12.92413],[55.58438,12.92424],[55.58507,12.92537],[55.58523,12.9256],[55.58614,12.92669],[55.58631,12.9269],[55.58676,12.92745],[55.58679,12.92744],[55.58684,12.92739],[55.58693,12.92716],[55.58698,12.92707],[55.58729,12.9265],[55.58764,12.92574],[55.58782,12.92535],[55.58784,12.9254],[55.58786,12.92545],[55.58788,12.92549],[55.58792,12.92554],[55.58794,12.92557],[55.58804,12.92572],[55.58808,12.92577],[55.58813,12.92585],[55.58816,12.92588],[55.58833,12.92604],[55.58877,12.92647],[55.5888,12.92649],[55.58914,12.9268],[55.5893,12.92693],[55.58994,12.92752],[55.58986,12.92795],[55.59006,12.92811],[55.59051,12.92852],[55.59059,12.92866],[55.5912,12.92919],[55.59126,12.92924],[55.59167,12.92963],[55.59175,12.92935],[55.59184,12.92942],[55.59229,12.92984],[55.59263,12.93016],[55.59256,12.93047],[55.59258,12.9305],[55.59264,12.93056],[55.59288,12.93078],[55.59302,12.93092],[55.59303,12.93093],[55.5933,12.93119],[55.59343,12.93131],[55.59347,12.93135],[55.59389,12.93175],[55.59393,12.9318],[55.59387,12.93198],[55.59375,12.93224],[55.59359,12.93267],[55.59338,12.93325],[55.59332,12.93341],[55.59284,12.93464],[55.59246,12.9356],[55.59238,12.93583],[55.59171,12.9376],[55.59164,12.9378],[55.59156,12.938],[55.59152,12.93796],[55.59147,12.93807],[55.59104,12.93924],[55.59064,12.94032],[55.5902,12.94147],[55.59025,12.9415],[55.59027,12.94152],[55.5903,12.94157],[55.59036,12.94176],[55.59037,12.94182],[55.59038,12.94192],[55.59038,12.94203],[55.5904,12.94213],[55.59087,12.94298],[55.5921,12.94523],[55.59288,12.94681],[55.59291,12.94688],[55.59321,12.94756],[55.59339,12.94799],[55.59356,12.94848],[55.59393,12.94948],[55.594,12.94967],[55.59409,12.94992],[55.59424,12.95025],[55.59542,12.95272],[55.59622,12.95458],[55.59687,12.95541],[55.59698,12.95553],[55.59714,12.95579],[55.5973,12.9561],[55.59777,12.95722],[55.59798,12.95769],[55.59841,12.95874],[55.59851,12.95896],[55.59878,12.95974],[55.59896,12.9602],[55.59897,12.96023],[55.59902,12.96037],[55.59918,12.96078],[55.59922,12.96087],[55.5994,12.96138],[55.59964,12.96202],[55.59986,12.96264],[55.60011,12.96347],[55.60041,12.96448],[55.60132,12.96802],[55.60133,12.96805],[55.60137,12.96826],[55.60139,12.96842],[55.60134,12.96846],[55.60126,12.96854],[55.60127,12.9686],[55.60126,12.96866],[55.60125,12.96876],[55.60122,12.96884],[55.6012,12.96889],[55.60119,12.96891],[55.6011,12.96907],[55.60104,12.96911],[55.60081,12.96926],[55.60068,12.96934],[55.60081,12.96926],[55.60104,12.96911],[55.6011,12.96907],[55.60122,12.969],[55.60133,12.96893],[55.60136,12.96899],[55.60139,12.96902],[55.60143,12.96903],[55.60148,12.969],[55.60151,12.96897],[55.60153,12.96888],[55.60154,12.96883],[55.60153,12.96875],[55.6016,12.96869],[55.60163,12.96878],[55.60165,12.96884],[55.6018,12.96888],[55.60192,12.96879],[55.60235,12.96844],[55.60247,12.96832],[55.60251,12.9683],[55.60254,12.96826],[55.60414,12.97392],[55.60475,12.97602],[55.60516,12.97735],[55.60542,12.97829],[55.60546,12.97851],[55.60554,12.97883],[55.60558,12.97891],[55.60562,12.97898],[55.60564,12.97894],[55.60567,12.97891],[55.60572,12.97891],[55.60577,12.97895],[55.60592,12.9792],[55.606,12.97931],[55.60607,12.97938],[55.60619,12.97935],[55.60661,12.97918],[55.60668,12.97923],[55.60674,12.97937],[55.60686,12.98024],[55.60698,12.98124],[55.60699,12.98148],[55.60697,12.98166],[55.60693,12.98188],[55.60692,12.98209],[55.60698,12.98256],[55.60704,12.98286],[55.60706,12.98308],[55.60706,12.98315],[55.60705,12.98323],[55.60707,12.98333],[55.60709,12.98347],[55.60711,12.98366],[55.60715,12.98372],[55.60717,12.9839],[55.60721,12.98417],[55.60721,12.98423],[55.60728,12.98475],[55.6073,12.98489],[55.60733,12.98511],[55.60734,12.98521],[55.60741,12.98588],[55.60748,12.98651],[55.60754,12.98699],[55.60757,12.98721],[55.60767,12.98808],[55.60768,12.98823],[55.60769,12.98832],[55.6077,12.9884],[55.60777,12.98905],[55.60788,12.99009],[55.60792,12.99021],[55.60799,12.99081],[55.60804,12.9913],[55.60803,12.99133],[55.60803,12.99137],[55.608,12.9914],[55.60801,12.99143],[55.60801,12.99149],[55.60802,12.99163],[55.60804,12.99177],[55.60804,12.99184],[55.6081,12.99214],[55.60829,12.99396],[55.6084,12.99504],[55.6084,12.99507],[55.60839,12.99519],[55.6084,12.99527],[55.60841,12.99542],[55.60842,12.99556],[55.60842,12.99563],[55.60845,12.99573],[55.6085,12.99592],[55.60854,12.99603],[55.60866,12.99641],[55.60869,12.9965],[55.60871,12.99654],[55.60878,12.99666],[55.60881,12.99675],[55.60897,12.99735],[55.6091,12.99783],[55.60914,12.99799],[55.60921,12.9984],[55.60923,12.99847],[55.60923,12.99856],[55.60925,12.99867],[55.60927,12.99882],[55.6093,12.99904],[55.60942,12.99896],[55.60944,12.99901],[55.60951,12.99928],[55.60956,12.99939],[55.60961,12.99947],[55.60966,12.99952],[55.6097,12.99954],[55.60981,12.99954],[55.60991,12.99952],[55.60993,12.99952],[55.60994,12.99962],[55.60994,12.99985],[55.60998,13.00004],[55.61005,13.00043]],"source":"https://brouter.de/brouter?lonlats=13.0004%2C55.6101%7C12.97%2C55.6008%7C12.9298%2C55.5923%7C12.916%2C55.578%7C12.9009%2C55.566%7C12.916%2C55.578%7C12.9298%2C55.5923%7C12.97%2C55.6008%7C13.0004%2C55.6101&profile=trekking&alternativeidx=0&format=geojson"},{"id":"c1","city":"copenhagen","name":"C1 · Royal waterfront","color":"#006AA7","stops":[["København H · find an app bike",55.6727,12.5651],["City Hall Square",55.6761,12.5683],["Christiansborg",55.6763,12.5804],["Black Diamond",55.6739,12.5825],["Nyhavn",55.68,12.591],["Amalienborg",55.684,12.593],["Gefion Fountain",55.6895,12.5973],["Little Mermaid",55.6929,12.5993],["Rosenborg",55.6858,12.577],["Torvehallerne",55.6837,12.5713],["Return · København H hub area",55.6727,12.5651]],"km":9.7,"coordinates":[[55.67267,12.56504],[55.67265,12.56499],[55.67262,12.56502],[55.67271,12.56528],[55.67279,12.56555],[55.67288,12.5658],[55.67297,12.56569],[55.67302,12.56582],[55.67303,12.56586],[55.67304,12.56589],[55.67311,12.56598],[55.67314,12.56602],[55.67314,12.56604],[55.67318,12.56615],[55.67326,12.56607],[55.67334,12.56599],[55.67358,12.56573],[55.67366,12.56565],[55.6738,12.56553],[55.67392,12.56538],[55.67403,12.56524],[55.67442,12.56483],[55.67447,12.56477],[55.67457,12.56462],[55.67458,12.56493],[55.67479,12.5655],[55.67544,12.56726],[55.6755,12.56745],[55.67556,12.5676],[55.67557,12.56763],[55.67566,12.56791],[55.67571,12.56805],[55.67575,12.56811],[55.67579,12.56815],[55.67584,12.5682],[55.67589,12.5682],[55.67597,12.56809],[55.67603,12.56801],[55.67604,12.56803],[55.67605,12.56806],[55.67609,12.56807],[55.67619,12.56823],[55.67611,12.56821],[55.67608,12.56826],[55.67608,12.56826],[55.676,12.56831],[55.67586,12.56853],[55.67604,12.56877],[55.67634,12.56915],[55.67638,12.56922],[55.67631,12.56935],[55.67593,12.57011],[55.6757,12.57057],[55.67559,12.57078],[55.67543,12.57111],[55.67516,12.57165],[55.6751,12.57177],[55.67488,12.5722],[55.67473,12.57247],[55.6745,12.57293],[55.67443,12.57305],[55.67391,12.57406],[55.67397,12.57422],[55.67424,12.57497],[55.6748,12.57649],[55.67484,12.57658],[55.67497,12.57697],[55.67506,12.57721],[55.6751,12.57732],[55.67491,12.57754],[55.67487,12.57762],[55.67481,12.57781],[55.6748,12.57791],[55.6748,12.57801],[55.67528,12.57934],[55.67532,12.57935],[55.67539,12.5793],[55.67567,12.579],[55.6757,12.57895],[55.67578,12.57916],[55.67583,12.5793],[55.67618,12.58027],[55.67618,12.58029],[55.67625,12.58046],[55.67635,12.58075],[55.67609,12.58104],[55.67606,12.58111],[55.67601,12.58117],[55.67595,12.5812],[55.67591,12.58124],[55.67589,12.58117],[55.67585,12.5812],[55.67573,12.58135],[55.67566,12.58118],[55.67562,12.58109],[55.67549,12.58125],[55.67538,12.58137],[55.67486,12.58199],[55.67453,12.58236],[55.67397,12.58302],[55.67391,12.58309],[55.67386,12.58292],[55.67376,12.58266],[55.67348,12.58187],[55.67344,12.58178],[55.67341,12.58182],[55.67382,12.58293],[55.67387,12.5831],[55.67388,12.58313],[55.67395,12.58339],[55.67398,12.58359],[55.67411,12.58444],[55.67419,12.58479],[55.67421,12.58488],[55.67425,12.58498],[55.67434,12.58526],[55.67444,12.58554],[55.67453,12.58578],[55.67469,12.58615],[55.67473,12.58632],[55.67475,12.5864],[55.67488,12.58667],[55.67506,12.58702],[55.67514,12.58714],[55.67523,12.58722],[55.67532,12.58726],[55.67536,12.58727],[55.67547,12.58726],[55.67559,12.58719],[55.67588,12.5871],[55.67591,12.5871],[55.67596,12.58707],[55.67608,12.58701],[55.67619,12.58695],[55.67651,12.58682],[55.67704,12.5866],[55.67751,12.58639],[55.67756,12.58636],[55.67762,12.58661],[55.6777,12.58672],[55.6779,12.58766],[55.67816,12.58877],[55.67851,12.59032],[55.67854,12.59043],[55.6786,12.59051],[55.67868,12.59057],[55.67876,12.59064],[55.67938,12.59112],[55.67944,12.59116],[55.6795,12.5912],[55.67951,12.5912],[55.67953,12.59122],[55.67975,12.5914],[55.67976,12.5914],[55.67981,12.59145],[55.67994,12.59095],[55.67981,12.59145],[55.68114,12.59257],[55.68133,12.59273],[55.68192,12.59322],[55.68196,12.59325],[55.68203,12.59331],[55.68243,12.59364],[55.68249,12.59369],[55.68255,12.59374],[55.68262,12.5938],[55.68268,12.59384],[55.68329,12.59435],[55.68362,12.59464],[55.68366,12.59448],[55.68379,12.59399],[55.68391,12.59355],[55.68372,12.59339],[55.68381,12.59305],[55.6839,12.59271],[55.68404,12.59283],[55.68409,12.59287],[55.68428,12.59303],[55.68419,12.59337],[55.68445,12.59359],[55.68482,12.59389],[55.68488,12.59394],[55.68564,12.59456],[55.68581,12.5947],[55.68601,12.59488],[55.68639,12.5952],[55.68648,12.59527],[55.68721,12.59586],[55.68797,12.59649],[55.68805,12.59656],[55.68814,12.59663],[55.68846,12.59691],[55.68888,12.59728],[55.68892,12.59736],[55.68907,12.59725],[55.6891,12.59727],[55.68943,12.59752],[55.6891,12.59727],[55.68907,12.59725],[55.68892,12.59736],[55.68896,12.59763],[55.689,12.59807],[55.68901,12.59822],[55.68901,12.59826],[55.68904,12.5985],[55.68915,12.59846],[55.68918,12.59841],[55.6892,12.59838],[55.68929,12.59833],[55.68936,12.59829],[55.68941,12.59826],[55.68958,12.59819],[55.68962,12.5982],[55.69024,12.59852],[55.69038,12.59857],[55.69049,12.59857],[55.69103,12.59856],[55.69112,12.59856],[55.69123,12.59855],[55.69157,12.59854],[55.69173,12.59855],[55.69175,12.59855],[55.69203,12.59855],[55.69241,12.59863],[55.6926,12.59867],[55.69259,12.59879],[55.69263,12.59879],[55.69266,12.5988],[55.69266,12.59887],[55.6928,12.59899],[55.69277,12.59911],[55.69289,12.59922],[55.69292,12.59927],[55.69289,12.59922],[55.69277,12.59911],[55.6928,12.59899],[55.69266,12.59887],[55.69266,12.5988],[55.69263,12.59879],[55.69259,12.59879],[55.6926,12.59867],[55.69241,12.59863],[55.69203,12.59855],[55.69175,12.59855],[55.69173,12.59855],[55.69157,12.59854],[55.69123,12.59855],[55.69112,12.59856],[55.69103,12.59856],[55.69049,12.59857],[55.69038,12.59857],[55.69024,12.59852],[55.68962,12.5982],[55.68958,12.59819],[55.68941,12.59826],[55.68936,12.59829],[55.68929,12.59833],[55.6892,12.59838],[55.68918,12.59841],[55.68915,12.59846],[55.68904,12.5985],[55.68901,12.59826],[55.68901,12.59822],[55.689,12.59807],[55.68896,12.59763],[55.68892,12.59736],[55.68888,12.59728],[55.68846,12.59691],[55.68814,12.59663],[55.68805,12.59656],[55.6879,12.59529],[55.6878,12.59449],[55.68774,12.59397],[55.6876,12.59285],[55.68753,12.59218],[55.68752,12.59212],[55.68741,12.59118],[55.68732,12.59047],[55.68734,12.59027],[55.68742,12.59004],[55.68779,12.58867],[55.68809,12.58753],[55.68826,12.58687],[55.68854,12.5858],[55.68857,12.58571],[55.68859,12.58563],[55.689,12.58408],[55.68871,12.58383],[55.6892,12.58197],[55.68881,12.58123],[55.68852,12.58063],[55.68836,12.58032],[55.68825,12.5801],[55.68818,12.57994],[55.68801,12.5796],[55.68789,12.57935],[55.68775,12.57908],[55.68772,12.57901],[55.68763,12.57874],[55.6876,12.57864],[55.68753,12.57843],[55.68749,12.5783],[55.68744,12.57814],[55.6874,12.57791],[55.68737,12.5778],[55.68735,12.57774],[55.68718,12.57745],[55.68689,12.57698],[55.68664,12.57676],[55.68659,12.5766],[55.68638,12.57629],[55.68636,12.57637],[55.6863,12.5765],[55.68629,12.57653],[55.6862,12.57668],[55.686,12.57699],[55.68598,12.57703],[55.68594,12.57709],[55.68588,12.57717],[55.6858,12.57704],[55.68577,12.57703],[55.68579,12.57699],[55.68577,12.57703],[55.6858,12.57704],[55.68588,12.57717],[55.68594,12.57709],[55.68598,12.57703],[55.686,12.57699],[55.6862,12.57668],[55.68629,12.57653],[55.6863,12.5765],[55.68636,12.57637],[55.68638,12.57629],[55.68585,12.57547],[55.68521,12.57446],[55.68513,12.57428],[55.68473,12.57366],[55.68471,12.57363],[55.68468,12.57359],[55.68458,12.57355],[55.68465,12.57332],[55.68467,12.57321],[55.68496,12.57211],[55.68503,12.57184],[55.68409,12.57067],[55.684,12.57056],[55.68398,12.57061],[55.6837,12.5713],[55.68366,12.57141],[55.68364,12.57147],[55.68353,12.57175],[55.68346,12.57162],[55.68341,12.57154],[55.68306,12.57099],[55.683,12.57089],[55.68296,12.57084],[55.68284,12.57065],[55.68279,12.57048],[55.68214,12.56963],[55.682,12.56944],[55.68198,12.56942],[55.68189,12.5693],[55.68182,12.56921],[55.68171,12.56907],[55.68166,12.56898],[55.68086,12.56796],[55.68035,12.56731],[55.68029,12.56724],[55.68024,12.56718],[55.67996,12.56681],[55.67945,12.56617],[55.67921,12.56585],[55.67917,12.56578],[55.67909,12.56568],[55.67903,12.56554],[55.67891,12.56521],[55.67889,12.56521],[55.67886,12.56522],[55.67881,12.56524],[55.67876,12.56516],[55.67874,12.56513],[55.67868,12.5651],[55.67862,12.565],[55.67857,12.56491],[55.6785,12.56478],[55.67838,12.56459],[55.67834,12.56453],[55.6782,12.56437],[55.67807,12.56418],[55.67785,12.56394],[55.67768,12.56378],[55.67739,12.56356],[55.67735,12.56353],[55.67721,12.56344],[55.67703,12.56332],[55.67697,12.56329],[55.67688,12.56324],[55.67666,12.56316],[55.67641,12.56309],[55.67619,12.56306],[55.67611,12.56306],[55.67596,12.56308],[55.67591,12.5631],[55.67585,12.56312],[55.67578,12.56316],[55.67571,12.56321],[55.67559,12.56334],[55.67557,12.56335],[55.67555,12.56337],[55.67534,12.56362],[55.67506,12.56394],[55.67482,12.5642],[55.67477,12.56425],[55.67472,12.56432],[55.67468,12.56434],[55.67461,12.56439],[55.67452,12.56449],[55.67438,12.56453],[55.67391,12.56503],[55.67385,12.56518],[55.67381,12.56521],[55.67373,12.56529],[55.67352,12.56563],[55.67348,12.56568],[55.67327,12.56591],[55.67314,12.56604],[55.67314,12.56602],[55.67311,12.56598],[55.67304,12.56589],[55.67303,12.56586],[55.67302,12.56582],[55.67297,12.56569],[55.67288,12.5658],[55.67279,12.56555],[55.67271,12.56528],[55.67262,12.56502],[55.67265,12.56499],[55.67267,12.56504]],"source":"https://brouter.de/brouter?lonlats=12.5651%2C55.6727%7C12.5683%2C55.6761%7C12.5804%2C55.6763%7C12.5825%2C55.6739%7C12.591%2C55.68%7C12.593%2C55.684%7C12.5973%2C55.6895%7C12.5993%2C55.6929%7C12.577%2C55.6858%7C12.5713%2C55.6837%7C12.5651%2C55.6727&profile=trekking&alternativeidx=0&format=geojson"},{"id":"c2","city":"copenhagen","name":"C2 · Harbour circuit","color":"#A34C00","stops":[["København H · find an app bike",55.6727,12.5651],["Nyhavn / Inner Harbour Bridge",55.6794,12.5938],["Christianshavn canals",55.676,12.594],["Cirkelbroen",55.6722,12.5835],["Islands Brygge",55.6683,12.5775],["Nokken",55.65167,12.56278],["Slusen · harbour crossing",55.6425,12.55216],["Teglholmen",55.6496,12.5516],["Bicycle Snake access",55.6627,12.5658],["Black Diamond",55.6739,12.5825],["Return · København H hub area",55.6727,12.5651]],"km":16.6,"coordinates":[[55.67267,12.56504],[55.67265,12.56499],[55.67262,12.56502],[55.67271,12.56528],[55.67279,12.56555],[55.67288,12.5658],[55.67297,12.56569],[55.67302,12.56582],[55.67303,12.56586],[55.67304,12.56589],[55.67311,12.56598],[55.67314,12.56602],[55.67314,12.56604],[55.67306,12.56613],[55.67303,12.56615],[55.673,12.56614],[55.67296,12.56611],[55.6729,12.56607],[55.67287,12.56608],[55.67284,12.5661],[55.6722,12.56678],[55.67218,12.56681],[55.67215,12.56691],[55.67213,12.567],[55.67209,12.56709],[55.67208,12.56711],[55.67207,12.56722],[55.67198,12.5673],[55.67172,12.56757],[55.6717,12.5676],[55.6716,12.56777],[55.67165,12.5679],[55.67171,12.56805],[55.67172,12.56809],[55.6719,12.56858],[55.67214,12.56921],[55.67244,12.57001],[55.67269,12.5707],[55.67281,12.57102],[55.67287,12.57119],[55.67295,12.57132],[55.67338,12.57198],[55.67343,12.57204],[55.67334,12.57223],[55.67297,12.57296],[55.67281,12.5733],[55.6727,12.57351],[55.67276,12.57362],[55.67282,12.57375],[55.67287,12.57387],[55.67294,12.57406],[55.67304,12.57432],[55.67317,12.57465],[55.6733,12.57503],[55.67334,12.57516],[55.6734,12.57535],[55.67411,12.57728],[55.67415,12.5774],[55.67429,12.57779],[55.67432,12.57786],[55.67464,12.57875],[55.67507,12.57995],[55.67509,12.58001],[55.67513,12.5801],[55.67513,12.58013],[55.67521,12.5803],[55.67533,12.58051],[55.67542,12.58064],[55.67562,12.58109],[55.67566,12.58118],[55.67573,12.58135],[55.67587,12.58171],[55.67593,12.58192],[55.67595,12.58201],[55.67601,12.58219],[55.67605,12.58226],[55.6761,12.58228],[55.67613,12.58229],[55.67624,12.58234],[55.67635,12.58239],[55.67639,12.58241],[55.67647,12.58244],[55.67651,12.58246],[55.67663,12.58263],[55.67666,12.58268],[55.67668,12.58273],[55.67689,12.58356],[55.67695,12.58384],[55.67711,12.58453],[55.67724,12.58511],[55.67751,12.58614],[55.67756,12.58636],[55.67762,12.58661],[55.6777,12.58672],[55.6779,12.58766],[55.67816,12.58877],[55.67851,12.59032],[55.67854,12.59043],[55.6786,12.59051],[55.67868,12.59057],[55.67876,12.59064],[55.67938,12.59112],[55.67944,12.59116],[55.6795,12.5912],[55.67951,12.5912],[55.67953,12.59122],[55.67975,12.5914],[55.67976,12.5914],[55.67981,12.59145],[55.68114,12.59257],[55.6811,12.59275],[55.68092,12.59342],[55.68091,12.59346],[55.68081,12.59382],[55.68068,12.59434],[55.67997,12.59376],[55.67983,12.59364],[55.67963,12.59443],[55.67931,12.59407],[55.67963,12.59443],[55.67983,12.59364],[55.67997,12.59376],[55.68068,12.59434],[55.68076,12.59441],[55.68088,12.59449],[55.681,12.59403],[55.6811,12.59362],[55.68111,12.59359],[55.68123,12.59313],[55.68129,12.59291],[55.68133,12.59273],[55.68114,12.59257],[55.67981,12.59145],[55.67976,12.5914],[55.67975,12.5914],[55.67953,12.59122],[55.67951,12.5912],[55.6795,12.5912],[55.67944,12.59116],[55.6794,12.59133],[55.67903,12.59275],[55.679,12.59286],[55.67896,12.5929],[55.67894,12.59298],[55.67891,12.59315],[55.67878,12.59358],[55.67865,12.59411],[55.67862,12.59415],[55.6786,12.59417],[55.67854,12.5945],[55.67841,12.59549],[55.67843,12.59554],[55.67845,12.59559],[55.67833,12.59633],[55.67824,12.59679],[55.6782,12.59696],[55.67815,12.59715],[55.67787,12.59787],[55.67784,12.59784],[55.67775,12.59774],[55.67766,12.59762],[55.67746,12.59732],[55.67737,12.59719],[55.67725,12.59697],[55.67719,12.59686],[55.67705,12.59653],[55.67698,12.59643],[55.67688,12.59629],[55.67682,12.59615],[55.67673,12.59595],[55.67672,12.59582],[55.67671,12.59571],[55.67673,12.59553],[55.67673,12.59535],[55.67672,12.59521],[55.67668,12.59511],[55.67653,12.59473],[55.67649,12.59462],[55.67643,12.59439],[55.6764,12.59428],[55.67623,12.59368],[55.67599,12.59397],[55.67623,12.59368],[55.67619,12.5935],[55.67603,12.59313],[55.67599,12.59305],[55.67591,12.5929],[55.67584,12.59277],[55.67565,12.59246],[55.67547,12.59217],[55.67524,12.59181],[55.67522,12.59178],[55.67499,12.5914],[55.67494,12.59132],[55.67444,12.5905],[55.6746,12.59019],[55.67446,12.58998],[55.67435,12.58979],[55.67455,12.5894],[55.67457,12.58935],[55.67462,12.58925],[55.67466,12.58919],[55.67495,12.58863],[55.6748,12.58837],[55.67464,12.58808],[55.67454,12.58792],[55.67434,12.58759],[55.67432,12.58756],[55.67421,12.58751],[55.67406,12.58723],[55.67394,12.58699],[55.67356,12.58617],[55.6735,12.58603],[55.67347,12.58597],[55.67345,12.58591],[55.67337,12.58574],[55.67338,12.58558],[55.67313,12.58508],[55.67307,12.58496],[55.67305,12.58492],[55.67301,12.58485],[55.67287,12.58461],[55.67272,12.58435],[55.67269,12.5843],[55.67255,12.58404],[55.67254,12.58402],[55.67248,12.58394],[55.67245,12.58387],[55.67242,12.58372],[55.67237,12.58365],[55.67232,12.58363],[55.67229,12.58359],[55.67227,12.58356],[55.67222,12.58347],[55.67215,12.58336],[55.67081,12.58123],[55.67079,12.58137],[55.67079,12.58141],[55.67077,12.58145],[55.67075,12.58139],[55.67071,12.58132],[55.67063,12.58123],[55.67042,12.5809],[55.67024,12.5806],[55.67009,12.58044],[55.66989,12.58029],[55.66985,12.58011],[55.66963,12.57972],[55.66959,12.57968],[55.66931,12.57957],[55.66933,12.57953],[55.66938,12.57944],[55.66945,12.57934],[55.66948,12.5793],[55.66951,12.57928],[55.66927,12.57892],[55.66896,12.57852],[55.66881,12.57832],[55.66865,12.57812],[55.66852,12.57794],[55.66835,12.5777],[55.66835,12.57769],[55.66837,12.57762],[55.66838,12.57759],[55.66839,12.57755],[55.66832,12.57746],[55.66839,12.57755],[55.66838,12.57759],[55.66837,12.57762],[55.66835,12.57769],[55.66835,12.5777],[55.66822,12.57754],[55.66819,12.57761],[55.66799,12.57808],[55.66807,12.5782],[55.66804,12.57828],[55.6679,12.5781],[55.66727,12.57726],[55.66721,12.57718],[55.66714,12.57708],[55.66682,12.57666],[55.6666,12.57639],[55.66643,12.57614],[55.66607,12.57569],[55.66563,12.57509],[55.66542,12.57479],[55.66512,12.57439],[55.66442,12.5735],[55.66407,12.57302],[55.66367,12.57248],[55.66328,12.57198],[55.66305,12.57167],[55.66292,12.57149],[55.66286,12.57142],[55.66239,12.57078],[55.6622,12.57052],[55.66185,12.57009],[55.66156,12.56969],[55.66148,12.56961],[55.66145,12.56957],[55.66119,12.56938],[55.66115,12.56934],[55.66048,12.56883],[55.66043,12.56879],[55.66008,12.56853],[55.65961,12.56817],[55.6594,12.56801],[55.6593,12.56793],[55.65919,12.56784],[55.65907,12.56775],[55.65894,12.56765],[55.6587,12.56747],[55.65859,12.56738],[55.65833,12.56718],[55.65795,12.56689],[55.65763,12.56664],[55.65698,12.56613],[55.65667,12.56589],[55.65656,12.5658],[55.6564,12.56566],[55.65623,12.56552],[55.65611,12.56543],[55.65604,12.56541],[55.65603,12.56541],[55.65597,12.56546],[55.65596,12.56549],[55.65563,12.56522],[55.65529,12.56495],[55.65525,12.56492],[55.65496,12.56468],[55.65494,12.56464],[55.6548,12.56446],[55.65474,12.56444],[55.65467,12.5644],[55.65462,12.56435],[55.65456,12.56427],[55.65444,12.56413],[55.65441,12.56412],[55.65436,12.56413],[55.65433,12.56417],[55.65431,12.5641],[55.65424,12.56403],[55.65405,12.56389],[55.65404,12.56388],[55.65383,12.56372],[55.65366,12.56358],[55.65362,12.56356],[55.65357,12.56356],[55.65353,12.56359],[55.65337,12.56341],[55.65338,12.5633],[55.65341,12.56309],[55.65341,12.56302],[55.6534,12.56297],[55.65335,12.56288],[55.65304,12.56263],[55.65252,12.56228],[55.65218,12.56203],[55.65185,12.56175],[55.65163,12.56253],[55.65171,12.56272],[55.65163,12.56253],[55.65185,12.56175],[55.65149,12.56152],[55.65137,12.56141],[55.65129,12.56128],[55.65124,12.56115],[55.6512,12.56099],[55.65117,12.56089],[55.65113,12.56074],[55.6511,12.56065],[55.65105,12.56054],[55.65062,12.56019],[55.6487,12.55872],[55.64864,12.55866],[55.64766,12.5579],[55.64715,12.55752],[55.64683,12.55729],[55.64608,12.55673],[55.64523,12.55604],[55.64514,12.55602],[55.64495,12.55609],[55.64487,12.55608],[55.64434,12.5557],[55.6442,12.55561],[55.64412,12.5556],[55.6441,12.5556],[55.64399,12.55564],[55.64374,12.55582],[55.64363,12.55586],[55.64248,12.55587],[55.6423,12.55589],[55.64229,12.55589],[55.64207,12.55586],[55.642,12.55587],[55.64201,12.55545],[55.64203,12.5551],[55.64203,12.55492],[55.64206,12.55438],[55.64209,12.55409],[55.64213,12.55387],[55.6422,12.55366],[55.64241,12.55309],[55.64261,12.55253],[55.64265,12.55253],[55.64269,12.5525],[55.64275,12.55233],[55.64277,12.55232],[55.64274,12.55228],[55.6427,12.55227],[55.64253,12.55207],[55.6427,12.55227],[55.64274,12.55228],[55.64277,12.55232],[55.64278,12.5523],[55.64296,12.5518],[55.64309,12.55144],[55.64341,12.55055],[55.64347,12.55043],[55.64355,12.55057],[55.64379,12.55096],[55.64389,12.55113],[55.64391,12.55117],[55.64438,12.552],[55.6444,12.55204],[55.64441,12.55206],[55.64443,12.55209],[55.64453,12.55221],[55.64457,12.55226],[55.64469,12.55241],[55.64471,12.55245],[55.64479,12.55256],[55.64491,12.55272],[55.64493,12.55276],[55.64512,12.55301],[55.64564,12.55373],[55.64583,12.554],[55.64611,12.55323],[55.64614,12.55314],[55.64615,12.55313],[55.64631,12.55268],[55.64633,12.55263],[55.64661,12.55185],[55.64664,12.55177],[55.64681,12.5513],[55.64688,12.55109],[55.64714,12.55037],[55.64724,12.55011],[55.64729,12.55017],[55.64732,12.5502],[55.64744,12.5503],[55.64749,12.55035],[55.6481,12.55103],[55.64812,12.55105],[55.64821,12.55117],[55.64826,12.55121],[55.64888,12.55127],[55.64921,12.55129],[55.64925,12.55131],[55.64931,12.55137],[55.6496,12.55171],[55.64964,12.5516],[55.64961,12.55157],[55.64964,12.5516],[55.6496,12.55171],[55.65023,12.55241],[55.65048,12.55269],[55.65055,12.55274],[55.65063,12.55277],[55.6508,12.55281],[55.65091,12.5528],[55.65099,12.55278],[55.65117,12.5527],[55.65125,12.55267],[55.65128,12.55289],[55.65128,12.55294],[55.65091,12.55396],[55.65098,12.55404],[55.65102,12.55409],[55.6511,12.55387],[55.65111,12.55384],[55.65185,12.55469],[55.65241,12.55532],[55.65246,12.55538],[55.65286,12.55573],[55.65356,12.55634],[55.65383,12.55661],[55.65418,12.55698],[55.6543,12.55713],[55.65433,12.55716],[55.65435,12.55718],[55.65455,12.55739],[55.6553,12.55828],[55.65533,12.55832],[55.65599,12.55921],[55.65601,12.55925],[55.65605,12.55917],[55.6561,12.55906],[55.65617,12.55908],[55.65622,12.55907],[55.65682,12.5588],[55.65758,12.55845],[55.65761,12.55867],[55.65775,12.5586],[55.65813,12.55842],[55.65828,12.55835],[55.65866,12.55817],[55.65873,12.55814],[55.65876,12.5581],[55.65879,12.55814],[55.65885,12.55818],[55.65897,12.55819],[55.65913,12.55816],[55.65935,12.55803],[55.65938,12.55828],[55.65953,12.5594],[55.65956,12.5595],[55.65959,12.55957],[55.65976,12.55985],[55.66047,12.56049],[55.66046,12.56051],[55.6604,12.56073],[55.66039,12.56077],[55.66031,12.56108],[55.66028,12.56121],[55.66026,12.56131],[55.66026,12.56146],[55.66028,12.56162],[55.6603,12.56171],[55.66035,12.56184],[55.6605,12.56218],[55.66096,12.5632],[55.66133,12.56401],[55.66138,12.56408],[55.66138,12.56412],[55.66138,12.56416],[55.66139,12.56419],[55.66141,12.56422],[55.66143,12.56423],[55.66146,12.56423],[55.66147,12.56431],[55.66153,12.56445],[55.66177,12.56498],[55.6618,12.56505],[55.66186,12.56508],[55.66189,12.5651],[55.6619,12.56511],[55.66186,12.56529],[55.66185,12.56536],[55.66186,12.56537],[55.66189,12.56539],[55.66204,12.56549],[55.66265,12.56598],[55.66204,12.56549],[55.66189,12.56539],[55.66186,12.56537],[55.66185,12.56536],[55.66185,12.56539],[55.66149,12.56681],[55.66119,12.56795],[55.66114,12.56816],[55.66113,12.56826],[55.66135,12.56851],[55.66138,12.56856],[55.66139,12.56871],[55.66137,12.56898],[55.66132,12.56912],[55.66119,12.56938],[55.66116,12.56945],[55.66114,12.56953],[55.66118,12.56956],[55.66136,12.56969],[55.66139,12.56972],[55.66145,12.56975],[55.6615,12.56982],[55.66179,12.57022],[55.66194,12.5704],[55.66236,12.57096],[55.66295,12.57174],[55.66299,12.57179],[55.66374,12.57281],[55.66383,12.57292],[55.66402,12.57316],[55.66466,12.57401],[55.6649,12.57433],[55.66501,12.57448],[55.66517,12.57469],[55.66557,12.57522],[55.66604,12.57584],[55.66637,12.57627],[55.66676,12.57681],[55.66708,12.57721],[55.66715,12.57731],[55.66721,12.57739],[55.66784,12.57822],[55.66857,12.5792],[55.66872,12.5794],[55.6688,12.57947],[55.66907,12.57966],[55.6691,12.57967],[55.66925,12.57972],[55.66941,12.57977],[55.66951,12.57987],[55.66976,12.58028],[55.66989,12.58029],[55.67009,12.58044],[55.67024,12.5806],[55.67042,12.5809],[55.67063,12.58123],[55.67068,12.58138],[55.67071,12.58149],[55.67077,12.58145],[55.67079,12.58141],[55.67079,12.58137],[55.67081,12.58123],[55.67082,12.58116],[55.67082,12.58102],[55.67087,12.58062],[55.67092,12.5803],[55.671,12.57995],[55.67112,12.57963],[55.67124,12.57933],[55.67145,12.57895],[55.67155,12.57889],[55.67157,12.57888],[55.67159,12.57886],[55.67162,12.57883],[55.67167,12.5789],[55.67175,12.57898],[55.67183,12.57905],[55.67187,12.57909],[55.67228,12.57978],[55.6723,12.5798],[55.6723,12.57981],[55.67246,12.58011],[55.67252,12.58023],[55.67267,12.58051],[55.67281,12.58083],[55.67302,12.58115],[55.67314,12.58132],[55.67323,12.58147],[55.6733,12.5816],[55.67335,12.58174],[55.67341,12.58182],[55.67382,12.58293],[55.67387,12.5831],[55.67388,12.58313],[55.67391,12.58309],[55.67386,12.58292],[55.67376,12.58266],[55.67348,12.58187],[55.67344,12.58178],[55.67344,12.58169],[55.67332,12.58139],[55.67323,12.58121],[55.67313,12.58103],[55.67302,12.58078],[55.67291,12.58059],[55.67273,12.58036],[55.67256,12.58009],[55.67252,12.58001],[55.67236,12.57972],[55.67235,12.57969],[55.67234,12.57968],[55.6723,12.5796],[55.67201,12.5791],[55.67189,12.57901],[55.67186,12.57896],[55.67182,12.57884],[55.67179,12.57877],[55.67177,12.57872],[55.67175,12.57869],[55.67174,12.57858],[55.67173,12.57852],[55.67169,12.57846],[55.67168,12.57843],[55.67164,12.57836],[55.67136,12.57789],[55.67129,12.57776],[55.67118,12.57754],[55.67114,12.57748],[55.67087,12.57704],[55.67082,12.57692],[55.67081,12.57688],[55.67073,12.57653],[55.67073,12.5765],[55.67068,12.57629],[55.67072,12.57621],[55.67085,12.57591],[55.67085,12.57589],[55.6709,12.57576],[55.67094,12.57567],[55.67077,12.57488],[55.67071,12.57456],[55.67056,12.57386],[55.67054,12.57375],[55.6706,12.57365],[55.67112,12.57261],[55.67145,12.57193],[55.67191,12.57101],[55.67244,12.57001],[55.67214,12.56921],[55.6719,12.56858],[55.67172,12.56809],[55.67171,12.56805],[55.67165,12.5679],[55.67177,12.56775],[55.67181,12.5677],[55.6721,12.56739],[55.67227,12.5672],[55.67245,12.56694],[55.6725,12.56689],[55.67266,12.56671],[55.67303,12.56632],[55.67305,12.56629],[55.67318,12.56615],[55.67314,12.56604],[55.67314,12.56602],[55.67311,12.56598],[55.67304,12.56589],[55.67303,12.56586],[55.67302,12.56582],[55.67297,12.56569],[55.67288,12.5658],[55.67279,12.56555],[55.67271,12.56528],[55.67262,12.56502],[55.67265,12.56499],[55.67267,12.56504]],"source":"https://brouter.de/brouter?lonlats=12.5651%2C55.6727%7C12.5938%2C55.6794%7C12.594%2C55.676%7C12.5835%2C55.6722%7C12.5775%2C55.6683%7C12.56278%2C55.65167%7C12.55216%2C55.6425%7C12.5516%2C55.6496%7C12.5658%2C55.6627%7C12.5825%2C55.6739%7C12.5651%2C55.6727&profile=trekking&alternativeidx=0&format=geojson"}]
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         (function () {
@@ -1909,9 +2234,23 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
             var desktopMq = window.matchMedia('(min-width: 1024px)');
             var chromeCompact = false;
             var map = null;
+            var bikeMap = null;
+            var siteChrome = document.getElementById('site-chrome');
+
+            function measureChrome() {
+                document.documentElement.style.setProperty('--chrome-h', siteChrome.offsetHeight + 'px');
+            }
+
+            measureChrome();
+            if (typeof ResizeObserver !== 'undefined') {
+                new ResizeObserver(measureChrome).observe(siteChrome);
+            } else {
+                window.addEventListener('resize', measureChrome);
+            }
 
             function refreshMap() {
                 if (map) map.invalidateSize({ animate: false });
+                if (bikeMap) bikeMap.invalidateSize({ animate: false });
             }
 
             /* Hide large banner while scrolling; sticky nav keeps "ECCV 2026" brand. */
@@ -1947,6 +2286,7 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                     transit: '#27AE60',
                     sight: '#9B59B6',
                     food: '#E67E22',
+                    rental: '#27AE60',
                     cph: '#2980B9'
                 };
 
@@ -1996,7 +2336,7 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                     { name: '☕ <strong>Espresso House</strong><br>Emporia', lat: 55.5642, lng: 12.9728, type: 'food' },
                     { name: '🏢 <strong>Turning Torso</strong><br><em>Västra Hamnen (Western Harbour)</em>', lat: 55.6133, lng: 12.9763, type: 'sight' },
                     { name: '🇸🇪 <strong>Lilla torg</strong><br><em class="en">(Little Square / Gamla Staden)</em>', lat: 55.6041, lng: 12.9995, type: 'sight' },
-                    { name: '🍽️ <strong>Malmo Saluhall</strong><br><em class="en">(food hall / saluhall)</em>', lat: 55.5890, lng: 13.0070, type: 'food' },
+                    { name: '<strong>Malmö Saluhall</strong><br>Gibraltargatan 6 · M1 food stop', lat: 55.6072, lng: 12.9945, type: 'food' },
                     { name: '🏰 <strong>Malmöhus</strong><br><em class="en">(castle / slott)</em>', lat: 55.6048, lng: 12.9877, type: 'sight' },
                     { name: '🌊 <strong>Ribersborgs Kallbadhus</strong><br><em class="en">(open-air bath / bastu)</em>', lat: 55.6033, lng: 12.9649, type: 'sight' },
                     { name: '🪑 <strong>IKEA Malmö</strong><br>Svågertorp', lat: 55.5450, lng: 12.9600, type: 'sight' },
@@ -2007,7 +2347,28 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                     { name: '🎢 <strong>Tivoli</strong><br><em class="en">(amusement park / nöjespark)</em>', lat: 55.6737, lng: 12.5681, type: 'cph' },
                     { name: '🏰 <strong>Rosenborg Slot</strong><br><em class="en">(Rosenborg Castle)</em>', lat: 55.6858, lng: 12.5770, type: 'cph' },
                     { name: '🗼 <strong>Rundetårn</strong><br><em class="en">(Round Tower)</em>', lat: 55.6814, lng: 12.5758, type: 'cph' },
-                    { name: '🧜 <strong>Den Lille Havfrue</strong><br><em class="en">(The Little Mermaid)</em>', lat: 55.6929, lng: 12.5993, type: 'cph' }
+                    { name: '🧜 <strong>Den Lille Havfrue</strong><br><em class="en">(The Little Mermaid)</em>', lat: 55.6929, lng: 12.5993, type: 'cph' },
+                    { name: '<strong>Bike rental · Travelshop</strong><br>Centralplan 10, station bicycle garage<br><a href="https://travelshop.se/sv/kontakt">Pickup / contact</a>', lat: 55.6101, lng: 13.0004, type: 'rental' },
+                    { name: '<strong>Bike rental · Baisikeli</strong><br>Ingerslevsgade 100 · confirm hours; Sunday listed closed<br><a href="https://baisikeli.dk/bike-rental-archive/">Rental details</a>', lat: 55.6643, lng: 12.5595, type: 'rental' },
+                    { name: '<strong>Bike rental · Rosenborg Cykler</strong><br>Rosenborggade 3K · Sunday hours not listed<br><a href="https://rosenborgcykler.dk/rent-a-bike/">Rental details</a>', lat: 55.6836, lng: 12.5720, type: 'rental' },
+                    { name: '<strong>Fiskehoddorna</strong><br>Fish huts · M1 daytime stop', lat: 55.6054, lng: 12.9853, type: 'food' },
+                    { name: '<strong>S:t Petri Church</strong><br>Old-town detour · M1', lat: 55.6067, lng: 13.0037, type: 'sight' },
+                    { name: '<strong>Scaniaparken</strong><br>Waterfront · M1', lat: 55.6188, lng: 12.9756, type: 'sight' },
+                    { name: '<strong>Sibbarp</strong><br>Coastal break · M2', lat: 55.5780, lng: 12.9160, type: 'sight' },
+                    { name: '<strong>Luftkastellet / Lernacken</strong><br>Bridge-view turnaround · M2 · do not enter motorway', lat: 55.5660, lng: 12.9009, type: 'sight' },
+                    { name: '<strong>København H</strong><br>Train / rental-hub search area; use the live Donkey app', lat: 55.6727, lng: 12.5651, type: 'transit' },
+                    { name: '<strong>City Hall Square</strong><br>Modetour stop · C1', lat: 55.6761, lng: 12.5683, type: 'cph' },
+                    { name: '<strong>Christiansborg</strong><br>Naver stop · C1', lat: 55.6763, lng: 12.5804, type: 'cph' },
+                    { name: '<strong>Royal Library / Black Diamond</strong><br>Naver stop · check building hours', lat: 55.6739, lng: 12.5825, type: 'cph' },
+                    { name: '<strong>Amalienborg</strong><br>Modetour + Naver · C1', lat: 55.6840, lng: 12.5930, type: 'cph' },
+                    { name: '<strong>Marble Church</strong><br>Architecture detour · C1', lat: 55.6848, lng: 12.5896, type: 'cph' },
+                    { name: '<strong>Gefion Fountain</strong><br>Modetour stop · C1', lat: 55.6895, lng: 12.5973, type: 'cph' },
+                    { name: '<strong>Kastellet</strong><br>Park the bike for a walk · C1', lat: 55.6918, lng: 12.5941, type: 'cph' },
+                    { name: '<strong>Torvehallerne</strong><br>Food stop near Nørreport · C1', lat: 55.6837, lng: 12.5713, type: 'food' },
+                    { name: '<strong>Islands Brygge</strong><br>Naver waterfront stop · C2', lat: 55.6683, lng: 12.5775, type: 'cph' },
+                    { name: '<strong>Cykelslangen / Bicycle Snake</strong><br>C2 shortcut / architecture detour', lat: 55.6627, lng: 12.5658, type: 'cph' },
+                    { name: '<strong>Cirkelbroen</strong><br>Harbour bridge · C2', lat: 55.6722, lng: 12.5835, type: 'cph' },
+                    { name: '<strong>Christiania</strong><br>Naver stop · optional walk from Christianshavn', lat: 55.6738, lng: 12.6000, type: 'cph' }
                 ];
 
                 var bounds = [];
@@ -2050,6 +2411,107 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                 }
                 console.error('Leaflet failed to load; map unavailable.');
             }
+
+            function initBikeMap() {
+                var mapHost = document.getElementById('bike-map');
+                var status = document.getElementById('bike-map-status');
+                if (typeof L === 'undefined') {
+                    status.textContent = 'Map unavailable — use the written routes and rental links below.';
+                    return;
+                }
+                var rides = JSON.parse(document.getElementById('bike-route-data').textContent);
+                var select = document.getElementById('bike-route-select');
+                var activeRide;
+                var activeBounds;
+                var rentals = [
+                    {id:'travelshop', city:'malmo', name:'Travelshop', point:[55.6101,13.0004], address:'Centralplan 10 · Malmö C bicycle garage', note:'From Quality Hotel View: take the train Hyllie → Malmö C, then find the bicycle garage. Confirm pickup and return hours.', url:'https://www.google.com/maps/search/?api=1&query=Travelshop+Centralplan+10+Malmo'},
+                    {id:'donkey', city:'copenhagen', name:'Donkey · station area', point:[55.6727,12.5651], address:'København H · app-search area, not a staffed shop', note:'Best Sunday option: use the live app to find a bike and an allowed return hub. This marker does not guarantee a bike at this exact point.', url:'https://www.donkey.bike/cities/copenhagen'},
+                    {id:'baisikeli', city:'copenhagen', name:'Baisikeli', point:[55.6643,12.5595], address:'Ingerslevsgade 100 · near Dybbølsbro', note:'Listed hours: weekdays 10:00–17:30, Saturday 10:00–14:00, Sunday closed. Reconfirm with operator.', url:'https://www.google.com/maps/search/?api=1&query=Baisikeli+Ingerslevsgade+100+Copenhagen'},
+                    {id:'rosenborg', city:'copenhagen', name:'Rosenborg Cykler', point:[55.6836,12.5720], address:'Rosenborggade 3K · near Nørreport', note:'Weekdays 08:30–18:00, Saturday 10:00–15:00. Sunday hours not listed; do not rely on a Sunday walk-in.', url:'https://www.google.com/maps/search/?api=1&query=Rosenborg+Cykler+Rosenborggade+3K+Copenhagen'}
+                ];
+                bikeMap = L.map(mapHost, {scrollWheelZoom:false});
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom:19, attribution:'Tiles &copy; Esri | Route: BRouter / &copy; OpenStreetMap contributors'
+                }).addTo(bikeMap);
+                var layers = L.layerGroup().addTo(bikeMap);
+
+                function fitRide() {
+                    bikeMap.invalidateSize({animate:false});
+                    bikeMap.fitBounds(activeBounds, {padding:[38,38], maxZoom:14, animate:false});
+                }
+
+                function showRide(id) {
+                    activeRide = rides.find(function (ride) { return ride.id === id; });
+                    if (!activeRide) return;
+                    layers.clearLayers();
+                    select.replaceChildren();
+                    rides.filter(function (ride) { return ride.city === activeRide.city; }).forEach(function (ride) {
+                        select.add(new Option(ride.name, ride.id));
+                    });
+                    select.value = id;
+                    document.querySelectorAll('[data-bike-city]').forEach(function (button) {
+                        button.setAttribute('aria-pressed', String(button.dataset.bikeCity === activeRide.city));
+                    });
+                    document.querySelector('.bike-line-key').style.borderColor = activeRide.color;
+                    L.polyline(activeRide.coordinates, {color:'#fff', weight:8, opacity:0.9, interactive:false}).addTo(layers);
+                    var line = L.polyline(activeRide.coordinates, {color:activeRide.color, weight:5, opacity:0.95}).addTo(layers);
+                    line.bindPopup(activeRide.name + ' · ' + activeRide.km + ' km');
+                    activeBounds = line.getBounds();
+                    var stopList = document.getElementById('bike-stop-list');
+                    stopList.replaceChildren();
+                    activeRide.stops.forEach(function (stop, index) {
+                        var item = document.createElement('li');
+                        item.textContent = stop[0];
+                        stopList.appendChild(item);
+                        if (index === 0 || index === activeRide.stops.length - 1) return;
+                        L.marker([stop[1],stop[2]], {
+                            title: (index + 1) + '. ' + stop[0],
+                            icon:L.divIcon({className:'bike-stop-pin', html:String(index + 1), iconSize:[26,26], iconAnchor:[15,15]})
+                        }).on('add', function () {
+                            this.getElement().style.background = activeRide.color;
+                        }).addTo(layers).bindPopup((index + 1) + '. ' + stop[0]);
+                    });
+                    var pickupButtons = document.getElementById('bike-pickups');
+                    pickupButtons.replaceChildren();
+                    rentals.filter(function (rental) { return rental.city === activeRide.city; }).forEach(function (rental) {
+                        var marker = L.marker(rental.point, {title:'Rental: ' + rental.name, zIndexOffset:1000,
+                            icon:L.divIcon({className:'bike-rental-pin',html:'R',iconSize:[30,30],iconAnchor:[16,16]})
+                        }).addTo(layers).bindTooltip(rental.name, {permanent:true, direction:rental.id === 'travelshop' ? 'left' : 'right', offset:[rental.id === 'travelshop' ? -18 : 18,0], className:'bike-shop-label'})
+                            .bindPopup('<strong>' + rental.name + '</strong><br>' + rental.address + '<p>' + rental.note + '</p><a href="' + rental.url + '" target="_blank" rel="noopener">Directions / live rental map</a>', {
+                                maxWidth:Math.min(300, Math.max(180, mapHost.clientWidth - 80)),
+                                maxHeight:Math.max(150, mapHost.clientHeight - 140),
+                                autoPanPaddingTopLeft:[12,65], autoPanPaddingBottomRight:[12,12]
+                            });
+                        activeBounds.extend(rental.point);
+                        var button = document.createElement('button');
+                        button.type = 'button';
+                        button.textContent = rental.name;
+                        button.addEventListener('click', function () {
+                            bikeMap.setView(rental.point, 16, {animate:false});
+                            marker.openPopup();
+                        });
+                        pickupButtons.appendChild(button);
+                    });
+                    document.getElementById('bike-pickup-note').textContent = activeRide.city === 'malmo'
+                        ? 'Start / finish: Travelshop, Centralplan 10, in Malmö Centralstation’s bicycle garage. From Hyllie, take the train to Malmö C first. Malmö by bike is an app-based alternative; check its live station map.'
+                        : 'Sunday pickup: search the Donkey Republic app around København H before riding. Return to a permitted app hub by 16:00. Green shop markers show Baisikeli and Rosenborg Cykler as other-day options; their listed hours do not support a Sunday walk-in.';
+                    status.textContent = activeRide.name + ' · ' + activeRide.km + ' km · ' + (id === 'm2' ? 'out and back on the coast' : 'loop; return to the start area');
+                    fitRide();
+                }
+
+                document.querySelectorAll('[data-bike-city]').forEach(function (button) {
+                    button.addEventListener('click', function () { showRide(button.dataset.bikeCity === 'malmo' ? 'm1' : 'c1'); });
+                });
+                document.querySelectorAll('[data-bike-route]').forEach(function (link) {
+                    link.addEventListener('click', function () { showRide(link.dataset.bikeRoute); });
+                });
+                select.addEventListener('change', function () { showRide(select.value); });
+                document.getElementById('bike-fit').addEventListener('click', fitRide);
+                if (typeof ResizeObserver !== 'undefined') new ResizeObserver(function () { if (activeBounds) fitRide(); }).observe(mapHost);
+                showRide('m1');
+            }
+
+            initBikeMap();
 
             function scrollRatio(el) {
                 var max = el.scrollHeight - el.clientHeight;
@@ -2098,12 +2560,23 @@ Last auto-update: 2026-09-06 10:36 UTC · Open-Meteo Malmö
                 });
             }
 
-            document.querySelectorAll('nav.quick-nav a[href^="#"]').forEach(function (link) {
+            document.querySelectorAll('a[href^="#"]').forEach(function (link) {
                 link.addEventListener('click', function (e) {
                     var id = this.getAttribute('href').slice(1);
                     var target = document.getElementById(id);
-                    if (!target || !desktopMq.matches) return;
+                    if (!target) return;
                     e.preventDefault();
+
+                    if (!desktopMq.matches) {
+                        chromeCompact = true;
+                        document.body.classList.add('chrome-compact');
+                        setTimeout(function () {
+                            measureChrome();
+                            window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - siteChrome.offsetHeight - 16, behavior: 'auto' });
+                            history.pushState(null, '', '#' + id);
+                        }, 300);
+                        return;
+                    }
 
                     var panel = target.closest('.panel');
                     if (!panel) return;
